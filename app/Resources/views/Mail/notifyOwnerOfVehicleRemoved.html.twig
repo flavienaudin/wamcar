@@ -11,8 +11,11 @@
             '%name%': name,
             '%annee%' : annee
         })|raw }}
+
+        {# Typeform "Questionnaire après session Wamcar" désactivé
         {{ action_button('https://wamcar.typeform.com/to/yFPY9t?' ~ (common_utm|merge({
             'utm_content': 'button_opinion'
         }))|url_encode, 'notifyOwnerOfVehicleRemoved.action_label'|trans) }}
+        #}
     </div>
 {% endblock %}

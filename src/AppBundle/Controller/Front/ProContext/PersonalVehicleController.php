@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\PersonalVehicle;
 
@@ -221,9 +222,20 @@ class PersonalVehicleController extends BaseController
                 $flashMessage
             );
 
+            /*
+            // TypeForm est désactivé
             if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
                 // Post-registration assistant process in progress
                 return $this->redirectToRoute('front_affinity_personal_form');
+            }*/
+            if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY) &&
+                PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
+                $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));
+                if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($orientation) ||
+                    PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($orientation)) {
+                    // User has a project
+                    return $this->redirectToRoute('front_edit_user_project');
+                }
             }
 
             return $this->redirSave(

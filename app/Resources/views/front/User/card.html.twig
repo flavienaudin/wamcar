@@ -114,7 +114,8 @@
             {# END Contact or Connexion form Block #}
 
             {# Affinity Block #}
-            {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+            {# TypeForm désactivé #}
+            {#{% set userAffinity = user.getAffinityDegreesWith(app.user) %}
             {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
             {% if userIsMe or userAffinity is not null %}
                 <div class="profile-section block-light-shadow">
@@ -151,7 +152,7 @@
                             {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
                     </div>
                 </div>
-            {% endif %}
+            {% endif %}#}
             {# END Affinity Block #}
 
             {% if userIsMe %}

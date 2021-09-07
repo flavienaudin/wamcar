@@ -1,4 +1,6 @@
-{% set enable_dropdown = enable_dropdown is defined ? enable_dropdown : true %}
+
+{# TYPEFORM WamAffinity is disabled {% set enable_dropdown = enable_dropdown is defined ? enable_dropdown : true %}#}
+{% set enable_dropdown = false %}
 {% set display_if_no_answer = display_if_no_answer is defined ? display_if_no_answer : false %}
 
 {% if user.affinityAnswer is not null or display_if_no_answer %}

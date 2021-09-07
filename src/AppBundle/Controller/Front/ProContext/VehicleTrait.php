@@ -14,8 +14,10 @@ trait VehicleTrait
      * @param array $routeParamNoSession Paramètres pour la route par défaut
      * @return RedirectResponse
      */
-    protected function redirSave(array $routeParam = [], string $routeNoSession, array $routeParamNoSession = []): RedirectResponse
+    protected function redirSave(array $routeParam, string $routeNoSession, array $routeParamNoSession = []): RedirectResponse
     {
+        // Get the SessionMessage data from the session :
+        // - utiliser lors de l'écriture d'un message avec création d'un véhicule pour revenir vers la messagerie avec le brouillon
         $sessionMessage = $this->sessionMessageManager->get();
         if ($sessionMessage) {
             return $this->redirectToRoute($sessionMessage->route, array_merge($sessionMessage->routeParams, $routeParam));
