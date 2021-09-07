@@ -7,11 +7,13 @@
 
 {% block staticBody %}
     <section class="row">
+        {# TypeForm désactivé
         <div class="column small-12 small-order-2 large-7 large-order-1">
             <div class="typeform-widget block-white contact-form" data-url="{{ typeform_contact }}"
                  style="width: 100%;height: 500px"></div>
         </div>
-        <div class="column small-12 small-order-1 large-5 large-order-2">
+        #}
+        <div class="column small-12 medium-6 medium-offset-3 margin-bottom-2">
             <div class="row">
                 <div class="column small-shrink"><span class="icon-location no-margin"></span></div>
                 <div class="column">
@@ -37,6 +39,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    {# TypeForm désactivé
     <script> (function () {
         var qs, js, q, s, d = document, gi = d.getElementById, ce = d.createElement, gt = d.getElementsByTagName,
           id = "typef_orm", b = "https://embed.typeform.com/";
@@ -47,5 +50,5 @@
           q = gt.call(d, "script")[0];
           q.parentNode.insertBefore(js, q)
         }
-      })() </script>
+      })() </script>#}
 {% endblock %}
