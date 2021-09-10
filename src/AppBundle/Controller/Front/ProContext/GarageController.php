@@ -141,6 +141,8 @@ class GarageController extends BaseController
             return $response;
         }
 
+        /** Masquage des annonces pro
+        // Véhicucle search form
         $searchForm = null;
         if (count($garage->getProVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
@@ -165,6 +167,7 @@ class GarageController extends BaseController
                 'hits' => $garage->getProVehicles()
             ];
         }
+        */
 
         $inviteSellerForm = null;
         if ($this->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
@@ -274,11 +277,11 @@ class GarageController extends BaseController
             'currentUserGarageMemberShip' => $currentUserGarageMemberShip,
             'currentUserIsMemberOfGarage' => $currentUserGarageMemberShip != null && $currentUserGarageMemberShip->getRequestedAt() == null,
             'garage' => $garage,
-            'vehicles' => $vehicles,
-            'page' => $page ?? null,
-            'lastPage' => $lastPage ?? null,
+            //'vehicles' => $vehicles,
+            //'page' => $page ?? null,
+            //'lastPage' => $lastPage ?? null,
+            //'searchForm' => $searchForm ? $searchForm->createView() : null,
             'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
-            'searchForm' => $searchForm ? $searchForm->createView() : null,
             'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null,
             'garageBannerForm' => $garageBannerForm ? $garageBannerForm->createView() : null,
             'garageLogoForm' => $garageLogoForm ? $garageLogoForm->createView() : null,

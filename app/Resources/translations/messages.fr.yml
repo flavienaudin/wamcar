@@ -93,6 +93,7 @@ flash:
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
     bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
+    b2b_no_personal_user: Désormais, seul les comptes pro peuvent se connecter.
     social_connect_not_accept: Vous n'avez pas autorisé la connexion via la plateforme sélectionnée.
     social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accèder à vos information ou utiliser un autre moyen de connexion.
     social_connect_error: Une erreur s'est produite lors de la connexion via la plateforme. Merci de nous contacter si cela se reproduit.
@@ -248,7 +249,7 @@ error_page:
   410:
     title: La page recherchée n'existe plus
     body: >
-      <p>Oups! La page que vous recherchez n'existe plus, faites donc une <a href="%searchUrl%" class="text-underline">nouvelle recherche</a>.</p>
+      <p>Oups! La page que vous recherchez n'existe plus. <a href="%searchUrl%" class="text-underline">Page d'accueil</a>.</p>
   vehicle:
     removed:
       title: Annonce supprimée
@@ -1499,7 +1500,7 @@ favorites:
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
     empty: Aucun véhicule liké pour le moment
   my_experts:
-    title: Mes experts
+    title: Mes favoris
     no_expert: Consultez les profils et sélectionnez vos experts favoris!
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu

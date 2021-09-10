@@ -41,9 +41,9 @@ class GarageProUser
     }
 
     /**
-     * @return CanBeGarageMember
+     * @return null|CanBeGarageMember
      */
-    public function getProUser(): ProUser
+    public function getProUser(): ?ProUser
     {
         return $this->proUser;
     }

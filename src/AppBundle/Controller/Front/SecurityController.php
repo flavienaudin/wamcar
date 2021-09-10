@@ -119,16 +119,17 @@ class SecurityController extends BaseController
      * @param string $type
      * @return Response
      */
-    public function registerAction(Request $request, string $type): Response
+    public function registerAction(Request $request): Response
     {
         if ($this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)) {
             return $this->redirectToRoute("front_view_current_user_info");
         }
-
-        if ($type != PersonalUser::TYPE && $type != ProUser::TYPE) {
+        /* B2B model */
+        $type = ProUser::TYPE;
+        /*if ( $type != PersonalUser::TYPE && $type != ProUser::TYPE) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER, 'flash.error.bad_registration_type');
             return $this->redirectToRoute('front_default');
-        }
+        }*/
 
         $data = new RegistrationDTO();
         if ($request->query->has('email_registration')) {

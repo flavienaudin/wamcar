@@ -95,6 +95,7 @@
 <div class="row">
     <div class="column">
         <div class="js-profile-summary profile-summary block-light-shadow align-spaced align-middle">
+            {# WamAffiniy désactivé
             {% if not userIsMe %}
                 <div class="row small-up-2 align-middle">
                     <div class="column text-right">
@@ -108,7 +109,7 @@
                         }) }}
                     </div>
                 </div>
-            {% endif %}
+            {% endif %}#}
 
             {% set userGarages = isUserProPageProfile ? user.garagesOrderByGoogleRating : null %}
             <div>

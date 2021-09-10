@@ -90,11 +90,7 @@
             {{'user.submit.i_register'|trans}}
         </button>
     </div>
-    {% if isIsolatedRegistration %}
-        <div class="input-margin column small-12 medium-6 medium-order-1">
-            <a class="button full-width gray-light" href="{{ path('front_directory_view') }}">{{'user.submit.later'|trans}}</a>
-        </div>
-    {% else %}
+    {% if not isIsolatedRegistration %}
         <div class="column small-12">
             <button type="button" class="js-carousel-prev button full-width">{{ 'global.button.previous_step'|trans({},'messages') }}</button>
         </div>

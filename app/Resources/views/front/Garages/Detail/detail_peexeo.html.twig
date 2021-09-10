@@ -132,6 +132,7 @@
                         <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small full-width">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a>
                     </div>
                 {% endif %}#}
+                {# Masquage des annonces pro
                 {% if currentUserIsMemberOfGarage %}
                     <div class="separator small">
                         <a href="{{ path('front_vehicle_pro_add', {'garage_id': garage.id}) }}" class="button primary-button full-width">
@@ -139,6 +140,7 @@
                         </a>
                     </div>
                 {% endif %}
+                #}
             </div>
             {# END Garage Info Block #}
 
@@ -319,7 +321,8 @@
             </div>
             {# END Opinions Block #}
 
-            {# Vehicles Block #}
+            {# Masquage des annonces pro
+               Vehicles Block
             {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
                 <div class="insert-block block-light-shadow" id="vehicles">
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
@@ -331,6 +334,7 @@
                     } %}
                 </div>
             {% endif %}
+            #}
             {# END Vehicles Block #}
 
         </div>

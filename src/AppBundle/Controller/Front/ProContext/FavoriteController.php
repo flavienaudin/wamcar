@@ -45,7 +45,8 @@ class FavoriteController extends BaseController
         $currentUser = $this->getUser();
 
         return $this->render('front/Favorites/user_favorites.html.twig', [
-            'user_likes' => $currentUser->getPositiveLikes(),
+            /* B2B Model
+            'user_likes' => $currentUser->getPositiveLikes(),*/
             'user_experts' => $currentUser->getMyExperts(true)
         ]);
     }

@@ -70,15 +70,18 @@ class DirectoryController extends BaseController
         $searchProDTO = new SearchProDTO();
         $searchProDTO->searchTextInService = true;
 
+        /* Masquage des annonces pro
         // Search vehicles
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
         $seeAllVehicleSearchRouteName = 'front_search';
         $seeAllVehicleSearchRouteParam = ['type' => SearchController::QP_TYPE_PRO_VEHICLES];
+        */
 
         // Champ libre
         $searchProDTO->text = $request->query->get('q');
-        $searchVehicleDTO->text = $request->query->get('q');
+        /* Masquage des annonces pro
+        $searchVehicleDTO->text = $request->query->get('q');*/
 
         // Service/Spécialité par URL
         $querySelectedService = null;
@@ -90,7 +93,8 @@ class DirectoryController extends BaseController
         if (($serviceSLug = $request->query->get('keyword')) !== null) {
             if (($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
                 $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService->getName();
-                $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService->getName();
+                /* Masquage des annonces pro
+                $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService->getName();*/
             }
         }
 
@@ -162,9 +166,11 @@ class DirectoryController extends BaseController
         }
         if(count($textQueryValues)>0) {
             $searchProDTO->text = (!empty($searchProDTO->text) ? $searchProDTO->text. " " : '') . join(' ', $textQueryValues);
-            $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? $searchVehicleDTO->text." " : '') . join(' ', $textQueryValues);
+            /* Masquage des annonces pro
+            $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? $searchVehicleDTO->text." " : '') . join(' ', $textQueryValues);*/
         }
 
+        /* Masquage des annonces pro
         // Construction de la recherche de voitures : Filtre selon la localisation
         if (!empty($searchProDTO->postalCode) && !empty($searchProDTO->cityName) && !empty($searchProDTO->latitude && !empty($searchProDTO->longitude))) {
             $searchVehicleDTO->postalCode = $searchProDTO->postalCode;
@@ -184,10 +190,13 @@ class DirectoryController extends BaseController
             // Ajout du champ libre dans le querystring de l'url "tout voir"
             $seeAllVehicleSearchRouteParam['q'] = $searchVehicleDTO->text;
         }
+        */
+
         $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($proUsersResultSet);
+        /* Masquage des annonces pro
         $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser(), 4);
-        $searchVehiclesItems = $this->userEditionService->getMixedBySearchItemResult($searchVehiclesResultSet);
+        $searchVehiclesItems = $this->userEditionService->getMixedBySearchItemResult($searchVehiclesResultSet);*/
 
         return $this->render('front/Directory/view.html.twig', [
             'header_search' => !empty($searchProDTO->text) ? $searchProDTO->text : ($querySelectedService != null ? $querySelectedService->getName() : null),
@@ -197,13 +206,15 @@ class DirectoryController extends BaseController
                 'result' => $proUserResult,
                 'page' => $page,
                 'lastPage' => ElasticUtils::numberOfPages($proUsersResultSet)
-            ],
+            ]
+            /* Masquage des annonces pro
+            ,
             'vehicles' => [
                 'result' => $searchVehiclesItems,
                 'page' => $page,
                 'lastPage' => ElasticUtils::numberOfPages($searchVehiclesResultSet),
                 'see_all_vehicle_search_url' => $this->router->generate($seeAllVehicleSearchRouteName, $seeAllVehicleSearchRouteParam)
-            ]
+            ]*/
         ]);
     }
 }
