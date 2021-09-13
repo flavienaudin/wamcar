@@ -1,8 +1,8 @@
-<li><a href="{{ path('front_view_current_user_info') }}">{{ 'header.common.my_profile'|trans }}</a></li>
-
 {% if app.user.videoModuleAccess == true %}
     <li><a href="{{ path('front_coaching_video_dashboard') }}">{{ 'header.pro.coaching_video_module'|trans }}</a></li>
 {% endif %}
+
+<li><a href="{{ path('front_view_current_user_info') }}">{{ 'header.common.my_profile'|trans }}</a></li>
 
 {% set nbOfGarages = app.user.numberOfGarages %}
 
