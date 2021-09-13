@@ -4,6 +4,8 @@
 namespace AppBundle\Doctrine\Repository;
 
 
+use AppBundle\Doctrine\Entity\FooterLink;
+
 interface FooterLinkRepository
 {
     /**
@@ -12,4 +14,10 @@ interface FooterLinkRepository
      * @return array The entities.
      */
     public function findAllOrdered();
+
+    /**
+     * @param FooterLink $footerLink
+     * @return boolean
+     */
+    public function remove(FooterLink $footerLink);
 }

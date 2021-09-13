@@ -75,6 +75,8 @@ flash:
       delete: La categorie de service %servicecategory% a été supprimée
     hobby:
       delete: "Le centre d'intérêt %hobbyName% a été supprimé"
+    footerLink:
+      delete: "Le lien %footerTitle% a été supprimé"
     videoproject:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.

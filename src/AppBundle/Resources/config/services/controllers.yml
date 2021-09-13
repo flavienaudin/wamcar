@@ -18,6 +18,7 @@ services:
             - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
             - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]
             - ['setHobbyService', ['@AppBundle\Services\User\HobbyService']]
+            - ['setFooterLinkService', ['@AppBundle\Services\App\FooterLinkService']]
 
     AppBundle\Controller\Front\AdministrationContext\ProUserProServiceAdministrationController:
         parent: AppBundle\Controller\Front\AdministrationContext\BackendController
