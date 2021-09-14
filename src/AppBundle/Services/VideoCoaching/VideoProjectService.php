@@ -12,6 +12,7 @@ use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent;
 use Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent;
 use Wamcar\VideoCoaching\VideoProject;
+use Wamcar\VideoCoaching\VideoProjectIteration;
 use Wamcar\VideoCoaching\VideoProjectMessage;
 use Wamcar\VideoCoaching\VideoProjectMessageRepository;
 use Wamcar\VideoCoaching\VideoProjectRepository;
@@ -69,6 +70,7 @@ class VideoProjectService
     {
         $videoProject = new VideoProject();
         $videoProject->addViewer(new VideoProjectViewer($videoProject, $owner, true));
+        $videoProject->addVideoProjectIteration(new VideoProjectIteration($videoProject, $videoProjectDTO->getTitle()));
         $videoProject->setTitle($videoProjectDTO->getTitle());
         $videoProject->setDescription($videoProjectDTO->getDescription());
         $this->videoProjectRepository->add($videoProject);

@@ -1,7 +1,7 @@
-Wamcar\VideoCoaching\VideoVersion:
+Wamcar\VideoCoaching\VideoProjectIteration:
 
   type: entity
-  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoVersionRepository
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoProjectIterationRepository
   gedmo:
     soft_deleteable:
       field_name: deletedAt
@@ -13,20 +13,24 @@ Wamcar\VideoCoaching\VideoVersion:
       type: uuid
 
   manyToOne:
-    videoProjectIteration:
-      targetEntity: Wamcar\VideoCoaching\VideoProjectIteration
-      inversedBy: videoVersions
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      inversedBy: videoProjectIterations
       joinColumn:
-        name: video_project_iteration_id
+        name: video_project_id
         referencedColumnName: id
+
+  oneToMany:
+    videoVersions:
+      targetEntity: Wamcar\VideoCoaching\VideoVersion
+      mappedBy: videoProjectIteration
+      cascade: ["persist", "merge", "remove"]
+      orderBy:
+        createdAt: 'DESC'
 
   fields:
     title:
       type: string
-      nullable: false
-    youtubeVideoUrl:
-      type: string
-      nullable: false
     createdAt:
       type: datetime
       gedmo:

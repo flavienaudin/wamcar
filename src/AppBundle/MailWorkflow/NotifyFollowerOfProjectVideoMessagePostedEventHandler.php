@@ -73,7 +73,7 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
                     get_class($videoProjectMessage),
                     get_class($event),
                     $notificationData,
-                    $this->router->generate('front_coachingvideo_videoproject_view', ['id' => $videoProjectMessage->getVideoProject()->getId()])
+                    $this->router->generate('front_coachingvideo_videoproject_view', ['videoProjectId' => $videoProjectMessage->getVideoProject()->getId()])
                 );
                 try {
                     $this->notificationsManager->addNotification([$follower->getViewer()], $notifications, true);
@@ -125,7 +125,7 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
                             'authorFullName' => $author->getFullName(),
                             'videoProjectTitle' => $videoProjectMessage->getVideoProject()->getTitle(),
                             'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
-                                'id' => $videoProjectMessage->getVideoProject()->getId(),
+                                'videoProjectId' => $videoProjectMessage->getVideoProject()->getId(),
                                 '_fragment' => 'videoproject-discussion-target'
                             ], UrlGeneratorInterface::ABSOLUTE_URL)
                         ],

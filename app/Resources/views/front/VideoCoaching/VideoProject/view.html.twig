@@ -82,10 +82,10 @@
                 {% endif %}
                 {{ 'coaching_video.video_version.view.title'|trans }}
             </h2>
-            {% if videoProject.videoVersions|length > 0 %}
+            {% if videoProjectIteration.videoVersions|length > 0 %}
                 <ul class="tabs video-selector" data-tabs id="video-versions-tabs" data-deep-link="true"
                     data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true">
-                    {% for videoVersion in videoProject.videoVersions %}
+                    {% for videoVersion in videoProjectIteration.videoVersions %}
                         {% set versionVideoYoutubeVideoId =  videoVersion.youtubeVideoId %}
                         <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
                             <a href="#videoVersion-{{ videoVersion.id }}"
@@ -96,7 +96,7 @@
                     {% endfor %}
                 </ul>
                 <div class="tabs-content" data-tabs-content="video-versions-tabs">
-                    {% for videoVersion in videoProject.videoVersions %}
+                    {% for videoVersion in videoProjectIteration.videoVersions %}
                         <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}"
                              id="videoVersion-{{ videoVersion.id }}">
                             <h3>

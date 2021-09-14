@@ -117,7 +117,7 @@ flash:
           view: Vous n'avez pas le droit de visualiser ce projet vidéo.
           delete: Vous n'avez pas le droit de supprimer ce projet vidéo.
         video_version:
-          delete: Vous n'avez pas le droit de supprimer cette version de vidéo.
+          delete: Vous ne pouvez pas supprimer cette version de vidéo.
         module_access: Vous n'avez pas accès au module de suivi/coaching vidéo. Contactez-nous pour vous abonner au service.
     notification:
       unauthorized: Cette notification ne vous est pas destinée.

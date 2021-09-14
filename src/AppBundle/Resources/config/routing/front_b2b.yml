@@ -143,8 +143,12 @@ front_coaching_video_dashboard:
   controller: AppBundle:Front\ModuleContext\VideoCoaching:dashboard
 
 front_coachingvideo_videoproject_view:
-  path: /module/video/videoproject/{id}
+  path: /module/video/videoproject/{videoProjectId}/{iterationId}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:view
+  requirements:
+    videoProjectId: '\d+'
+  defaults:
+    iterationId: null
 
 front_coachingvideo_videoproject_delete:
   path: /module/video/videoproject/delete/{id}
@@ -155,17 +159,17 @@ front_coachingvideo_videoversion_delete:
   controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteVideoVersion
 
 front_coachingvideo_videoproject_messages_post:
-  path: /module/video/videoproject/{id}/message
+  path: /module/video/discussion/videoproject/{id}/message
   methods: POST
   controller: AppBundle:Front\ModuleContext\VideoCoaching:postVideoProjectMessage
 
 front_coachingvideo_videoproject_messages_get:
-  path: /module/video/videoproject/{id}/discussion
+  path: /module/video/discussion/videoproject/{id}/discussion
   methods: POST
   controller: AppBundle:Front\ModuleContext\VideoCoaching:getMessages
 
 front_coachingvideo_videoproject_discussion_visited:
-  path: /module/video/videoproject/{id}/discussion/visite
+  path: /module/video/discussion/videoproject/{id}/discussion/visite
   controller: AppBundle:Front\ModuleContext\VideoCoaching:visiteDiscussion
 
 

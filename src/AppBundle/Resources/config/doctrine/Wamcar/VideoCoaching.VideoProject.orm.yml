@@ -21,8 +21,8 @@ Wamcar\VideoCoaching\VideoProject:
       mappedBy: videoProject
       cascade: ["persist", "merge", "remove"]
       orphanRemoval: true
-    videoVersions:
-      targetEntity: Wamcar\VideoCoaching\VideoVersion
+    videoProjectIterations:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectIteration
       mappedBy: videoProject
       cascade: ["persist", "merge", "remove"]
       orderBy:
