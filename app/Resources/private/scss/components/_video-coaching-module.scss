@@ -105,7 +105,16 @@
       }
 
       .message-content {
-        margin-left: rem-calc(37)
+        margin-left: rem-calc(37);
+
+        a {
+          font-weight: bold;
+          color: $dark-gray-blue-peexeo;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
 
       .attachments-container {

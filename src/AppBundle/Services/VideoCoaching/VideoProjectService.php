@@ -7,7 +7,9 @@ namespace AppBundle\Services\VideoCoaching;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
+use AppBundle\Services\Conversation\ConversationEditionService;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent;
 use Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent;
@@ -40,6 +42,9 @@ class VideoProjectService
     /** @var MessageBus */
     private $eventBus;
 
+    /** @var ConversationEditionService */
+    private $conversationEditionService;
+
     /**
      * VideoProjectService constructor.
      * @param VideoProjectRepository $videoProjectRepository
@@ -47,18 +52,21 @@ class VideoProjectService
      * @param VideoProjectViewerRepository $videoProjectViewRepository
      * @param DoctrineProUserRepository $proUserRepository
      * @param MessageBus $eventBus
+     * @param ConversationEditionService $conversationEditionService
      */
     public function __construct(VideoProjectRepository $videoProjectRepository,
                                 VideoProjectMessageRepository $videoProjectMessageRepository,
                                 VideoProjectViewerRepository $videoProjectViewRepository,
                                 DoctrineProUserRepository $proUserRepository,
-                                MessageBus $eventBus)
+                                MessageBus $eventBus,
+                                ConversationEditionService $conversationEditionService)
     {
         $this->videoProjectRepository = $videoProjectRepository;
         $this->videoProjectMessageRepository = $videoProjectMessageRepository;
         $this->videoProjectViewRepository = $videoProjectViewRepository;
         $this->proUserRepository = $proUserRepository;
         $this->eventBus = $eventBus;
+        $this->conversationEditionService = $conversationEditionService;
     }
 
     /**
@@ -134,6 +142,7 @@ class VideoProjectService
     public function addMessage(VideoProjectMessageDTO $messageDTO)
     {
         $videoProjectMessage = new VideoProjectMessage($messageDTO->getContent(), $messageDTO->getAuthor(), $messageDTO->getVideoProject(), $messageDTO->getAttachments());
+        $this->conversationEditionService->treatsMessageLinkPreviews($videoProjectMessage);
         $this->videoProjectMessageRepository->add($videoProjectMessage);
         $this->eventBus->handle(new VideoProjectMessagePostedEvent($videoProjectMessage));
     }
@@ -147,6 +156,30 @@ class VideoProjectService
     public function getMessages(VideoProject $videoProject, ?\DateTime $start, ?\DateTime $end)
     {
         return $this->videoProjectMessageRepository->findByVideoProjectAndTimeInterval($videoProject, $start, $end);
+    }
+
+    /**
+     * @param SymfonyStyle|null $io
+     */
+    public function clearAndReloadVideoProjectMessageLinkPreviews(?SymfonyStyle $io)
+    {
+        $videoProjectMessages = $this->videoProjectMessageRepository->findAll();
+        if ($io != null) {
+            $io->progressStart(count($videoProjectMessages));
+        }
+
+        /** @var VideoProjectMessage $videoProjectMessage */
+        foreach ($videoProjectMessages as $index => $videoProjectMessage) {
+            $videoProjectMessage->getLinkPreviews()->clear();
+            $this->conversationEditionService->treatsMessageLinkPreviews($videoProjectMessage);
+            $this->videoProjectMessageRepository->update($videoProjectMessage);
+            if ($io != null) {
+                $io->progressAdvance();
+            }
+        }
+        if ($io != null) {
+            $io->progressFinish();
+        }
     }
 
     /**

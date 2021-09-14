@@ -19,6 +19,8 @@ use Wamcar\Conversation\MessageLinkPreview;
 use Wamcar\Conversation\ProContactMessage;
 use Wamcar\Conversation\ProContactMessageRepository;
 use Wamcar\User\BaseUser;
+use Wamcar\VideoCoaching\VideoProjectMessage;
+use Wamcar\VideoCoaching\VideoProjectMessageLinkPreview;
 
 
 class ConversationEditionService
@@ -171,7 +173,13 @@ class ConversationEditionService
                 $url = $this->checkValues($url);
                 $tags = get_meta_tags($url);
                 $linkContentHtml = $this->fetch_record($url);
-                $linkPreview = new MessageLinkPreview($url);
+                if ($contentWithLinkPreview instanceof Message) {
+                    $linkPreview = new MessageLinkPreview($url);
+                } elseif ($contentWithLinkPreview instanceof VideoProjectMessage) {
+                    $linkPreview = new VideoProjectMessageLinkPreview($url);
+                } else {
+                    throw new \Exception('Unsupported class "' . get_class($contentWithLinkPreview)  . '" for' );
+                }
 
                 /// fecth title
                 $title_regex = "/<title>[\s\W]*([^<]*)[\s\W]*<\/title>/im";

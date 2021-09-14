@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Wamcar\Conversation\ContentWithLinkPreview;
+use Wamcar\Conversation\LinkPreview;
 use Wamcar\User\ProUser;
 
-class VideoProjectMessage
+class VideoProjectMessage implements ContentWithLinkPreview
 {
 
     use Timestampable;
@@ -25,6 +27,8 @@ class VideoProjectMessage
     private $videoProject;
     /** @var Collection|array */
     private $attachments;
+    /** @var Collection */
+    protected $linkPreviews;
 
     /**
      * VideoProjectMessage constructor.
@@ -47,6 +51,7 @@ class VideoProjectMessage
                 }
             }
         }
+        $this->linkPreviews = new ArrayCollection();
     }
 
 
@@ -123,5 +128,31 @@ class VideoProjectMessage
         if ($attachment->getId()) {
             $this->attachments[] = $attachment;
         }
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLinkPreviews(): Collection
+    {
+        return $this->linkPreviews;
+    }
+
+    /**
+     * @param LinkPreview $linkPreview
+     */
+    public function addLinkPreview(LinkPreview $linkPreview): void
+    {
+        $linkPreview->setLinkIndex($this->linkPreviews->count());
+        $this->linkPreviews->add($linkPreview);
+        $linkPreview->setOwner($this);
+    }
+
+    /**
+     * @param LinkPreview $linkPreview
+     */
+    public function removeLinkPreview(LinkPreview $linkPreview): void
+    {
+        $this->linkPreviews->removeElement($linkPreview);
     }
 }
