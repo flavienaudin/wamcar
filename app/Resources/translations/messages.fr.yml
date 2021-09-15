@@ -1590,6 +1590,8 @@ coaching_video:
       title: Créer un projet vidéo
     view:
       title: "Projet vidéo : %title%"
+      header:
+        title: "%creatorFirstName% présente"
     list:
       user:
         title: Mes projets
