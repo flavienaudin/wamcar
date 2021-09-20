@@ -1,0 +1,46 @@
+Wamcar\VideoCoaching\VideoProjectIteration:
+
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoProjectIterationRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: true
+  exclusion_policy: ALL
+
+  id:
+    id:
+      type: uuid
+
+  manyToOne:
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      inversedBy: videoProjectIterations
+      joinColumn:
+        name: video_project_id
+        referencedColumnName: id
+
+  oneToMany:
+    videoVersions:
+      targetEntity: Wamcar\VideoCoaching\VideoVersion
+      mappedBy: videoProjectIteration
+      cascade: ["persist", "merge", "remove"]
+      orderBy:
+        createdAt: 'DESC'
+
+  fields:
+    title:
+      type: string
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+    deletedAt:
+      type: datetime
+      nullable: true

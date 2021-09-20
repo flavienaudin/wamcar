@@ -73,7 +73,7 @@ class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventH
                 get_class($videoProject),
                 get_class($event),
                 $notificationData,
-                $this->router->generate('front_coachingvideo_videoproject_view', ['id' => $videoProject->getId()])
+                $this->router->generate('front_coachingvideo_videoproject_view', ['videoProjectId' => $videoProject->getId()])
             );
             try {
                 $this->notificationsManager->addNotification([$follower->getViewer()], $notifications, true);
@@ -126,7 +126,7 @@ class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventH
                         'authorFullName' => $creatorFullName,
                         'videoProjectTitle' => $videoProject->getTitle(),
                         'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
-                            'id' => $videoProject->getId()
+                            'videoProjectId' => $videoProject->getId()
                         ], UrlGeneratorInterface::ABSOLUTE_URL)
                     ],
                     new EmailRecipientList([$this->createUserEmailContact($follower->getViewer())]),

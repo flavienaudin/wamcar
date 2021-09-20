@@ -15,7 +15,7 @@ Wamcar\Conversation\MessageLinkPreview:
       type: integer
       nullable: false
     url:
-      type: string
+      type: text
       nullable: false
     title:
       type: string

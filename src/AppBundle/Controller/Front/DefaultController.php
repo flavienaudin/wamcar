@@ -113,7 +113,7 @@ class DefaultController extends BaseController
      */
     public function ajaxSearchKeywordsCloudAction(Request $request): Response
     {
-        if(!$request->isXmlHttpRequest()){
+        if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
 
@@ -268,7 +268,7 @@ class DefaultController extends BaseController
     public function landingPeexeoAction(Request $request): Response
     {
         $proProfils = $this->proUserRepository->findProUsersForHomepage();
-         $proProfils = array_filter($proProfils, function(ProUser $proUser){
+        $proProfils = array_filter($proProfils, function (ProUser $proUser) {
             return $proUser->isPublishable();
         });
 
@@ -278,5 +278,15 @@ class DefaultController extends BaseController
                 'proProfils' => $proProfils
             ]
         );
+    }
+
+    /**
+     * Page d'accueil par défaut (Modèle B2B : Video Coaching)
+     * @param Request $request
+     * @return Response
+     */
+    public function landingB2BAction(): Response
+    {
+        return $this->render('/front/Home/landing_b2b.html.twig');
     }
 }

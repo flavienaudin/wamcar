@@ -366,7 +366,7 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
-        /*
+        /* Masquage des annonces pro car elles sont portées par les garages
         $searchForm = null;
         if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
@@ -624,7 +624,7 @@ class UserController extends BaseController
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,
             'user' => $user,
-            /*
+            /* Masquage des annonces pro car portées par les garages
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'vehicles' => $vehicles,
             'page' => $page ?? null,

@@ -100,13 +100,14 @@
         <!-- End Google Tag Manager (noscript) -->
     {% endif %}
 
+    {# B2B model
     {% if is_register_page %}
-        <div class="is-relative-for-ie is-sticky"> {# IE fix #}
+        <div class="is-relative-for-ie is-sticky"> #}{# IE fix #}{#
             {% include 'front/Layout/includes/header_register.html.twig' %}
         </div>
-    {% else %}
+    {% else %}#}
         {% include 'front/Layout/includes/header.html.twig' %}
-    {% endif %}
+    {#{% endif %}#}
 
     {% block flash_messages %}
         {% include ':front/Layout/includes:flashMessage.html.twig' %}

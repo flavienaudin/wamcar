@@ -47,14 +47,16 @@
                                 <ul>
                                     {% for member in garage.members %}
                                         {% set proUser = member.proUser %}
-                                        <li>
-                                            <a href="{{ path('front_view_pro_user_info', {'slug':proUser.slug}) }}">{{ proUser.fullName }}</a>
-                                            {{ member.requestedAt is not null ? " <i>(en attente)</i>" }}
-                                            {{ member.role == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ? " <b>Gestionnaire</b>" }}
-                                            <br>
-                                            <a href="{{ path('front_garage_toogle_member_role', {'garage_id':member.garage.id, 'user_id':member.proUser.id}) }}"
-                                               class="black-color">Modifier le rôle</a>
-                                        </li>
+                                        {% if proUser %}{# in case of soft deleted user #}
+                                            <li>
+                                                <a href="{{ path('front_view_pro_user_info', {'slug':proUser.slug}) }}">{{ proUser.fullName }}</a>
+                                                {{ member.requestedAt is not null ? " <i>(en attente)</i>" }}
+                                                {{ member.role == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ? " <b>Gestionnaire</b>" }}
+                                                <br>
+                                                <a href="{{ path('front_garage_toogle_member_role', {'garage_id':member.garage.id, 'user_id':member.proUser.id}) }}"
+                                                   class="black-color">Modifier le rôle</a>
+                                            </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
 

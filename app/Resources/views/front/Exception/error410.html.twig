@@ -7,7 +7,7 @@
 {% block errorBody %}
     <p>{{ messageKey is defined and redirectionUrl is defined
         ? messageKey|trans({'%redirection_url%':redirectionUrl})|raw
-        : 'error_page.410.body'|trans({'%searchUrl%':url('front_search')})|raw }}</p>
+        : 'error_page.410.body'|trans({'%searchUrl%':url('front_default')})|raw }}</p>
 {% endblock %}
 
 {% block reinsurance %}{% endblock %}

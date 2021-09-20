@@ -214,8 +214,7 @@
                                 {{ 'user.profile.proservices.specialities.title'|trans }}</h2>
                             <div class="tag-container">
                                 {% for proUserProSpeciality in userSpecialities %}
-                                    <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProSpeciality.proService.slug}) }}"
-                                       class="tag">{{ proUserProSpeciality.proService.name }}</a>
+                                    <span class="tag">{{ proUserProSpeciality.proService.name }}</span>
                                 {% endfor %}
                             </div>
                         </div>
@@ -230,8 +229,7 @@
                                 {{ 'user.profile.proservices.services.title'|trans }}</h2>
                             <div class="tag-container">
                                 {% for proUserServices in proServices %}
-                                    <a href="{{ path('front_directory_by_service_view', {'speciality': proUserServices.slug}) }}"
-                                       class="tag">{{ proUserServices.name }}</a>
+                                    <span class="tag">{{ proUserServices.name }}</span>
                                 {% endfor %}
                             </div>
                         </div>

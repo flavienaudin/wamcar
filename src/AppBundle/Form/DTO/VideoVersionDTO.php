@@ -4,21 +4,41 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\VideoCoaching\VideoProjectIteration;
 use Wamcar\VideoCoaching\VideoVersion;
 
 class VideoVersionDTO
 {
+    /** @var VideoProjectIteration */
+    private $videoProjectIteration;
     /** @var null|string */
     private $title;
     /** @var null|string */
     private $url;
 
+    /**
+     * VideoVersionDTO constructor.
+     * @param VideoProjectIteration $videoProjectIteration
+     */
+    public function __construct(VideoProjectIteration $videoProjectIteration)
+    {
+        $this->videoProjectIteration = $videoProjectIteration;
+    }
+
     public static function buildFromVideoVersion(VideoVersion $videoVersion)
     {
-        $videoVideoDTO = new VideoVersionDTO();
+        $videoVideoDTO = new VideoVersionDTO($videoVersion->getVideoProjectIteration());
         $videoVideoDTO->title = $videoVersion->getTitle();
         $videoVideoDTO->url = $videoVersion->getYoutubeVideoUrl();
         return $videoVideoDTO;
+    }
+
+    /**
+     * @return VideoProjectIteration
+     */
+    public function getVideoProjectIteration(): VideoProjectIteration
+    {
+        return $this->videoProjectIteration;
     }
 
     /**

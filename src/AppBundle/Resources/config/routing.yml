@@ -1,6 +1,11 @@
-front:
-    resource: "routing/front.yml"
-    prefix: /
+# B2B model
+#front:
+#    resource: "routing/front.yml"
+#    prefix: /
+
+b2b:
+  resource: "routing/front_b2b.yml"
+  prefix: /
 
 admin:
     resource: "routing/admin.yml"
@@ -16,9 +21,10 @@ static:
     options:
         sitemap: true
 
-api:
-    resource: "routing/api.yml"
-    prefix: /api/
+# B2B model
+#api:
+#    resource: "routing/api.yml"
+#    prefix: /api/
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
@@ -33,9 +39,10 @@ security_login_page:
 security_logout:
     path: /deconnexion
 
-security_confirm_registration:
-    path: /confirmer-votre-inscription/{token}
-    defaults: { _controller: AppBundle:Front\Security:confirmRegistration }
+# B2B model
+#security_confirm_registration:
+#    path: /confirmer-votre-inscription/{token}
+#    defaults: { _controller: AppBundle:Front\Security:confirmRegistration }
 
 security_password_lost:
     path: /mot-de-passe-oublie

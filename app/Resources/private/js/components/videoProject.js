@@ -4,6 +4,7 @@
 
 import 'select2';
 import {initAttachmentsListForm} from './conversation';
+import linkifyHtml from 'linkifyjs/html';
 
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
@@ -77,6 +78,14 @@ function getMessages(showPrevious = false) {
     }
     // Set next start timestamp with the "end" param of last request
     $discussionMessagesSection.data('start', responseData.end);
+
+    /* Detect URL in message to wrap with <a>*/
+    const $messagesContents = $discussionMessagesSection.find('.message-content');
+    if ($messagesContents.length) {
+      $messagesContents.each((index, element) => {
+        element.innerHTML = linkifyHtml(element.innerHTML);
+      });
+    }
 
     const $unreadMessages = $discussionMessagesSection.children('.unread:not(.withwaypoint)');
     $unreadMessages.each(function (idx, element) {

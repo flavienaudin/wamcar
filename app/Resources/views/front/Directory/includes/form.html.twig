@@ -115,13 +115,22 @@
         <div class="row margin-0">
             <div class="column small-12 medium-shrink medium-collapse dark-gray-blue-peexeo-color search-nb-result"><b>
                 {% if header_search is not empty %}
+                    {# Masquage des annonces pro
                     {{ 'directory.result_number.with_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
                         "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits),
                         "%search%": header_search
+                    }) }}#}
+                    {{ 'directory.result_number.with_search'|transchoice((proUsers.result.totalHits), {
+                        "%nb%": (proUsers.result.totalHits),
+                        "%search%": header_search
                     }) }}
                 {% else %}
+                    {# Masquage des annonces pro
                     {{ 'directory.result_number.without_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
                         "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits)
+                    }) }}#}
+                    {{ 'directory.result_number.without_search'|transchoice((proUsers.result.totalHits), {
+                        "%nb%": (proUsers.result.totalHits)
                     }) }}
                 {% endif %}
                 <span class="hide-for-small-only">&nbsp;-&nbsp;</span></b>

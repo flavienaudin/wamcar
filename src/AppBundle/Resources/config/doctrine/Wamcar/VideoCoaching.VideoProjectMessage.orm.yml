@@ -37,6 +37,11 @@ Wamcar\VideoCoaching\VideoProjectMessage:
       mappedBy: videoProjectMessage
       cascade: ["persist", "merge", "remove"]
       orphanRemoval: true
+    linkPreviews:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectMessageLinkPreview
+      mappedBy: message
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
 
   manyToOne:
     author:

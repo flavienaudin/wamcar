@@ -12,7 +12,8 @@
 
 {% block body %}
 
-    {% set findAdvisorLink = path('front_directory_view') %}
+    {# B2B model
+    {% set findAdvisorLink = path('front_directory_view') %}#}
     {#{% if not isLogged %}
         {% set findAdvisorLink = path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) %}
     {% elseif app.user.affinityAnswer is not null %}
@@ -61,8 +62,8 @@
                               data-fourth="{{ 'landing.peexeo.baseline.fourth'|trans }}"
                         ></span>
                     </h1>
-                    <a href="{{ findAdvisorLink }}" class="button primary-button full-width margin-bottom-1">
-                        {{ 'landing.peexeo.wamaffinity.actions.search_specialist'|trans }}</a>
+                    {#<a href="{{ findAdvisorLink }}" class="button primary-button full-width margin-bottom-1">
+                        {{ 'landing.peexeo.wamaffinity.actions.search_specialist'|trans }}</a>#}
                     <p class="text-center">
                     <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="text-underline margin-bottom-1">
                         {{ 'landing.peexeo.wamaffinity.actions.iam_specialist'|trans }}</a>

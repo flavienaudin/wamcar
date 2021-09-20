@@ -1,0 +1,38 @@
+Wamcar\VideoCoaching\VideoProjectMessageLinkPreview:
+
+  type: entity
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    linkIndex:
+      type: integer
+      nullable: false
+    url:
+      type: text
+      nullable: false
+    title:
+      type: string
+      nullable: true
+    description:
+      type: text
+      nullable: true
+    image:
+      type: string
+      nullable: true
+
+
+  manyToOne:
+    message:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectMessage
+      inversedBy: linkPreviews
+      joinColumn:
+        nullable: false
+        name: message_id
+        referencedColumnName: id
+

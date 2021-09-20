@@ -34,6 +34,27 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+        {% if message.linkPreviews|length > 0 %}
+            <div class="messages-item-link-previews full-width">
+                {% for linkPreview in message.linkPreviews %}
+                    <div class="messages-item-link-preview">
+                        {% if linkPreview.image is not empty %}
+                            <a href="{{ linkPreview.url }}" target="_blank">
+                                <img src="{{ linkPreview.image }}" alt="{{ linkPreview.description|default('pas de description') }}">
+                            </a>
+                        {% else %}
+                            <div class="no-img">&nbsp;</div>
+                        {% endif %}
+                        {% if linkPreview.title is not empty%}
+                            <b class="linkpreview-title">{{ linkPreview.title|raw }}</b>
+                        {% endif %}
+                        <a href="{{ linkPreview.url }}" target="_blank" class="linkpreview-link">{{ linkPreview.domainUrl }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
     </div>
     {% set olderMessageDate = message.createdAt %}
 {% endfor %}

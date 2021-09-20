@@ -26,8 +26,8 @@ class VideoProject
     private $description;
     /** @var Collection of VideoProjectViewer */
     private $viewers;
-    /** @var Collection of VideoVersion */
-    private $videoVersions;
+    /** @var Collection of VideoProjectIteration */
+    private $videoProjectIterations;
     /** @var Collection of VideoProjectMessage */
     private $messages;
 
@@ -37,7 +37,7 @@ class VideoProject
     public function __construct()
     {
         $this->viewers = new ArrayCollection();
-        $this->videoVersions = new ArrayCollection();
+        $this->videoProjectIterations = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -161,27 +161,34 @@ class VideoProject
     /**
      * @return Collection
      */
-    public function getVideoVersions(): Collection
+    public function getVideoProjectIterations(): Collection
     {
-        return $this->videoVersions;
+        return $this->videoProjectIterations;
     }
 
     /**
-     * @param VideoVersion $videoVersion
+     * @return VideoProjectIteration
      */
-    public function addVideoVersions(VideoVersion $videoVersion): void
+    public function getLastIteration(): VideoProjectIteration
     {
-        $this->videoVersions->add($videoVersion);
+        return $this->videoProjectIterations->first();
     }
 
     /**
-     * @param VideoVersion $videoVersion
+     * @param VideoProjectIteration $videoProjectIteration
      */
-    public function removeVideoVersions(VideoVersion $videoVersion): void
+    public function addVideoProjectIteration(VideoProjectIteration $videoProjectIteration): void
     {
-        $this->videoVersions->removeElement($videoVersion);
+        $this->videoProjectIterations->add($videoProjectIteration);
     }
 
+    /**
+     * @param VideoProjectIteration $videoProjectIteration
+     */
+    public function removeVideoProjectIteration(VideoProjectIteration $videoProjectIteration): void
+    {
+        $this->videoProjectIterations->removeElement($videoProjectIteration);
+    }
 
     /**
      * @return Collection
@@ -189,27 +196,6 @@ class VideoProject
     public function getMessages(): Collection
     {
         return $this->messages;
-    }
-
-    /**
-     * @param VideoVersion $searchedVideoVersion
-     * @param bool $olderFirst
-     * @return array
-     */
-    public function getVideoProjectMessagesOfVideoVersion(VideoVersion $searchedVideoVersion, $olderFirst = false): array
-    {
-        $nextSearchedVideoVersion = $searchedVideoVersion->nextProjectVersion();
-        $videoVersionMessages = $this->messages->filter(function (VideoProjectMessage $videoProjectMessage) use ($searchedVideoVersion, $nextSearchedVideoVersion) {
-            return $videoProjectMessage->getCreatedAt() > $searchedVideoVersion->getCreatedAt()
-                && ($nextSearchedVideoVersion == null || $videoProjectMessage->getCreatedAt() < $nextSearchedVideoVersion->getCreatedAt());
-        })->toArray();
-
-        if ($olderFirst) {
-            // Messages are already order by createdAt Desc (newer first)
-            $videoVersionMessages = array_reverse($videoVersionMessages);
-        }
-
-        return $videoVersionMessages;
     }
 
     /**

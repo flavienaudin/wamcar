@@ -46,7 +46,7 @@ class DoctrineConversationRepository extends EntityRepository implements Convers
             ->join('c.conversationUsers', 'cu', 'WITH', 'cu.user = :user')
             // Condition : interlocutor is not deleted
             ->join('c.conversationUsers', 'cu1', Expr\Join::WITH, 'cu1.user <> cu.user')
-            ->join('cu1.user', 'u', Expr\Join::WITH, 'u.deletedAt is NULL')
+            ->join('cu1.user', 'u', Expr\Join::WITH, 'u.deletedAt is NULL AND u INSTANCE OF AppBundle\Doctrine\Entity\ProApplicationUser')
             // End Condition
             ->setParameter('user', $user)
             ->orderBy('c.updatedAt', 'DESC')
