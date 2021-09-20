@@ -1,0 +1,75 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block bodyClass %}landing-b2b{% endblock %}
+
+{% block mainClass %}no-padding {% endblock %}
+
+{% block title %}{{ 'landing.b2b.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'landing.b2b.description'|trans }}{% endblock %}
+
+{% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
+{% set image_alt = 'landing.peexeo.baseline.main'|trans %}
+
+{% block body %}
+    <section class="top-section">
+        <div class="row full-height align-middle">
+            <div class="column small-12 medium-6 baseline-container medium-order-2">
+                <div class="content">
+                    <h1>{{ 'landing.b2b.baseline.title'|trans }}</h1>
+                    <p><b>{{ 'landing.b2b.baseline.subtitle'|trans }}</b></p>
+
+                    <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}"
+                       class="button primary-button margin-bottom-1 full-width">
+                        {{ 'landing.b2b.baseline.action'|trans }}</a>
+
+                </div>
+            </div>
+            <div class="column small-12 medium-6 medium-order-1">
+                <img src="{{ asset('assets/images/background/vendeurs-influenceurs.png') }}">
+            </div>
+
+            {# Indicator to  scroll
+            <div class="down is-flex">
+                <span class="icon-chevron-down"></span>
+            </div>#}
+        </div>
+    </section>
+
+    <section class="section row expanded">
+        <div class="column small-12 medium-6 align-self-middle text-center">
+            <h2 class="section-title h1">{{ 'landing.b2b.teamWorking.title'|trans }}</h2>
+            <div class="body-font-color">{{ 'landing.b2b.teamWorking.subtitle'|trans|raw }}</div>
+            <div class="full-width text-center">
+                <a class="button"
+                   href="{{ path('register') }}">{{ 'landing.b2b.teamWorking.action'|trans }}</a>
+            </div>
+        </div>
+        <div class="column small-12 small-collapse medium-6 full-height-image">
+            <img alt="Travailler en équipe" src="{{ asset('assets/images/background/creators-team-wamcar-2.png') }}">
+        </div>
+    </section>
+
+    <section class="section row expanded">
+        <div class="column small-12 medium-6 medium-order-2 align-self-middle text-center">
+            <h2 class="section-title h1">{{ 'landing.b2b.influence.title'|trans|raw }}</h2>
+            {{ 'landing.b2b.influence.content'|trans|raw }}
+            <div class="full-width text-center">
+                <a class="button" href="{{ path('register') }}">{{ 'landing.b2b.influence.action'|trans }}</a>
+            </div>
+        </div>
+        <div class="column small-12 medium-collapse medium-6 medium-order-1 align-self-middle full-height-image">
+            <img class="reponsive" alt="Influenceurs" src="{{ asset('assets/images/background/Influence-animals-wamcar.png') }}">
+        </div>
+
+    </section>
+
+    <section class="section small-12">
+        <div class="row align-middle">
+            <div class="column small-12">
+                <h2 class="section-title h1 full-width text-center">{{ 'landing.b2b.wamcar.title'|trans|raw }}</h2>
+                {{ 'landing.b2b.wamcar.content'|trans|raw }}
+                <div class="youtube-player" data-id="uYm57mR0FhE"></div>
+            </div>
+        </div>
+    </section>
+{% endblock body %}

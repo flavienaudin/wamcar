@@ -239,7 +239,6 @@
       @include breakpoint (medium) {
         background: $light-gray-peexeo url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
         background-blend-mode: overlay;
-
       }
 
       @include breakpoint (large) {
@@ -367,6 +366,60 @@
             color: white;
           }
         }
+      }
+    }
+  }
+
+  /** Landing B2B : Vidéo Coaching */
+  &-b2b {
+
+    .top-section {
+      min-height: 100vh;
+      height: 100vh;
+      margin-top: -$header-height;
+      padding-top: $header-height;
+      background-color: $light-gray-peexeo;
+
+      @include breakpoint (medium) {
+        background: $light-gray-peexeo url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
+        background-blend-mode: overlay;
+      }
+
+      @include breakpoint (large) {
+        margin-top: -$header-height-medium;
+        padding-top: $header-height-medium;
+      }
+
+      .baseline-container {
+        .content {
+          @include breakpoint (medium) {
+            max-width: 400px;
+          }
+        }
+      }
+    }
+
+    section:not(:first-child):not(:last-child) {
+      border-bottom: $dark-gray-blue-peexeo dotted 3px;
+      padding-bottom: rem-calc(40);
+      margin-bottom: rem-calc(40);
+
+      @include breakpoint(xlarge) {
+        padding-bottom: rem-calc(90);
+        margin-bottom: rem-calc(90);
+      }
+    }
+
+    .full-height-image {
+
+      @include breakpoint(medium) {
+        margin-top: rem-calc(-40);
+        margin-bottom: rem-calc(-20);
+      }
+
+      @include breakpoint(xlarge) {
+        margin-top: rem-calc(-90);
+        margin-bottom: rem-calc(-45);
       }
     }
   }

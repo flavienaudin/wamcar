@@ -1,7 +1,7 @@
 # Homepages & landings
 front_default:
   path: /
-  controller: AppBundle:Front\Default:landingPeexeo
+  controller: AppBundle:Front\Default:landingB2B
   options:
     sitemap: true
 

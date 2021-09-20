@@ -471,7 +471,46 @@ landing:
         find_advisor: Trouver mon conseiller
         all_advisors: Voir les conseillers
         registration: Inscription
-
+  b2b:
+    title: "Augmentez votre influence avec des vidéos engageantes"
+    baseline:
+      title: Augmentez votre influence avec des vidéos engageantes
+      subtitle: Un outil pour produire des contenus de qualité en équipe avec des vidéastes influenceurs.
+      action: Commencer
+    teamWorking:
+      title: Travaillez en équipe
+      subtitle: >
+        <p>Featuring, écriture de votre script, relecture, conseils et optimisation de votre vidéo.</p>
+        <p>Invitez des influenceurs à rejoindre vos projets vidéos!</p>
+      action: Créer un nouveau projet vidéo
+    influence:
+      title: >
+        Vous êtes un influenceur expérimenté ?<br/>
+        Parrainez des débutants et enrichissez votre communauté!
+      content: >
+        <ul class="text-left">
+          <li>Découvrez de nouvelles sources de revennus</li>
+          <li>Collaborez avec les marques tout en gardant votre indépendance</li>
+        </ul>
+      action: Je crée mon compte gratuitement
+    wamcar:
+      title: Pourquoi Wamcar ?
+      content: >
+        <p>Wamcar est le fruit de nombreuses expérimentations digitales dans le secteur de la distribution
+           automobile. Nous faisons le constat suivant :</p>
+        <ul>
+           <li>De nombreux vidéastes influenceurs sont sollicités par les marques pour des contenus
+           promotionnels et du sponsoring. Si cela constitue une source de revenus, cela génère également des
+           contraintes sur la production elle même et peut éventuellement diminuer la qualité de la vidéo.
+           Par ailleurs ces influenceurs ne souhaitent pas gérer directement la vente ou le SAV des produits mis
+           en avant.</li>
+          <li>D'un autre côté les vendeurs n'ont pas toujours les briques pour créer de bonnes vidéos,
+           engageantes qui puissent leur permettre d'augmenter leur commuanuté dans le monde digital.
+           Ils ont besoin d'outils pour créer des vidéos de qualité en accord avec la charte graphique de la
+           marque qu'ils représentent, et besoin d'aide pour se lancer.</li>
+          <li>Nous créons donc des équipes gagnantes entre vendeurs et influenceurs, tout n leur donnant les
+           outils pour collaborer de la meilleure manière.</li>
+        </ul>
 garage:
   my_garage: Mon garage
   action:
@@ -610,7 +649,7 @@ vehicle:
       registration: Création du compte
     aside:
       identification:
-        content_1: Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.
+        content_1: Merci de bien vérifier ou remplir ces champs d'identification de votre véhicule.
         content_2: Le numéro VIN, disponible sur votre carte grise sur la ligne E, aidera les professionnels à vous faire une offre juste.
       picture:
         content_1: Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails. Il est prouvé que les annonces avec plusieurs photos ont plus de visites et plus d'offres.
@@ -833,7 +872,7 @@ vehicle:
     no_wish: Aucun souhait
     no_project:
       title: "%username% n'a pas encore indiqué de souhait."
-      subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule.
+      subtitle: Vous pouvez tout de même le contacter pour lui demander plus d'informations et proposer un rachat de son véhicule.
   sale:
     sold_by: "Vendu par %sellerName%"
     i_sold: "Déclarer sa vente"
@@ -959,7 +998,7 @@ user:
             conseillers automobile sont sélectionnés avec soin pour vous offir un accompagnement de qualité.
 
     pro:
-      title: La vente avec reprise, c’est simple avec
+      title: La vente avec reprise, c'est simple avec
       items:
         first:
           alt: Un prospect crée sa demande de changement de voiture sur Wamcar
@@ -1366,8 +1405,8 @@ conversation:
     read_by: "Vu par %username% le %date%"
   auto_added: (automatiquement ajouté à votre message)
   fleet:
-    yours: Vous disposez d’une flotte composée de %severalVehicles% véhicules
-    him: Votre interlocuteur dispose d’une flotte composée de %severalVehicles% véhicules
+    yours: Vous disposez d'une flotte composée de %severalVehicles% véhicules
+    him: Votre interlocuteur dispose d'une flotte composée de %severalVehicles% véhicules
   answer:
     field:
       message:
