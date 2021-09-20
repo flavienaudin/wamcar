@@ -20,8 +20,8 @@ class VideoVersion
     private $title;
     /** @var string */
     private $youtubeVideoUrl;
-    /** @var VideoProject */
-    private $videoProject;
+    /** @var VideoProjectIteration */
+    private $videoProjectIteration;
 
     /**
      * VideoVersion constructor.
@@ -85,29 +85,18 @@ class VideoVersion
     }
 
     /**
-     * @return VideoProject
+     * @return VideoProjectIteration
      */
-    public function getVideoProject(): VideoProject
+    public function getVideoProjectIteration(): VideoProjectIteration
     {
-        return $this->videoProject;
+        return $this->videoProjectIteration;
     }
 
     /**
-     * @param VideoProject $videoProject
+     * @param VideoProjectIteration $videoProjectIteration
      */
-    public function setVideoProject(VideoProject $videoProject): void
+    public function setVideoProjectIteration(VideoProjectIteration $videoProjectIteration): void
     {
-        $this->videoProject = $videoProject;
-    }
-
-    /**
-     * @return VideoVersion|null The next VideoVersion of the VideoProject or null if none
-     */
-    public function nextProjectVersion(): ?VideoVersion
-    {
-        $nextProjectVersions = $this->videoProject->getVideoVersions()->filter(function (VideoVersion $videoVersion) {
-            return $this->getCreatedAt() < $videoVersion->getCreatedAt();
-        });
-        return $nextProjectVersions->first();
+        $this->videoProjectIteration = $videoProjectIteration;
     }
 }

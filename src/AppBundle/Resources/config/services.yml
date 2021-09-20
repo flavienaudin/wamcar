@@ -12,6 +12,7 @@ imports:
     - { resource: services/voters.yml }
     - { resource: services/user.yml }
     - { resource: services/vehicle.yml }
+    - { resource: services/app.yml }
     - { resource: services/extensions.yml }
     - { resource: services/pictures.yml }
     - { resource: services/validators.yml }

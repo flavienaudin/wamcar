@@ -11,9 +11,9 @@ class VideoProjectViewer
 {
     use SoftDeleteable;
 
-    /** @var  ProUser */
+    /** @var ProUser */
     private $viewer;
-    /** @var  VideoProject */
+    /** @var VideoProject */
     private $videoProject;
     /** @var bool true if the viewer is the creator */
     private $isCreator;

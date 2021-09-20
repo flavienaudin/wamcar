@@ -13,7 +13,7 @@ use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\ProVehicle;
 
-class Message
+class Message implements ContentWithLinkPreview
 {
     /** @var int */
     protected $id;
@@ -192,19 +192,19 @@ class Message
     }
 
     /**
-     * @param MessageLinkPreview $linkPreview
+     * @param LinkPreview $linkPreview
      */
-    public function addLinkPreview(MessageLinkPreview $linkPreview): void
+    public function addLinkPreview(LinkPreview $linkPreview): void
     {
         $linkPreview->setLinkIndex($this->linkPreviews->count());
         $this->linkPreviews->add($linkPreview);
-        $linkPreview->setMessage($this);
+        $linkPreview->setOwner($this);
     }
 
     /**
-     * @param MessageLinkPreview $linkPreview
+     * @param LinkPreview $linkPreview
      */
-    public function removeLinkPreview(MessageLinkPreview $linkPreview): void
+    public function removeLinkPreview(LinkPreview $linkPreview): void
     {
         $this->linkPreviews->removeElement($linkPreview);
     }
@@ -257,18 +257,18 @@ class Message
     public function getVehicleSeller(): ?BaseUser
     {
         $vehicle = $this->getVehicleHeader();
-        if($vehicle instanceof ProVehicle){
-            if($this->user instanceof CanBeGarageMember && $this->user->isMemberOfGarage($vehicle->getGarage())) {
+        if ($vehicle instanceof ProVehicle) {
+            if ($this->user instanceof CanBeGarageMember && $this->user->isMemberOfGarage($vehicle->getGarage())) {
                 return $this->user;
-            }else{
-                $availableSellers = $this->conversation->getConversationUsers()->filter(function (ConversationUser $conversationUser) use ($vehicle){
+            } else {
+                $availableSellers = $this->conversation->getConversationUsers()->filter(function (ConversationUser $conversationUser) use ($vehicle) {
                     $user = $conversationUser->getUser();
                     return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($vehicle->getGarage());
                 });
                 return ($availableSellers->first())->getUser();
             }
 
-        }elseif($vehicle instanceof PersonalVehicle){
+        } elseif ($vehicle instanceof PersonalVehicle) {
             return $vehicle->getOwner();
         }
         return null;

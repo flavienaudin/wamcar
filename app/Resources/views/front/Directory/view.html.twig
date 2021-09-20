@@ -36,7 +36,9 @@
         <div class="directory-result">
             {% if proUsers.result.totalHits > 0 %}
                 <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
-                    {% for hit in proUsers.result.hits|slice(0,6) %}
+                    {# Masquage des annonces pro
+                    {% for hit in proUsers.result.hits|slice(0,6) %}#}
+                    {% for hit in proUsers.result.hits %}
                         <div class="column">
                             {{ include('front/Directory/includes/advisor_item.html.twig', {
                                 "itemClass" : "width-100",
@@ -46,13 +48,20 @@
                             }) }}
                         </div>
                     {% endfor %}
+
+                    {# Ajouter lors du masquage des annonces pro sinon présent dans le 2nd volets #}
+                    {% include 'front/Layout/includes/pagination.html.twig' with {
+                        'route': 'front_directory_view',
+                        'page': proUsers.page,
+                        'lastPage': proUsers.lastPage
+                    } %}
                 </div>
             {% else %}
                 <div class="column">
                     <p class="padding-1 white-bg">{{ 'directory.result.empty'|trans }}</p>
                 </div>
             {% endif %}
-
+            {# Masquage des annonces pro
             {% if vehicles.result.totalHits > 0 %}
                 <div class="column">
                     <div class="column block-white">
@@ -98,8 +107,9 @@
                     } %}
                 </div>
             {% endif %}
+            #}
 
-            {% if not isLogged %}
+            {#{% if not isLogged %}
                 <div class="column">
                     <div class="column directory-form-header">
                         <div class="row">
@@ -113,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}
+            {% endif %}#}
 
         </div>
     </div>

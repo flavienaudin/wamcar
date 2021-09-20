@@ -4,7 +4,9 @@ namespace AppBundle\Controller\Front\AdministrationContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\FooterLink;
 use AppBundle\Security\Voter\UserVoter;
+use AppBundle\Services\App\FooterLinkService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\HobbyService;
 use AppBundle\Services\User\ProServiceService;
@@ -44,6 +46,8 @@ class BackendController extends AdminController
     private $proServiceService;
     /** @var HobbyService */
     private $hobbyService;
+    /** @var FooterLinkService */
+    private $footerLinkService;
 
     /** @param TranslatorInterface $translator */
     public function setTranslator(TranslatorInterface $translator): void
@@ -79,6 +83,12 @@ class BackendController extends AdminController
     public function setHobbyService(HobbyService $hobbyService): void
     {
         $this->hobbyService = $hobbyService;
+    }
+
+    /** @param FooterLinkService $footerLinkService */
+    public function setFooterLinkService(FooterLinkService $footerLinkService): void
+    {
+        $this->footerLinkService = $footerLinkService;
     }
 
     // Common
@@ -163,7 +173,11 @@ class BackendController extends AdminController
             $this->hobbyService->deleteHobby($entity);
             $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
                 $this->translator->trans('flash.success.hobby.delete', ['%hobbyName%' => $hobbyName]));
-
+        } elseif ($entity instanceof FooterLink) {
+            $footerTitle = $entity->getTitle();
+            $this->footerLinkService->deleteFooterLink($entity);
+            $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
+                $this->translator->trans('flash.success.footerLink.delete', ['%footerTitle%' => $footerTitle]));
         } else {
             // TODO other entities
             // parent::removeEntity($entity);

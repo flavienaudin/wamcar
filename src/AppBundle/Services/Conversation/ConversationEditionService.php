@@ -11,6 +11,7 @@ use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Wamcar\Conversation\ContentWithLinkPreview;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Message;
@@ -18,6 +19,8 @@ use Wamcar\Conversation\MessageLinkPreview;
 use Wamcar\Conversation\ProContactMessage;
 use Wamcar\Conversation\ProContactMessageRepository;
 use Wamcar\User\BaseUser;
+use Wamcar\VideoCoaching\VideoProjectMessage;
+use Wamcar\VideoCoaching\VideoProjectMessageLinkPreview;
 
 
 class ConversationEditionService
@@ -158,32 +161,38 @@ class ConversationEditionService
     }
 
     /**
-     * @param Message $message
+     * @param ContentWithLinkPreview $contentWithLinkPreview
      */
-    public function treatsMessageLinkPreviews(Message $message)
+    public function treatsMessageLinkPreviews(ContentWithLinkPreview $contentWithLinkPreview)
     {
-        $url_regex = '/(http|https):\/\/(www)?(.*)/i';
-        preg_match_all($url_regex, $message->getContent(), $urls, PREG_PATTERN_ORDER);
+        $url_regex = '/https?:\/\/(www\.)?[-a-z0-9@:%._\+~#=]{1,256}\.[a-z0-9()]{1,6}\b([-a-z0-9()!@:%_\+.~#?&\/\/=]*)/i';
+        preg_match_all($url_regex, $contentWithLinkPreview->getContent(), $urls, PREG_PATTERN_ORDER);
 
         foreach ($urls[0] as $url) {
             try {
                 $url = $this->checkValues($url);
                 $tags = get_meta_tags($url);
-                $string = $this->fetch_record($url);
-                $linkPreview = new MessageLinkPreview($url);
+                $linkContentHtml = $this->fetch_record($url);
+                if ($contentWithLinkPreview instanceof Message) {
+                    $linkPreview = new MessageLinkPreview($url);
+                } elseif ($contentWithLinkPreview instanceof VideoProjectMessage) {
+                    $linkPreview = new VideoProjectMessageLinkPreview($url);
+                } else {
+                    throw new \Exception('Unsupported class "' . get_class($contentWithLinkPreview)  . '" for' );
+                }
 
                 /// fecth title
                 $title_regex = "/<title>[\s\W]*([^<]*)[\s\W]*<\/title>/im";
-                preg_match_all($title_regex, $string, $title, PREG_PATTERN_ORDER);
+                preg_match_all($title_regex, $linkContentHtml, $title, PREG_PATTERN_ORDER);
                 if (isset($title[1]) && !empty($title[1][0])) {
                     $linkPreview->setTitle($title[1][0]);
                 }
                 // fetch images from balise meta (og:image, image, twitter:image,...)
                 $metaPropertyImageRegex = '/<meta[^>]*(property|name){1}="[^"]*image"[^>]*content=[\s]*"(\S*)"[^>]*>/';
 
-                preg_match_all($metaPropertyImageRegex, $string, $img);
+                preg_match_all($metaPropertyImageRegex, $linkContentHtml, $img);
                 $imageUrl = null;
-                if (isset($img[2])) {
+                if (isset($img[2]) && isset($img[2][0])) {
                     $imageUrl = $img[2][0];
                 } elseif (isset($tags) && is_array($tags)) {
                     if (isset($tags['twitter:image'])) {
@@ -197,7 +206,7 @@ class ConversationEditionService
                     $linkPreview->setImage($imageUrl);
                 }
                 if ($linkPreview->isValid()) {
-                    $message->addLinkPreview($linkPreview);
+                    $contentWithLinkPreview->addLinkPreview($linkPreview);
                 }
             } catch (\Exception $e) {
                 // If error while opening the URL (get_meta_tags or fetch_record().fopen()
@@ -225,20 +234,14 @@ class ConversationEditionService
      */
     private function fetch_record($path)
     {
-        try {
-            $file = fopen($path, "r");
-            if ($file === FALSE) {
-                throw new \Exception('Can not open the URL');
-            }
-            $data = '';
-            while (!feof($file)) {
-                $data .= fgets($file, 1024);
-            }
-            return $data;
-        } catch (\Exception $e) {
-            // If error while opening the URL (get_meta_tags or fetch_record().fopen()
-            // Then do not block
-            throw $e;
+        $file = fopen($path, "r");
+        if ($file === FALSE) {
+            throw new \Exception('Can not open the URL');
         }
+        $data = '';
+        while (!feof($file)) {
+            $data .= fgets($file, 1024);
+        }
+        return $data;
     }
 }

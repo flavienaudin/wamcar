@@ -4,8 +4,7 @@
     <div class="tag-container text-center">
         {% set nbProSpeciality = seller.proUserSpecialities|length %}
         {% for proSpeciality in seller.proUserSpecialities(highlightSpecialities ?? [])|slice(0,2) %}
-            <a href="{{ path('front_directory_by_service_view', {'speciality': proSpeciality.proService.slug}) }}"
-               class="tag">{{ proSpeciality.proService.name }}</a>
+            <span class="tag">{{ proSpeciality.proService.name }}</span>
         {% endfor %}
         {% if nbProSpeciality > 2 %}
             <a href="{{ path('front_view_pro_user_info', {'slug': seller.slug}) }}"

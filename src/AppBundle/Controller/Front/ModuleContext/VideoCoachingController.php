@@ -15,6 +15,7 @@ use AppBundle\Form\Type\VideoVersionType;
 use AppBundle\Security\Voter\VideoCoachingVoter;
 use AppBundle\Services\VideoCoaching\VideoProjectService;
 use AppBundle\Services\VideoCoaching\VideoVersionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,6 +26,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\VideoProject;
+use Wamcar\VideoCoaching\VideoProjectIteration;
 use Wamcar\VideoCoaching\VideoVersion;
 
 class VideoCoachingController extends BaseController
@@ -70,10 +72,9 @@ class VideoCoachingController extends BaseController
             $videoProject = $this->videoProjectService->create($videoProjectDTO, $currentUser);
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.save');
             return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                'id' => $videoProject->getId()
+                'videoProjectId' => $videoProject->getId()
             ]);
         }
-
         return $this->render('front/VideoCoaching/dashboard.html.twig', [
             'createdVideoProjectViewers' => $currentUser->getCreatedVideoProjects(),
             'followedVideoProjectViewers' => $currentUser->getFollowedVideoProjects(),
@@ -84,10 +85,13 @@ class VideoCoachingController extends BaseController
 
     /**
      * @param Request $request
+     * @ParamConverter("videoProject", class="Wamcar\VideoCoaching\VideoProject", options={"id"="videoProjectId"})
+     * @ParamConverter("videoProjectIteration", class="Wamcar\VideoCoaching\VideoProjectIteration", options={"id" = "iterationId"})
      * @param VideoProject $videoProject
+     * @param VideoProjectIteration|null $videoProjectIteration
      * @return RedirectResponse|Response
      */
-    public function viewAction(Request $request, VideoProject $videoProject)
+    public function viewAction(Request $request, VideoProject $videoProject, VideoProjectIteration $videoProjectIteration = null)
     {
         /** @var ProUser $currentUser */
         $currentUser = $this->getUser();
@@ -99,6 +103,16 @@ class VideoCoachingController extends BaseController
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_VIEW, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.view');
             return $this->redirectToRoute('front_coaching_video_dashboard');
+        }
+
+        // Set current video project iteration if defined by the route param "iterationId"
+        if ($videoProjectIteration != null && $videoProjectIteration->getVideoProject() !== $videoProject) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.view');
+            return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                'videoProjectId' => $videoProject->getId()
+            ]);
+        } else if ($videoProjectIteration == null) {
+            $videoProjectIteration = $videoProject->getLastIteration();
         }
 
         $editVideoProjectForm = null;
@@ -115,36 +129,43 @@ class VideoCoachingController extends BaseController
                 $videoProject = $this->videoProjectService->update($videoProjectDTO, $videoProject);
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.save');
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                    'id' => $videoProject->getId()
+                    'videoProjectId' => $videoProject->getId(),
+                    'iterationId' => $videoProjectIteration->getId()
                 ]);
             }
 
-            // Formulaire d'ajout d'une nouvelle version au projet
-            $videoVersionDTO = new VideoVersionDTO();
-            $createVideoVersionForm = $this->formFactory->createNamed('addVideoVersion', VideoVersionType::class, $videoVersionDTO);
-            $createVideoVersionForm->handleRequest($request);
-            if ($createVideoVersionForm->isSubmitted() && $createVideoVersionForm->isValid()) {
-                $this->videoVersionService->create($videoVersionDTO, $videoProject);
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoversion.save');
-                return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                    'id' => $videoProject->getId()
-                ]);
+            if ($this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_ITERATION_ADD_VERSION, $videoProjectIteration)) {
+                // Formulaire d'ajout d'une nouvelle version à l'itération du projet
+                $videoVersionDTO = new VideoVersionDTO($videoProjectIteration);
+                $createVideoVersionForm = $this->formFactory->createNamed('addVideoVersion', VideoVersionType::class, $videoVersionDTO);
+                $createVideoVersionForm->handleRequest($request);
+                if ($createVideoVersionForm->isSubmitted() && $createVideoVersionForm->isValid()) {
+                    $this->videoVersionService->create($videoVersionDTO, $videoProject);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoversion.save');
+                    return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                        'videoProjectId' => $videoProject->getId(),
+                        'iterationId' => $videoProjectIteration->getId()
+                    ]);
+                }
             }
 
             // Formulaire d'édition des versions de la vidéo
             /** @var VideoVersion $videoVersion */
-            foreach ($videoProject->getVideoVersions() as $videoVersion) {
-                $videoVersionDTO = VideoVersionDTO::buildFromVideoVersion($videoVersion);
-                $editVideoVersionForm = $this->formFactory->createNamed('editVideoVersion' . $videoVersion->getId(), VideoVersionType::class, $videoVersionDTO);
-                $editVideoVersionForm->handleRequest($request);
-                if ($editVideoVersionForm->isSubmitted() && $editVideoVersionForm->isValid()) {
-                    $this->videoVersionService->update($videoVersionDTO, $videoVersion);
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoversion.update');
-                    return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                        'id' => $videoProject->getId()
-                    ]);
+            foreach ($videoProjectIteration->getVideoVersions() as $videoVersion) {
+                if ($this->isGranted(VideoCoachingVoter::VIDEO_VERSION_EDIT, $videoVersion)) {
+                    $videoVersionDTO = VideoVersionDTO::buildFromVideoVersion($videoVersion);
+                    $editVideoVersionForm = $this->formFactory->createNamed('editVideoVersion' . $videoVersion->getId(), VideoVersionType::class, $videoVersionDTO);
+                    $editVideoVersionForm->handleRequest($request);
+                    if ($editVideoVersionForm->isSubmitted() && $editVideoVersionForm->isValid()) {
+                        $this->videoVersionService->update($videoVersionDTO, $videoVersion);
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoversion.update');
+                        return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                            'videoProjectId' => $videoProject->getId(),
+                            'iterationId' => $videoProjectIteration->getId()
+                        ]);
+                    }
+                    $editVideoVersionFormViews[$videoVersion->getId()] = $editVideoVersionForm->createView();
                 }
-                $editVideoVersionFormViews[$videoVersion->getId()] = $editVideoVersionForm->createView();
             }
 
             // Formulaire de partage du projet vidéo avec d'autres utilisateurs
@@ -161,7 +182,10 @@ class VideoCoachingController extends BaseController
                         ));
                 }
 
-                return $this->redirectToRoute('front_coachingvideo_videoproject_view', ['id' => $videoProject->getId()]);
+                return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                    'videoProjectId' => $videoProject->getId(),
+                    'iterationId' => $videoProjectIteration->getId()
+                ]);
             }
         }
 
@@ -170,6 +194,7 @@ class VideoCoachingController extends BaseController
 
         return $this->render('front/VideoCoaching/VideoProject/view.html.twig', [
             'videoProject' => $videoProject,
+            'videoProjectIteration' => $videoProjectIteration,
             'editVideoProjectForm' => $editVideoProjectForm ? $editVideoProjectForm->createView() : null,
             'createVideoVersionForm' => $createVideoVersionForm ? $createVideoVersionForm->createView() : null,
             'editVideoVersionForms' => $editVideoVersionFormViews,
@@ -213,21 +238,22 @@ class VideoCoachingController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
-        $videoProject = $videoVersion->getVideoProject();
-        if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
+        $videoProject = $videoVersion->getVideoProjectIteration()->getVideoProject();
+        if (!$this->isGranted(VideoCoachingVoter::VIDEO_VERSION_DELETE, $videoVersion)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_version.delete');
             return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                'id' => $videoProject->getId()
+                'videoProjectId' => $videoProject->getId(),
+                'iterationId' => $videoVersion->getVideoProjectIteration()->getId()
             ]);
         }
 
         $this->videoVersionService->delete($videoVersion);
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoversion.delete');
         return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-            'id' => $videoProject->getId()
+            'videoProjectId' => $videoProject->getId(),
+            'iterationId' => $videoVersion->getVideoProjectIteration()->getId()
         ]);
     }
-
 
     /**
      * Ajax request to post a message of video project

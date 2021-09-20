@@ -15,6 +15,10 @@ class ReloadConversationLinkPreviewCommand extends BaseCommand
     /** @var ConversationEditionService */
     private $conversationEditionService;
 
+    /**
+     * ReloadConversationLinkPreviewCommand constructor.
+     * @param ConversationEditionService $conversationEditionService
+     */
     public function __construct(ConversationEditionService $conversationEditionService)
     {
         parent::__construct();

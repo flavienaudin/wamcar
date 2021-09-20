@@ -13,11 +13,11 @@ Wamcar\VideoCoaching\VideoVersion:
       type: uuid
 
   manyToOne:
-    videoProject:
-      targetEntity: Wamcar\VideoCoaching\VideoProject
+    videoProjectIteration:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectIteration
       inversedBy: videoVersions
       joinColumn:
-        name: video_project_id
+        name: video_project_iteration_id
         referencedColumnName: id
 
   fields:

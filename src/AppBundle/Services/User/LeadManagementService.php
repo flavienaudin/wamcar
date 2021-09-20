@@ -100,9 +100,11 @@ class LeadManagementService
                         'slug' => $lead->getUserLead()->getSlug()
                     ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $lead->getFullName() . '</a>';
             } elseif ($lead->getUserLead() instanceof PersonalUser) {
+                $leadName  = $lead->getFullName();
+                /* B2B model
                 $leadName = '<a href="' . $this->router->generate('front_view_personal_user_info', [
                         'slug' => $lead->getUserLead()->getSlug()
-                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $lead->getFullName() . '</a>';
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $lead->getFullName() . '</a>';*/
             } else {
                 $leadName = $lead->getFullName();
             }
@@ -188,11 +190,10 @@ class LeadManagementService
                 $proUserInfos = '<span class="text-line-through">Utilisateur supprimé'/* . $lead->getProUser()->getFullName() . '(' . $lead->getProUser()->getId() . */ . ')</span>';
             }
             $leadInfos = $lead->getUserLead() != null ?
-                '<a href="' . $this->router->generate($lead->getUserLead()->isPro() ? 'front_view_pro_user_info' : 'front_view_personal_user_info', [
-                    'slug' => $lead->getUserLead()->getSlug()],
-                    UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' .
-                $lead->getUserLead()->getFullName() . '(' . $lead->getUserLead()->getId() . ')</a>' :
-                '<span class="text-line-through">' . $lead->getFullName() . '</span>';
+
+                ($lead->getUserLead()->isPro()?'<a href="' . $this->router->generate('front_view_pro_user_info', ['slug' => $lead->getUserLead()->getSlug()],UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' :'').
+                $lead->getUserLead()->getFullName() . '(' . $lead->getUserLead()->getId() . ')'. ($lead->getUserLead()->isPro()?'</a>':'')
+                : '<span class="text-line-through">' . $lead->getFullName() . '</span>';
             if (LeadInitiatedBy::PRO_USER()->equals($lead->getInitiatedBy())) {
                 $userAinfos = $proUserInfos;
                 $userBinfos = $leadInfos;

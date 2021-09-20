@@ -5,6 +5,8 @@ namespace AppBundle\Security;
 
 use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
@@ -88,7 +90,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $service = $response->getResourceOwner()->getName();
 
         if(!empty($userServiceId)) {
-            // Security to avoid to lookf for <service>Id = NULL
+            // Security to avoid to look for <service>Id = NULL
             $user = $this->doctrineUserRepository->findOneBy([$service . 'Id' => $userServiceId]);
         }else{
             $this->logger->error('OAUTH ERROR : UserServiceId is empty');
@@ -111,13 +113,14 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             if ($user == null) {
                 // get the registration type and check its validity
                 if (!$this->session->has(self::REGISTRATION_TYPE_SESSION_KEY)) {
-                    $this->logger->warning('OAUTH : Create an account before loginwith social connect');
+                    $this->logger->warning('OAUTH : Create an account before login with social connect');
                     throw new AuthenticationException("flash.error.no_registration_type");
                 }
 
                 $registrationType = $this->session->get(self::REGISTRATION_TYPE_SESSION_KEY);
-                if ($registrationType != ProUser::TYPE && $registrationType != PersonalUser::TYPE) {
-                    $registrationType = PersonalUser::TYPE;
+                /* B2B Model */
+                if ($registrationType != ProUser::TYPE) {
+                    $registrationType = ProUser::TYPE;
                 }
 
                 $registrationDTO = new RegistrationDTO($registrationType);
@@ -180,6 +183,13 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
                 }
             }
         } else {
+
+            /* B2B Model*/
+            if($user instanceof PersonalApplicationUser) {
+                $this->logger->warning('OAUTH : Personal account are not allow anymore');
+                throw new AuthenticationException("flash.error.b2b_no_personal_user");
+            }
+
             // if target_path is set to REGISTER_ORIENTATION path while the user is already registred Then redirection to its profile
             if (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_orientation', [], UrlGeneratorInterface::ABSOLUTE_URL))) {
                 $this->session->set('_security.front.target_path', $this->router->generate('front_view_current_user_info', [], UrlGeneratorInterface::ABSOLUTE_URL));
@@ -196,7 +206,8 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function loadUserByUsername($username): ?ApplicationUser
     {
-        return $this->doctrineUserRepository->findOneByEmail($username);
+        /* B2B model */
+        return $this->doctrineProUserRepository->findOneByEmail($username);
     }
 
     /**
@@ -214,6 +225,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function supportsClass($class): bool
     {
-        return ApplicationUser::class === $class;
+        /* B2B model */
+        return ProApplicationUser::class === $class;
     }
 }

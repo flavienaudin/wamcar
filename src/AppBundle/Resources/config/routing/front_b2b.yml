@@ -1,0 +1,179 @@
+# Homepages & landings
+front_default:
+  path: /
+  controller: AppBundle:Front\Default:landingB2B
+  options:
+    sitemap: true
+
+# Autocompletion des villes
+front_city_autocomplete:
+  path: /city/autocomplete
+  controller: AppBundle:Front\ProContext\City:autocomplete
+
+legacy_fetch_city:
+  path: /fetch/city.json
+  controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode
+
+# Inscription
+register:
+  path: /inscription
+  controller: AppBundle:Front\Security:register
+
+# User
+front_view_current_user_info:
+  path: /mon-profil
+  controller: AppBundle:Front\PersonalContext\User:currentUserViewInformation
+
+front_user_delete:
+  path: /user/delete/{id}
+  controller: AppBundle:Front\PersonalContext\User:deleteUser
+  defaults:
+    id: null
+
+front_view_pro_user_info:
+  path: /conseiller-auto/{slug}
+  controller: AppBundle:Front\PersonalContext\User:proUserViewInformation
+
+front_user_edit_preferences:
+  path: /preferences
+  controller: AppBundle:Front\PersonalContext\User:editPreferences
+
+front_edit_user_info:
+  path: /mon-profil/edit
+  controller: AppBundle:Front\PersonalContext\User:editInformations
+
+front_show_more_videos_from_videos_insert:
+  path: /videos_insert/showmore/{id}/{pagetoken}
+  controller: AppBundle:Front\PersonalContext\User:showMoreVideosFromVideosInsert
+
+front_delete_user_videos_insert:
+  path: /videos_insert/delete/{id}
+  controller: AppBundle:Front\PersonalContext\User:deleteVideosInsert
+
+front_show_number:
+  path: /show-number
+  controller: AppBundle:Front\PersonalContext\User:showPhoneNumber
+  methods: POST
+
+front_edit_prouser_proservices:
+  path: /proservices/edit
+  controller: AppBundle:Front\ProContext\ProService:editProUserProServices
+
+front_edit_prouser_specialities:
+  path: /prospecialities/edit
+  controller: AppBundle:Front\ProContext\ProService:editProUserSpecialities
+
+# Garage
+front_garage_view:
+  path: /g/{slug}
+  controller: AppBundle:Front\ProContext\Garage:view
+
+front_garage_create:
+  path: /garage/create
+  controller: AppBundle:Front\ProContext\Garage:save
+
+front_garage_edit:
+  path: /garage/edit/{id}
+  controller: AppBundle:Front\ProContext\Garage:save
+
+front_garage_remove:
+  path: /garage/remove/{id}
+  controller: AppBundle:Front\ProContext\Garage:remove
+
+# Gestion des membres d'un garage
+front_garage_request_to_join:
+  path: /garage/request/{garage_id}
+  controller: AppBundle:Front\ProContext\Garage:assign
+
+front_garage_assign:
+  path: /garage/assign/{garage_id}/{user_id}
+  controller: AppBundle:Front\ProContext\Garage:assign
+
+front_garage_unassign:
+  path: /garage/unassign/{garage_id}/{user_id}
+  controller: AppBundle:Front\ProContext\Garage:unassign
+
+front_garage_designate_as_administrator:
+  path: /garage/memberrole/designate/{garage_id}/{user_id}
+  controller: AppBundle:Front\ProContext\Garage:toogleMemberRole
+  defaults:
+    replace: true
+
+front_garage_toogle_member_role:
+  path: /garage/memberrole/toogle/{garage_id}/{user_id}
+  controller: AppBundle:Front\ProContext\Garage:toogleMemberRole
+  defaults:
+    replace: false
+
+# Messagerie
+front_conversation_create:
+  path: /conversation/new/{id}/{vehicleId}
+  controller: AppBundle:Front\ProContext\Conversation:create
+  defaults:
+    vehicleId: null
+
+front_conversation_open:
+  path: /conversation/open/{id}
+  controller: AppBundle:Front\ProContext\Conversation:openConversation
+
+front_conversation_edit:
+  path: /conversation/{id}/{vehicleId}
+  controller: AppBundle:Front\ProContext\Conversation:edit
+  defaults:
+    vehicleId: null
+
+front_conversation_list:
+  path: /conversations
+  controller: AppBundle:Front\ProContext\Conversation:index
+  defaults:
+    _fragment: last-message
+
+# Favoris
+front_user_favorites_list:
+  path: /user/favorites
+  controller: AppBundle:Front\ProContext\Favorite:view
+
+front_expert_toggle:
+  path: /user/expert/toggle/{slug}
+  controller: AppBundle:Front\ProContext\Favorite:toggleExpert
+
+# Module "Suivi/Coaching Vidéo"
+front_coaching_video_dashboard:
+  path: /module/video
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:dashboard
+
+front_coachingvideo_videoproject_view:
+  path: /module/video/videoproject/{videoProjectId}/{iterationId}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:view
+  requirements:
+    videoProjectId: '\d+'
+  defaults:
+    iterationId: null
+
+front_coachingvideo_videoproject_delete:
+  path: /module/video/videoproject/delete/{id}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:delete
+
+front_coachingvideo_videoversion_delete:
+  path: /module/video/videoversion/delete/{id}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteVideoVersion
+
+front_coachingvideo_videoproject_messages_post:
+  path: /module/video/discussion/videoproject/{id}/message
+  methods: POST
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:postVideoProjectMessage
+
+front_coachingvideo_videoproject_messages_get:
+  path: /module/video/discussion/videoproject/{id}/discussion
+  methods: POST
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:getMessages
+
+front_coachingvideo_videoproject_discussion_visited:
+  path: /module/video/discussion/videoproject/{id}/discussion/visite
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:visiteDiscussion
+
+
+# TEST GOOGLE YOUTUBE API
+dev_youtube_api:
+  path: /youtube
+  controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleYoutubeApi

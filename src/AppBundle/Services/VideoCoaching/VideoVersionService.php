@@ -32,7 +32,7 @@ class VideoVersionService
     public function create(VideoVersionDTO $videoVersionDTO, VideoProject $videoProject)
     {
         $videoVersion = new VideoVersion();
-        $videoVersion->setVideoProject($videoProject);
+        $videoVersion->setVideoProjectIteration($videoVersionDTO->getVideoProjectIteration());
         $videoVersion->setTitle($videoVersionDTO->getTitle());
         $videoVersion->setYoutubeVideoUrl($videoVersionDTO->getUrl());
         $this->videoVersionRepository->add($videoVersion);
