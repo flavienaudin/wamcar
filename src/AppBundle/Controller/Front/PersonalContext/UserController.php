@@ -340,7 +340,7 @@ class UserController extends BaseController
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.pro_user.deleted.title',
                 'messageKey' => 'error_page.pro_user.deleted.body',
-                'redirectionUrl' => $this->generateUrl('front_directory_view')
+                'redirectionUrl' => $this->generateUrl('front_view_current_user_info')
             ]);
             $response->setStatusCode(Response::HTTP_GONE);
             return $response;
@@ -355,7 +355,7 @@ class UserController extends BaseController
                 'titleKey' => 'error_page.pro_user.unpublished.title',
                 'messageKey' => 'error_page.pro_user.unpublished.body',
                 'messageParams' => ['%firstname%' => $user->getFirstName()],
-                'redirectionUrl' => $this->generateUrl('front_directory_view')
+                'redirectionUrl' => $this->generateUrl('front_view_current_user_info')
             ]);
             $response->setStatusCode(Response::HTTP_OK);
             return $response;
