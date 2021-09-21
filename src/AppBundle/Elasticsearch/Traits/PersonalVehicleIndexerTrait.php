@@ -43,7 +43,7 @@ trait PersonalVehicleIndexerTrait
 
     protected function indexPersonalVehicle(PersonalVehicle $personalVehicle)
     {
-        $this->personalVehicleEntityIndexer->updateIndexable($this->indexablePersonalVehicleBuilder->buildFromVehicle($personalVehicle));
+        // B2B model no vehicle : $this->personalVehicleEntityIndexer->updateIndexable($this->indexablePersonalVehicleBuilder->buildFromVehicle($personalVehicle));
     }
 
     protected function indexPersonalUserSearchItems(PersonalUser $personalUser, VehicleEvent $event)

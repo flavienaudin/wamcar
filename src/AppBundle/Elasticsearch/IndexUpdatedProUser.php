@@ -87,6 +87,7 @@ class IndexUpdatedProUser implements UserEventHandler
                 $this->userRepository->update($proUser);
 
                 /** @var Garage $garage */
+                /* B2B model : no vehicle
                 foreach ($proUser->getGarages() as $garage) {
                     if(count($garage->getAvailableSellers()) == 1){ // Premier vendeur disponible
                         $indexableProVehiclesDocumentsToIndex = [];
@@ -119,7 +120,7 @@ class IndexUpdatedProUser implements UserEventHandler
                             $this->searchItemEntityIndexer->deleteByIds($indexableProVehicleSearchItemsIdsToDelete);
                         }
                     }
-                }
+                }*/
             }
         } else {
             // ProUser non indexé
@@ -131,6 +132,7 @@ class IndexUpdatedProUser implements UserEventHandler
 
                 // Gestion des véhicules
                 /** @var Garage $garage */
+                /* B2B model : no vehicle
                 foreach ($proUser->getGarages() as $garage) {
                     if(count($garage->getAvailableSellers()) == 0){
                         foreach ($garage->getProVehicles() as $proVehicle) {
@@ -138,7 +140,7 @@ class IndexUpdatedProUser implements UserEventHandler
                             $this->indexProVehicle($proVehicle);
                         }
                     }
-                }
+                }*/
             }
         }
     }

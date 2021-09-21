@@ -50,8 +50,9 @@ trait GarageIndexerTrait
 
     protected function indexUpdatedGarage(Garage $garage)
     {
+        /* B2B model without vehicle
         $proVehicleDocuments = [];
-        /** @var ProVehicle $proVehicle */
+        /** @var ProVehicle $proVehicle *
         foreach ($garage->getProVehicles() as $proVehicle) {
             $this->proVehicleEntityIndexer->updateIndexable($this->indexableProVehicleBuilder->buildFromVehicle($proVehicle));
             $indexableProVehicle = $this->indexableSearchItemBuilder->createSearchItemFromProVehicle($proVehicle);
@@ -61,7 +62,7 @@ trait GarageIndexerTrait
         }
         if (count($proVehicleDocuments) > 0) {
             $this->searchItemEntityIndexer->indexAllDocuments($proVehicleDocuments, true);
-        }
+        }*/
 
         /** @var GarageProUser $garageMember */
         foreach ($garage->getMembers() as $garageMember) {
