@@ -2,7 +2,7 @@
     <div class="l-footer-top">
         {% set columnNb = 2 + footerLinksByColumn|length %}
         {% set columnSize = (12 / columnNb)|round(0, 'floor') %}
-        {% set action = isUserPro ? path('front_view_current_user_info') : isUserPersonal ? path('front_directory_view') : path('front_default') %}
+        {% set action = isUserPro ? path('front_view_current_user_info') : isUserPersonal ? path('front_view_current_user_info') : path('front_default') %}
         <div class="row margin-bottom-1">
             <div class="column small-12 medium-{{ columnSize }}">
                 <a href="{{ action  }}">

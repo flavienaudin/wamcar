@@ -111,17 +111,10 @@ class GarageController extends BaseController
         /** @var Garage $garage */
         $garage = $this->garageRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
         if ($garage === null || $garage->getDeletedAt() != null) {
-            if ($garage != null) {
-                $url = $this->generateUrl('front_directory_by_city_view', [
-                    'city' => $garage->getCity()->getPostalCode() . "-" . urlencode($garage->getCity()->getName())
-                ]);
-            } else {
-                $url = $this->generateUrl('front_directory_view');
-            }
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.garage.deleted.title',
                 'messageKey' => 'error_page.garage.deleted.body',
-                'redirectionUrl' => $url
+                'redirectionUrl' => $this->generateUrl('front_view_current_user_info')
             ]);
             $response->setStatusCode(Response::HTTP_GONE);
             return $response;
@@ -135,7 +128,7 @@ class GarageController extends BaseController
             $response = $this->render('front/Exception/error_message.html.twig', [
                 'titleKey' => 'error_page.garage.unpublished.title',
                 'messageKey' => 'error_page.garage.unpublished.body',
-                'redirectionUrl' => $this->generateUrl('front_directory_view')
+                'redirectionUrl' => $this->generateUrl('front_view_current_user_info')
             ]);
             $response->setStatusCode(Response::HTTP_OK);
             return $response;
@@ -368,7 +361,7 @@ class GarageController extends BaseController
             } elseif ($this->getUser() instanceof ProUser) {
                 return $this->redirectToRoute('front_view_current_user_info');
             } else {
-                return $this->redirectToRoute('front_directory_view');
+                return $this->redirectToRoute('front_view_current_user_info');
             }
         }
 
@@ -399,7 +392,7 @@ class GarageController extends BaseController
         } elseif ($this->getUser() instanceof ProUser) {
             return $this->redirectToRoute('front_view_current_user_info');
         }
-        return $this->redirectToRoute('front_directory_view');
+        return $this->redirectToRoute('front_view_current_user_info');
     }
 
     /**
