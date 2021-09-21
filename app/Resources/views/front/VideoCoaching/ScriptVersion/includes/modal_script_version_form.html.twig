@@ -1,0 +1,18 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-add-scriptversion' %}
+
+{% block title %}
+    {{ creationMode ?
+    'coaching_video.script_version.create.title'|trans :
+    'coaching_video.script_version.edit.title'|trans }}
+{% endblock %}
+
+{% block content %}
+    {{ include('front/VideoCoaching/ScriptVersion/includes/save_form.html.twig', {
+        'scriptVersionForm' : scriptVersionForm,
+        'formClass' : 'row form-compact'
+    }) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

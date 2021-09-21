@@ -1,0 +1,34 @@
+Wamcar\VideoCoaching\ScriptSectionType:
+
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineScriptSectionTypeRepository
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    name:
+      type: string
+      nullable: false
+    dialogue_label:
+      type: string
+      nullable: true
+    dialogue_placeholder:
+      type: text
+      nullable: true
+    scene_label:
+      type: string
+      nullable: true
+    scene_placeholder:
+      type: text
+      nullable: true
+    shot_label:
+      type: string
+      nullable: true
+    instruction:
+      type: text
+      nullable: true

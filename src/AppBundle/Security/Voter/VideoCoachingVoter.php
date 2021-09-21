@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Wamcar\User\ProUser;
+use Wamcar\VideoCoaching\ScriptVersion;
 use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoProjectIteration;
 use Wamcar\VideoCoaching\VideoProjectViewer;
@@ -23,7 +24,12 @@ class VideoCoachingVoter extends Voter
     const VIDEO_PROJECT_EDIT = "video_coaching_project.edit";
     const VIDEO_PROJECT_DELETE = "video_coaching_project.delete";
 
-    const VIDEO_PROJECT_ITERATION_ADD_VERSION = "video_coaching_project_iteration.add_version";
+    const VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION = "video_coaching_project_iteration.add_videoversion";
+    const VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION = "video_coaching_project_iteration.add_scriptversion";
+
+    const SCRIPT_VERSION_EDIT = "video_coaching_script_version.edit";
+    const SCRIPT_VERSION_DELETE = "video_coaching_script_version.delete";
+
     const VIDEO_VERSION_EDIT = "video_coaching_video_version.edit";
     const VIDEO_VERSION_DELETE = "video_coaching_video_version.delete";
 
@@ -53,7 +59,12 @@ class VideoCoachingVoter extends Voter
         }
 
         // if the attribute is one we support with the correct subject type, return true
-        if (in_array($attribute, [self::VIDEO_PROJECT_ITERATION_ADD_VERSION]) && $subject instanceof VideoProjectIteration) {
+        if (in_array($attribute, [self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION, self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION]) && $subject instanceof VideoProjectIteration) {
+            return true;
+        }
+
+        // if the attribute is one we support with the correct subject type, return true
+        if (in_array($attribute, [self::SCRIPT_VERSION_EDIT, self::SCRIPT_VERSION_DELETE]) && $subject instanceof ScriptVersion) {
             return true;
         }
 
@@ -68,7 +79,7 @@ class VideoCoachingVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         if ($this->decisionManager->decide($token, array('ROLE_PRO_ADMIN'))) {
-            return true;
+            //return true;
         }
 
         // Video Coaching Module access
@@ -109,7 +120,7 @@ class VideoCoachingVoter extends Voter
                 }
             }
         } // Video Project Iteration management
-        elseif (in_array($attribute, [self::VIDEO_PROJECT_ITERATION_ADD_VERSION])) {
+        elseif (in_array($attribute, [self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION, self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION])) {
             // you know $subject is a VideoProjectIteration object, thanks to supports
             /** @var VideoProjectIteration $videoProjectIteration */
             $videoProjectIteration = $subject;
@@ -119,11 +130,32 @@ class VideoCoachingVoter extends Voter
 
             if ($currentUser instanceof ProUser) {
                 switch ($attribute) {
-                    case self::VIDEO_PROJECT_ITERATION_ADD_VERSION:
+                    case self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION:
+                    case self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION:
                         return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $videoProjectIteration->getVideoProject()) && $videoProjectIteration->isLastIteration();
                 }
             }
             return false;
+        } // Script Version management
+        elseif (in_array($attribute, [self::SCRIPT_VERSION_EDIT, self::SCRIPT_VERSION_DELETE])) {
+            // you know $subject is a VideoProjectIteration object, thanks to supports
+            /** @var ScriptVersion $scriptVersion */
+            $scriptVersion = $subject;
+
+            /** @var ProUser $currentUser */
+            $currentUser = $token->getUser();
+
+            if ($currentUser instanceof ProUser) {
+                switch ($attribute) {
+                    case self::SCRIPT_VERSION_EDIT:
+                        return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $scriptVersion->getVideoProjectIteration()->getVideoProject())
+                            && $scriptVersion->getVideoProjectIteration()->isLastIteration()
+                            && $scriptVersion->isLastScriptVersion();
+                    case self::SCRIPT_VERSION_DELETE:
+                        return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $scriptVersion->getVideoProjectIteration()->getVideoProject())
+                            && $scriptVersion->getVideoProjectIteration()->isLastIteration();
+                }
+            }
         } // Video Version management
         elseif (in_array($attribute, [self::VIDEO_VERSION_EDIT, self::VIDEO_VERSION_DELETE])) {
             // you know $subject is a VideoProjectIteration object, thanks to supports

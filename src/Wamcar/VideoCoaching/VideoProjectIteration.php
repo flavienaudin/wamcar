@@ -22,6 +22,8 @@ class VideoProjectIteration
     private $title;
     /** @var VideoProject */
     private $videoProject;
+    /** @var Collection of ScriptVersion */
+    private $scriptVersions;
     /** @var Collection of VideoVersion */
     private $videoVersions;
 
@@ -29,12 +31,14 @@ class VideoProjectIteration
      * VideoProjectIteration constructor.
      * @param VideoProject $videoProject
      * @param string $title
+     * @throws \Exception
      */
     public function __construct(VideoProject $videoProject, string $title)
     {
         $this->id = Uuid::uuid4();
         $this->videoProject = $videoProject;
         $this->title = $title;
+        $this->scriptVersions = new ArrayCollection();
         $this->videoVersions = new ArrayCollection();
     }
 
@@ -84,6 +88,38 @@ class VideoProjectIteration
     public function isLastIteration(): bool
     {
         return $this->videoProject->getLastIteration() === $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getScriptVersions(): Collection
+    {
+        return $this->scriptVersions;
+    }
+
+    /**
+     * @return ScriptVersion
+     */
+    public function getLastScriptVersion(): ScriptVersion
+    {
+        return $this->scriptVersions->first();
+    }
+
+    /**
+     * @param ScriptVersion $scriptVersion
+     */
+    public function addScriptVersions(ScriptVersion $scriptVersion): void
+    {
+        $this->scriptVersions->add($scriptVersion);
+    }
+
+    /**
+     * @param ScriptVersion $scriptVersion
+     */
+    public function removeScriptVersions(ScriptVersion $scriptVersion): void
+    {
+        $this->scriptVersions->removeElement($scriptVersion);
     }
 
     /**

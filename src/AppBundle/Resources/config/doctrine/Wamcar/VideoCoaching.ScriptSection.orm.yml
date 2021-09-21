@@ -1,0 +1,40 @@
+Wamcar\VideoCoaching\ScriptSection:
+
+  type: entity
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  manyToOne:
+    type:
+      targetEntity: Wamcar\VideoCoaching\ScriptSectionType
+      joinColumn:
+        name: script_section_type_id
+        referencedColumnName: id
+    scriptVersion:
+      targetEntity: Wamcar\VideoCoaching\ScriptVersion
+      inversedBy: scriptSections
+      joinColumn:
+        name: script_version_id
+        referencedColumnName: id
+
+  oneToMany:
+    scriptSequences:
+      targetEntity: Wamcar\VideoCoaching\ScriptSequence
+      mappedBy: scriptSection
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+      orderBy:
+        position: 'ASC'
+
+  fields:
+    position:
+      type: integer
+      nullabe: false
+    title:
+      type: string
+      nullable: true

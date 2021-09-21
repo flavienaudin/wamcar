@@ -154,6 +154,14 @@ front_coachingvideo_videoproject_delete:
   path: /module/video/videoproject/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:delete
 
+front_coachingvideo_scriptversion_wizard:
+  path: /module/video/scriptversion/wizard/{id}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:scriptVersionWizard
+
+front_coachingvideo_scriptversion_delete:
+  path: /module/video/scriptversion/delete/{id}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteScriptVersion
+
 front_coachingvideo_videoversion_delete:
   path: /module/video/videoversion/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteVideoVersion

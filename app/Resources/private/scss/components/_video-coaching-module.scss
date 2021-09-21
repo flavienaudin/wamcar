@@ -223,6 +223,156 @@
       }
     }
   }
+
+  /*
+     Step
+     ===================================== */
+  &-step {
+
+    /*
+       Step Navigation
+       ===================================== */
+
+    &-navigation {
+      background-color: $light-gray-peexeo;
+      counter-reset: section;
+      flex: 1;
+
+      @include breakpoint(medium) {
+        justify-content: flex-start;
+      }
+
+      @include breakpoint(large) {
+        padding-top: rem-calc(10);
+        padding-bottom: rem-calc(15);
+      }
+
+      /*
+      Step navigation item
+      ===================================== */
+      &-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        height: $header-height;
+
+        @include breakpoint(small only) {
+          flex: 1;
+          flex-direction: column;
+          border-left: rem-calc(1) solid $border-color;
+
+          span {
+            display: block;
+            width: 100%;
+            font-size: rem-calc(10);
+            text-align: center;
+          }
+
+        }
+
+        @include breakpoint(medium only) {
+          //width: $header-height;
+          width: auto;
+          margin-right: rem-calc(25);
+          border: 0;
+
+          &::before {
+            @include counterLargeStyle();
+          }
+
+          &.is-valid,
+          &.is-active {
+            &::before {
+              @include counterLargeActiveStyle;
+            }
+          }
+          // End &.is-active
+        }
+
+        @include breakpoint(large) {
+          margin-right: rem-calc(25);
+        }
+
+        @media screen and (min-width: rem-calc(1000)) and (max-width: rem-calc(1480)) {
+          font-size: rem-calc(16);
+        }
+
+        @include breakpoint(1480) {
+          margin-right: rem-calc(70);
+
+          &:nth-last-child(3):first-child,
+          &:nth-last-child(3):first-child ~ * {
+            margin-right: rem-calc(120);
+          }
+        }
+
+        &:not(.is-active):not(.is-valid) {
+          color: $body-font-color;
+        }
+
+        &:not(.is-disabled) {
+          &:hover {
+            color: $primary-color;
+          }
+        }
+
+        &.is-disabled {
+          pointer-events: none;
+        }
+
+        &::before {
+          content: counter(section);
+          counter-increment: section;
+          background-color: $white;
+
+          @include breakpoint(large) {
+            @include counterLargeStyle();
+          }
+
+          @include breakpoint(xlarge) {
+            margin-right: rem-calc(25);
+          }
+        }
+
+        /* Active state */
+        &.is-valid,
+        &.is-active {
+          &::before {
+            @include breakpoint(large) {
+              @include counterLargeActiveStyle;
+            }
+          }
+        }
+
+        // End &.is-active
+      }
+
+      // End &-step-navigation-item
+    }
+
+    // End &-step-navigation
+  }
+
+
+  /* Script VersionWizard
+     ===================================== */
+  .script-version-wizard {
+    .script-sequence-field {
+      label {
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(5);
+        margin-top: 0;
+      }
+
+      span.icon-close {
+        margin-left: 5px;
+        cursor: pointer;
+        font-size: rem-calc(14);
+      }
+
+    }
+  }
 }
 
 
