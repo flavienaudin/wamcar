@@ -51,6 +51,9 @@ import './components/sales';
 import './components/expert';
 import './components/video';
 import './components/videoProject';
+import './components/videoScript';
+import './components/scriptVersionWizardStep';
+
 import scrollTo from './components/scrollTo';
 
 import {default as autosize} from 'autosize';
@@ -201,7 +204,7 @@ $(function () {
 
   /* Form invalid */
 
-  const $form = $('#js-register-form, form[data-abide]');
+  const $form = $('#js-register-form, #js-scriptversion-form, form[data-abide]');
 
   $form.on('forminvalid.zf.abide', function (e) {
     let invalidFields = $(this).find('[data-invalid]');

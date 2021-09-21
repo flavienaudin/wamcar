@@ -1,0 +1,35 @@
+Wamcar\VideoCoaching\ScriptSequence:
+
+  type: entity
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  manyToOne:
+    scriptSection:
+      targetEntity: Wamcar\VideoCoaching\ScriptSection
+      inversedBy: scriptSequences
+      joinColumn:
+        name: script_section_id
+        referencedColumnName: id
+    shot:
+      targetEntity: Wamcar\VideoCoaching\ScriptShotType
+      joinColumn:
+        name: script_shot_type_id
+        referencedColumnName: id
+        nullable: true
+
+  fields:
+    position:
+      type: integer
+      nullabe: false
+    dialogue:
+      type: text
+      nullable: true
+    scene:
+      type: text
+      nullable: true

@@ -7,7 +7,6 @@ use Wamcar\Garage\Garage;
 use Wamcar\Location\City;
 use Wamcar\Sale\Declaration;
 use Wamcar\User\BaseUser;
-use Wamcar\User\ProUser;
 use Wamcar\Vehicle\Enum\Funding;
 use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\MaintenanceState;
@@ -41,7 +40,6 @@ class ProVehicle extends BaseVehicle
     private $garage;
     /** @var Declaration|null */
     private $saleDeclaration;
-
 
 
     /**

@@ -15,6 +15,9 @@ easy_admin:
       - ProServiceCategory
       - ProService
       - Hobby
+      - { label: "Module Vidéo Coaching"}
+      - ScriptSectionType
+      - ScriptShotType
       - { label: "Interface Utilisateur"}
       - FooterLink
       - { label: "Administration Technique" }
@@ -292,6 +295,40 @@ easy_admin:
         fields:
           - name
           - icon
+    ScriptSectionType:
+      class: Wamcar\VideoCoaching\ScriptSectionType
+      label: Types des sections d'un script
+      list:
+        title: "Types des sections d'un script"
+        sort: ['id', 'ASC']
+        fields:
+          - id
+          - name
+        actions:
+          - { name: 'new', label: 'Ajouter' } # Allow creation
+      form:
+        fields:
+          - name
+          - dialogue_label
+          - dialogue_placeholder
+          - scene_label
+          - scene_placeholder
+          - shot_label
+          - { property: 'instruction', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
+    ScriptShotType:
+      class: Wamcar\VideoCoaching\ScriptShotType
+      label: Plan des séquences d'un script
+      list:
+        title: "Plan des séquences d'un script"
+        sort: ['label', 'ASC']
+        fields:
+          - id
+          - label
+        actions:
+          - { name: 'new', label: 'Ajouter' } # Allow creation
+        form:
+          fields:
+            - label
     FooterLink:
       class: AppBundle\Doctrine\Entity\FooterLink
       label: Pied-de-page

@@ -21,6 +21,12 @@ Wamcar\VideoCoaching\VideoProjectIteration:
         referencedColumnName: id
 
   oneToMany:
+    scriptVersions:
+      targetEntity: Wamcar\VideoCoaching\ScriptVersion
+      mappedBy: videoProjectIteration
+      cascade: ["persist", "merge", "remove"]
+      orderBy:
+        createdAt: 'DESC'
     videoVersions:
       targetEntity: Wamcar\VideoCoaching\VideoVersion
       mappedBy: videoProjectIteration

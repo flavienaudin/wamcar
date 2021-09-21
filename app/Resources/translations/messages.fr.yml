@@ -80,10 +80,14 @@ flash:
     videoproject:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.
+    scriptversion:
+      save: Le script a bien été enresgitré.
+      update: La version du script a bien été mise à jour.
+      delete: La version du script a été supprimée du projet.
     videoversion:
-      save: La version vidéo a bien été ajouté au projet.
+      save: La version de la vidéo a bien été ajoutée au projet.
       update: La version vidéo a bien été mise à jour.
-      delete: La version vidéo a été supprimer du projet.
+      delete: La version vidéo a été supprimée du projet.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -116,6 +120,10 @@ flash:
         video_project:
           view: Vous n'avez pas le droit de visualiser ce projet vidéo.
           delete: Vous n'avez pas le droit de supprimer ce projet vidéo.
+        script_version:
+          add: Vous ne pouvez pas ajouter de script à cette itération du projet
+          edit: Vous ne pouvez pas éditer ce script
+          delete: Vous ne pouvez pas supprimer cette version du script.
         video_version:
           delete: Vous ne pouvez pas supprimer cette version de vidéo.
         module_access: Vous n'avez pas accès au module de suivi/coaching vidéo. Contactez-nous pour vous abonner au service.
@@ -1652,11 +1660,38 @@ coaching_video:
           label: Titre du projet
         description:
           label: Description du projet
+  script_version:
+    view:
+      title: Scripts du projet
+      table:
+        header:
+          narration: Narration
+          scene: Scène
+          shot: Plan
+    create:
+      title: Ajouter une nouvelle version du script
+    edit:
+      title: Editer la version du script
+    form:
+      field:
+        title:
+          label: Titre de la version
+  script_sequences:
+    form:
+      field:
+        label: Séquences de la section
+        add: Ajouter une séquence à la section
+        dialogue:
+          label: Textes de la séquence
+        scene:
+          label: Description de la scène
+        shot:
+          label: Type de plan
   video_version:
     view:
-      title: Versions du projet
+      title: Vidéos du projet
     create:
-      title: Ajouter une nouvelle version au projet
+      title: Ajouter une nouvelle version de vidéo au projet
     form:
       field:
         title:

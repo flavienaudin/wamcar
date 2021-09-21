@@ -6,7 +6,8 @@
 {% block body %}
 
     {# Header #}
-    <header class="videoproject-header" style="background-image: url('{{ asset('assets/images/placeholders/user/banner.jpg') }}')">
+    <header class="videoproject-header"
+            style="background-image: url('{{ asset('assets/images/placeholders/user/banner.jpg') }}')">
         <div class="row align-center-middle">
             <div class="column ">
                 <div class="titles">
@@ -24,11 +25,13 @@
 
         <div class="js-videoproject-left-column videoproject-left-column column small-12 large-8">
 
+            {# Video Project members and management action #}
             <div id="js-videoproject-config" class="videoproject-section block-light-shadow">
                 {% if editVideoProjectForm is not null %}
                     <span class="is-flex align-middle align-right">
                         <span>
-                            <span data-toggle="js-edit-videoproject js-videoproject-info" class="videoproject-section-action icon-pen">
+                            <span data-toggle="js-edit-videoproject js-videoproject-info"
+                                  class="videoproject-section-action icon-pen">
                                 <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span></span>
                             <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
                                class="js-confirm-box videoproject-section-action icon-remove"
@@ -51,7 +54,8 @@
                     {% for follower in videoProject.viewers(true) %}
                         <a class="avatar" href="{{ path('front_view_pro_user_info', {'slug': follower.viewer.slug}) }}">
                             <img src="{{ follower.viewer.avatar|avatar('user_mini_thumbnail', follower.viewer.fullName) }}"
-                                 alt="{{ follower.viewer.fullName|title }}" title="{{ follower.viewer.fullName|title }}">
+                                 alt="{{ follower.viewer.fullName|title }}"
+                                 title="{{ follower.viewer.fullName|title }}">
                         </a>
                     {% endfor %}
 
@@ -80,74 +84,184 @@
                     {% endif %}
                 </div>
             </div>
+            {# END Video Project members and management action #}
 
-            <div class="videoproject-section block-light-shadow">
-                <h2>
-                    {% if createVideoVersionForm is not null %}
-                        <span data-open="js-add-videoversion" class="videoproject-section-action icon-plus">
-                            <span class="show-for-sr">{{ 'global.button.add'|trans }}</span>
-                        </span>
-                        {{ include('front/VideoCoaching/VideoVersion/includes/modal_add_video_version.html.twig', {
-                            'createVideoVersionForm': createVideoVersionForm
-                        }) }}
-                    {% endif %}
-                    {{ 'coaching_video.video_version.view.title'|trans }}
-                </h2>
-                {% if videoProjectIteration.videoVersions|length > 0 %}
-                    <ul class="tabs video-selector" data-tabs id="video-versions-tabs" data-deep-link="true"
-                        data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true">
-                        {% for videoVersion in videoProjectIteration.videoVersions %}
-                            {% set versionVideoYoutubeVideoId =  videoVersion.youtubeVideoId %}
-                            <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
-                                <a href="#videoVersion-{{ videoVersion.id }}"
-                                   aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}"
-                                   class="js-youtube-video-thumbnail" data-id="{{ versionVideoYoutubeVideoId }}"
-                                   data-alt="{{ videoVersion.title }}"></a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="tabs-content" data-tabs-content="video-versions-tabs">
-                        {% for videoVersion in videoProjectIteration.videoVersions %}
-                            <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}"
-                                 id="videoVersion-{{ videoVersion.id }}">
-                                <h3>
-                                    {% if editVideoVersionForms[videoVersion.id] is defined %}
-                                        <span class="align-right">
-                                            <span data-toggle="js-edit-videoversion-{{ videoVersion.id }} js-videoversion-view-{{ videoVersion.id }}"
-                                                  class="videoproject-section-action icon-pen">
-                                                <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span>
+            {# Script versions #}
+            {% if videoProjectIteration.scriptVersions|length > 0 or createScriptVersionForm is not null %}
+                <div class="videoproject-section block-light-shadow">
+                    <h2>
+                        {% if createScriptVersionForm is not null %}
+                            <span data-open="js-add-scriptversion" class="videoproject-section-action icon-plus">
+                                <span class="show-for-sr">{{ 'global.button.add'|trans }}</span>
+                            </span>
+                            {{ include('front/VideoCoaching/ScriptVersion/includes/modal_script_version_form.html.twig', {
+                                'scriptVersionForm': createScriptVersionForm,
+                                'creationMode' : true
+                            }) }}
+                        {% endif %}
+
+                        {% if videoProjectIteration.scriptVersions|length > 0 %}
+                            <span data-toggle="jsScriptVersions"
+                                  class="videoproject-section-action icon-chevron-down"></span>
+                        {% endif %}
+
+                        {{ 'coaching_video.script_version.view.title'|trans }}
+                    </h2>
+
+                    <div id="jsScriptVersions" class="" data-toggler="is-hidden">
+                        <ul class="tabs script-selector" data-tabs id="script-versions-tabs" data-deep-link="true"
+                            data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true">
+                            {% for scriptVersion in videoProjectIteration.scriptVersions %}
+                                <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
+                                    <a href="#scriptVersion-{{ scriptVersion.id }}"
+                                       aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}">
+                                        {{ scriptVersion.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tabs-content" data-tabs-content="script-versions-tabs">
+                            {% for scriptVersion in videoProjectIteration.scriptVersions %}
+                                <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}"
+                                     id="scriptVersion-{{ scriptVersion.id }}">
+                                    <h3>
+                                        {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
+                                            <span class="align-right">
+                                                <span data-toggle="js-edit-scriptversion-title-{{ scriptVersion.id }} js-scriptversion-title-view-{{ scriptVersion.id }}"
+                                                      class="videoproject-section-action icon-pen">
+                                                    <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span>
+                                                </span>
                                             </span>
-                                        </span>
-                                        <a href="{{ path('front_coachingvideo_videoversion_delete', {'id': videoVersion.id}) }}"
-                                           class="js-confirm-box videoproject-section-action icon-remove"
-                                           data-id="videoVersion-deletion-{{ videoVersion.id }}"
-                                           data-title="Attention!"
-                                           data-message="Confirmez-vous la suppression de cette version de la vidéo ?">
-                                            <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
-                                    {% endif %}
-                                    {{ videoVersion.title }}
-                                </h3>
-                                <div id="js-videoversion-view-{{ videoVersion.id }}" data-toggler="is-hidden">
-                                    {% set versionVideoYoutubeVideoId =  videoVersion.youtubeVideoId %}
-                                    {% if versionVideoYoutubeVideoId is not empty %}
-                                        <div class="youtube-player" data-id="{{ versionVideoYoutubeVideoId }}"></div>
-                                    {% else %}
-                                        <p>L'URL ne correspond pas à une URL d'une vidéo Youtube</p>
+                                            <a href="{{ path('front_coachingvideo_scriptversion_delete', {'id': scriptVersion.id}) }}"
+                                               class="js-confirm-box videoproject-section-action icon-remove"
+                                               data-id="scriptVersion-deletion-{{ scriptVersion.id }}"
+                                               data-title="Attention!"
+                                               data-message="Confirmez-vous la suppression de cette version du script ?">
+                                                <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
+                                        {% endif %}
+                                        {{ scriptVersion.title }}
+                                    </h3>
+                                    <div id="js-scriptversion-title-view-{{ scriptVersion.id }}" data-toggler="is-hidden">
+
+                                        <table class="video-script-datatable dataTable compact row-border margin-bottom-1">
+                                            <thead>
+                                            <tr>
+                                                <th class="">{{ 'coaching_video.script_version.view.table.header.narration'|trans }}</th>
+                                                <th class="">{{ 'coaching_video.script_version.view.table.header.scene'|trans }}</th>
+                                                <th class="">{{ 'coaching_video.script_version.view.table.header.shot'|trans }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for scriptSection in scriptVersion.scriptSections %}
+                                                {% for sequence in scriptSection.scriptSequences %}
+                                                    <tr>
+                                                        <td>{{ sequence.dialogue|nl2br }}</td>
+                                                        <td>{{ sequence.scene|nl2br }}</td>
+                                                        <td>{{ sequence.shot ? sequence.shot.label }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
+                                            <a href="{{ path('front_coachingvideo_scriptversion_wizard', {'id': scriptVersion.id}) }}" class="button small">Editer les séquences</a>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
+                                        <div id="js-edit-scriptversion-title-{{ scriptVersion.id }}" class="is-hidden"
+                                             data-toggler="is-hidden">{{ include('front/VideoCoaching/ScriptVersion/includes/save_form.html.twig', {
+                                                'scriptVersionForm' : editScriptVersionTitleForms[scriptVersion.id]
+                                            }) }}</div>
                                     {% endif %}
                                 </div>
-                                {% if editVideoVersionForms[videoVersion.id] is defined %}
-                                    <div id="js-edit-videoversion-{{ videoVersion.id }}" class="is-hidden"
-                                         data-toggler="is-hidden">{{ include('front/VideoCoaching/VideoVersion/includes/save_form.html.twig', {
-                                            'videoVersionForm' : editVideoVersionForms[videoVersion.id]
-                                        }) }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
+            {# END Script versions #}
 
+            {# Video versions #}
+            {% if videoProjectIteration.videoVersions|length > 0 or createVideoVersionForm is not null %}
+                <div class="videoproject-section block-light-shadow">
+                    <h2>
+                        {% if createVideoVersionForm is not null %}
+                            <span data-open="js-add-videoversion" class="videoproject-section-action icon-plus">
+                                <span class="show-for-sr">{{ 'global.button.add'|trans }}</span>
+                            </span>
+                            {{ include('front/VideoCoaching/VideoVersion/includes/modal_add_video_version.html.twig', {
+                                'createVideoVersionForm': createVideoVersionForm
+                            }) }}
+                        {% endif %}
 
+                        {% if videoProjectIteration.videoVersions|length > 0 %}
+                            <span data-toggle="jsVideoVersions"
+                                  class="videoproject-section-action icon-chevron-down"></span>
+                        {% endif %}
+
+                        {{ 'coaching_video.video_version.view.title'|trans }}
+                    </h2>
+
+                    {% if videoProjectIteration.videoVersions|length > 0 %}
+                        <div id="jsVideoVersions" class="is-hidden" data-toggler="is-hidden">
+                            <ul class="tabs video-selector" data-tabs id="video-versions-tabs" data-deep-link="true"
+                                data-deep-link-smudge="true" data-deep-link-smudge-delay="600"
+                                data-update-history="true">
+                                {% for videoVersion in videoProjectIteration.videoVersions %}
+                                    {% set versionVideoYoutubeVideoId =  videoVersion.youtubeVideoId %}
+                                    <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
+                                        <a href="#videoVersion-{{ videoVersion.id }}"
+                                           aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}"
+                                           class="js-youtube-video-thumbnail" data-id="{{ versionVideoYoutubeVideoId }}"
+                                           data-alt="{{ videoVersion.title }}"></a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="tabs-content" data-tabs-content="video-versions-tabs">
+                                {% for videoVersion in videoProjectIteration.videoVersions %}
+                                    <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}"
+                                         id="videoVersion-{{ videoVersion.id }}">
+                                        <h3>
+                                            {% if editVideoVersionForms[videoVersion.id] is defined %}
+                                                <span class="align-right">
+                                                <span data-toggle="js-edit-videoversion-{{ videoVersion.id }} js-videoversion-view-{{ videoVersion.id }}"
+                                                      class="videoproject-section-action icon-pen">
+                                                    <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span>
+                                                </span>
+                                            </span>
+                                                <a href="{{ path('front_coachingvideo_videoversion_delete', {'id': videoVersion.id}) }}"
+                                                   class="js-confirm-box videoproject-section-action icon-remove"
+                                                   data-id="videoVersion-deletion-{{ videoVersion.id }}"
+                                                   data-title="Attention!"
+                                                   data-message="Confirmez-vous la suppression de cette version de la vidéo ?">
+                                                    <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
+                                            {% endif %}
+                                            {{ videoVersion.title }}
+                                        </h3>
+                                        <div id="js-videoversion-view-{{ videoVersion.id }}" data-toggler="is-hidden">
+                                            {% set versionVideoYoutubeVideoId =  videoVersion.youtubeVideoId %}
+                                            {% if versionVideoYoutubeVideoId is not empty %}
+                                                <div class="youtube-player"
+                                                     data-id="{{ versionVideoYoutubeVideoId }}"></div>
+                                            {% else %}
+                                                <p>L'URL ne correspond pas à une URL d'une vidéo Youtube</p>
+                                            {% endif %}
+                                        </div>
+                                        {% if editVideoVersionForms[videoVersion.id] is defined %}
+                                            <div id="js-edit-videoversion-{{ videoVersion.id }}" class="is-hidden"
+                                                 data-toggler="is-hidden">{{ include('front/VideoCoaching/VideoVersion/includes/save_form.html.twig', {
+                                                    'videoVersionForm' : editVideoVersionForms[videoVersion.id]
+                                                }) }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {# END Video vesion #}
         </div>
         {# END Left column #}
 
@@ -164,7 +278,8 @@
                 <div id="js_video_project_discussion"
                      data-discussion-update-visitedat-url="{{ path('front_coachingvideo_videoproject_discussion_visited', {'id':videoProject.id}) }}">
                     {% if discussionMessageForm %}
-                        <div id="js_video_project_discussion_writer" class="videoproject-discussion-writer is-sticky margin-bottom-1">
+                        <div id="js_video_project_discussion_writer"
+                             class="videoproject-discussion-writer is-sticky margin-bottom-1">
                             {{ include('front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', {
                                 'videoProject': videoProject,
                                 'messageForm' : discussionMessageForm

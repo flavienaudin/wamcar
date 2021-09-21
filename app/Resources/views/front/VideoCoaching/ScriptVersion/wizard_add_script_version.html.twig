@@ -1,0 +1,88 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top video-coaching{% endblock %}
+
+{% block title %}{{ 'coaching_video.script_version.create.title'|trans }}{% endblock %}
+{% block meta_description %}{% endblock %}
+
+{% block body %}
+
+    <section class="row script-version-wizard">
+        <div class="column small-12">
+            <div class="is-relative-for-ie is-sticky margin-bottom-1">
+                <nav id="js-scriptversion-step-navigation" class="video-coaching-step-navigation block-grid small-auto">
+                    {% for scriptSection in scriptVersionForm.vars.data.scriptSections %}
+                        <a class="js-step-navigation video-coaching-step-navigation-item {{ loop.index0 == 0 ? 'is-active': '' }}"><span
+                                    class="show-for-medium">{{ scriptSection.type.name|title }}</span></a>
+                    {% endfor %}
+                </nav>
+                {% include 'front/Security/Register/includes/step_progress_bar.html.twig' %}
+            </div>
+
+            {{ form_start(scriptVersionForm, {
+                'method' : 'POST',
+                'attr' : {
+                    'class' : '',
+                    'id' : 'js-scriptversion-form',
+                    'novalidate' : 'novalidate'
+                }
+            }) }}
+            <ul id="js-script-version-wizardstep" class="step">
+                {% for scriptSectionForm in scriptVersionForm.children.scriptSections %}
+                    <li class="row" data-step="{{ loop.index }}">
+                        <div class="column small-12">
+                            {{ form_widget(scriptSectionForm) }}
+                        </div>
+
+                        {# Si dernière étape #}
+                        {% if loop.index == scriptVersionForm.children.scriptSections|length %}
+                            <div class="column small-12 align-middle">
+                                <div class="block-grid is-flex">
+                                    <div class="column small-6">
+                                        <button type="button"
+                                                class="js-carousel-prev button full-width">{{ 'global.button.previous_step'|trans({},'messages') }}</button>
+                                    </div>
+
+                                    {# Button submit #}
+                                    <div class="column small-6">
+                                        <button id="scriptversion_submit" type="submit"
+                                                class="button primary-button full-width">
+                                            {% include 'front/Layout/includes/forms/loader.html.twig' %}
+                                            {{ 'global.button.validate'|trans }}
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                        {# END Si dernière étape #}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="row">
+                <nav id="js-step-navigation" class="column small-12 align-middle">
+                    <div class="block-grid is-flex">
+                        <div class="column small-6">
+                            <a class="js-carousel-prev button full-width is-hidden">{{ 'global.button.previous_step'|trans }}</a>
+                        </div>
+                        <div class="column small-6">
+                            <button type="button"
+                                    class="js-carousel-next button primary-button full-width step-button-next">{{ 'global.button.next_step'|trans }}</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="row">
+                <div id="js-step-navigation" class="column small-12 text-center margin-bottom-1">
+                    <a href="{{ path('front_coachingvideo_videoproject_view', {'videoProjectId': scriptVersion.videoProjectIteration.videoProject.id}) }}"
+                       class="button">Retour au projet</a>
+                </div>
+            </div>
+
+            {{ form_end(scriptVersionForm) }}
+        </div>
+    </section>
+{% endblock %}
+
+{% block includeFile %}{% endblock %}
