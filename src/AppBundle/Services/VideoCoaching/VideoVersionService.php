@@ -5,7 +5,6 @@ namespace AppBundle\Services\VideoCoaching;
 
 
 use AppBundle\Form\DTO\VideoVersionDTO;
-use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoVersion;
 use Wamcar\VideoCoaching\VideoVersionRepository;
 
@@ -26,10 +25,9 @@ class VideoVersionService
 
     /**
      * @param VideoVersionDTO $videoVersionDTO Les informations de la version de la vidéo
-     * @param VideoProject $videoProject Le projet vidéo auquel rattacher la version
      * @return VideoVersion
      */
-    public function create(VideoVersionDTO $videoVersionDTO, VideoProject $videoProject)
+    public function create(VideoVersionDTO $videoVersionDTO)
     {
         $videoVersion = new VideoVersion();
         $videoVersion->setVideoProjectIteration($videoVersionDTO->getVideoProjectIteration());
@@ -57,7 +55,6 @@ class VideoVersionService
      */
     public function delete(VideoVersion $videoVersion)
     {
-        // TODO vérifier s'il y a des associations à supprimer manuellement
         $this->videoVersionRepository->remove($videoVersion);
     }
 }

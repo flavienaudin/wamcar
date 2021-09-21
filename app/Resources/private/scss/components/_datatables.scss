@@ -64,7 +64,7 @@
 }
 
 .perf-declared-sales-datatable,
-.js-perf-declared-sales-datatable{
+.js-perf-declared-sales-datatable {
   border: 1px solid $border-color;
 }
 
@@ -85,4 +85,11 @@
   &_processing {
     z-index: 1;
   }
+}
+
+
+// Affichage d'un script d'un projet vidéo
+
+.video-script-datatable {
+  border: 1px solid $border-color;
 }

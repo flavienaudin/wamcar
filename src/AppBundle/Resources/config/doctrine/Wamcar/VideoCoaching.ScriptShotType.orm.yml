@@ -1,0 +1,16 @@
+Wamcar\VideoCoaching\ScriptShotType:
+
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineScriptShotTypeRepository
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    label:
+      type: string
+      nullable: false

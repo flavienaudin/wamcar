@@ -15,13 +15,15 @@
         <div class="{{ class_field }}">
     {% endif %}
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <select {{ block('widget_attributes') }} class="{{ class }}" {{ required ? 'required' }}
-        {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
-        {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
-        {{ dataType ? 'data-type=' ~ dataType ~ '' }}
-        {{ form ? 'form=' ~ form ~ ''}}
+            {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
+            {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
+            {{ dataType ? 'data-type=' ~ dataType ~ '' }}
+            {{ form ? 'form=' ~ form ~ '' }}
     >
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
@@ -81,19 +83,22 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class}}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}
+        </label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
     {% endif %}
     <input
-        type="email"
-        {{ block('widget_attributes') }}
-        value="{{ value }}"
-        class="input {{ class }}"
-        placeholder="{{ placeholder }}"
-        data-equalto="{{ equalTo }}"
-        {{ required ? 'required' }}>
+            type="email"
+            {{ block('widget_attributes') }}
+            value="{{ value }}"
+            class="input {{ class }}"
+            placeholder="{{ placeholder }}"
+            data-equalto="{{ equalTo }}"
+            {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -116,19 +121,21 @@
     {% set equalTo_message = equalTo_message|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
     {% endif %}
     <input
-        type="password"
-        {{ block('widget_attributes') }}
-        value="{{ value }}"
-        class="input {{ class }}"
-        placeholder="{{ placeholder }}"
-        {% if equalTo != '' %}data-equalto="{{ equalTo }}"{% endif %}
-        {{ required ? 'required' }}>
+            type="password"
+            {{ block('widget_attributes') }}
+            value="{{ value }}"
+            class="input {{ class }}"
+            placeholder="{{ placeholder }}"
+            {% if equalTo != '' %}data-equalto="{{ equalTo }}"{% endif %}
+            {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -155,20 +162,22 @@
     {% set type = type|default('text') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
     {% endif %}
     <input
-        type="{{ type }}"
-        {{ block('widget_attributes') }}
-        value="{{ value }}"
-        class="input {{ class }} {{ not form.vars.valid ? 'is-invalid-input' }}"
-        placeholder="{{ placeholder }}"
-        data-equalto="{{ equalTo }}"
-        {% if pattern %}pattern="{{ pattern }}"{% endif %}
-        {{ required ? 'required' }}>
+            type="{{ type }}"
+            {{ block('widget_attributes') }}
+            value="{{ value }}"
+            class="input {{ class }} {{ not form.vars.valid ? 'is-invalid-input' }}"
+            placeholder="{{ placeholder }}"
+            data-equalto="{{ equalTo }}"
+            {% if pattern %}pattern="{{ pattern }}"{% endif %}
+            {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -199,7 +208,9 @@
     {% set help_message_class = help_message_class|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -221,7 +232,8 @@
         </div>
     {% endif %}
     {{- form_errors(form) -}}
-    {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
+    {% if errorMsg is defined %}
+        <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock textarea_widget -%}
 
 {%- block integer_widget -%}
@@ -237,19 +249,21 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
     {% endif %}
     <input
-        type="number"
-        {{ block('widget_attributes') }}
-        value="{{ value }}"
-        class="input {{ class }}"
-        placeholder="{{ placeholder }}"
-        data-equalto="{{ equalTo }}"
-        {{ required ? 'required' }}>
+            type="number"
+            {{ block('widget_attributes') }}
+            value="{{ value }}"
+            class="input {{ class }}"
+            placeholder="{{ placeholder }}"
+            data-equalto="{{ equalTo }}"
+            {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -274,11 +288,15 @@
     {{- form_widget(form) -}}
     <label for="{{ id }}" class="checkbox">
         <b>{{ 'user.field.accept.start'|trans({}, 'security') }}
-            <a href="{{ path('cgu') }}" class="black-color text-underline" target="_blank">{{ 'user.field.accept.text-cgu-link'|trans({}, 'security') }}</a> {{ 'user.field.accept.and'|trans({}, 'security') }} <a href="{{ path('privacy_policy') }}" class="black-color text-underline" target="_blank">{{ 'user.field.accept.text-privacy-policy-link'|trans({}, 'security') }}</a>
+            <a href="{{ path('cgu') }}" class="black-color text-underline"
+               target="_blank">{{ 'user.field.accept.text-cgu-link'|trans({}, 'security') }}</a> {{ 'user.field.accept.and'|trans({}, 'security') }}
+            <a href="{{ path('privacy_policy') }}" class="black-color text-underline"
+               target="_blank">{{ 'user.field.accept.text-privacy-policy-link'|trans({}, 'security') }}</a>
         </b>
     </label>
     {{- form_errors(form) -}}
-    {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
+    {% if errorMsg is defined %}
+        <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
 {%- block _user_deletion_confirmation_row -%}
@@ -291,7 +309,8 @@
         {{ label|raw }}
     </label>
     {{- form_errors(form) -}}
-    {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
+    {% if errorMsg is defined %}
+        <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
 {% block _pro_vehicle_pictures_entry_widget %}
@@ -324,18 +343,24 @@
     {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     <div id="js-file-preview-{{ form.vars.id }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
-        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span>{{ 'global.facultative'|trans }}</span></label>
+        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }}
+            <span>{{ 'global.facultative'|trans }}</span></label>
         <div class="js-file-preview file-preview column small-6 medium-12">
             {{ form_widget(form.id) }}
             {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}
             {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
-            <label for="{{ form.vars.id }}_file" title="{{ 'vehicle.field.picture.action.add'|trans }}" class="js-file-preview-image-container file-preview-image-container">
+            <label for="{{ form.vars.id }}_file" title="{{ 'vehicle.field.picture.action.add'|trans }}"
+                   class="js-file-preview-image-container file-preview-image-container">
                 <div class="file-preview-image no-margin">
-                    <span><img src="{{ asset(image) }}" data-default-src="{{ defaultImage }}" width="100%" class="js-file-preview-image"></span>
+                    <span><img src="{{ asset(image) }}" data-default-src="{{ defaultImage }}" width="100%"
+                               class="js-file-preview-image"></span>
                 </div>
                 <span class="show-for-sr">{{ 'vehicle.field.picture.action.add'|trans }}</span>
             </label>
-            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="{{ 'vehicle.field.picture.action.remove'|trans }}"><span class="show-for-sr">{{ 'vehicle.field.picture.action.remove'|trans }}</span></button>
+            <button type="button"
+                    class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}"
+                    title="{{ 'vehicle.field.picture.action.remove'|trans }}"><span
+                        class="show-for-sr">{{ 'vehicle.field.picture.action.remove'|trans }}</span></button>
         </div>
         <div class="column small-6 medium-12">
             {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input small', 'placeholder' : 'vehicle.field.picture.action.add_caption'|trans } } ) }}
@@ -358,14 +383,18 @@
     {% set setRemovableButtonLoader = setRemovableButtonLoader ?? false %}
     {% set defaultImage = defaultImage ?? '' %}
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
-    <div class="js-file-preview file-preview js-file-index {{ classPreview}}">
+    <div class="js-file-preview file-preview js-file-index {{ classPreview }}">
         {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden ' ~ input_class } }) }}
         {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
-        <label for="{{ form.vars.id }}_file" title="{{ 'form.picture.add_photo'|trans }}" class="js-file-preview-image-container file-preview-image-container">
+        <label for="{{ form.vars.id }}_file" title="{{ 'form.picture.add_photo'|trans }}"
+               class="js-file-preview-image-container file-preview-image-container">
             <div class="file-preview-image no-margin">
-                <span><img src="{{ imgPreview }}" data-default-src="{{ defaultImage }}" width="100%" class="js-file-preview-image"></span>
+                <span><img src="{{ imgPreview }}" data-default-src="{{ defaultImage }}" width="100%"
+                           class="js-file-preview-image"></span>
             </div>
             <span class="show-for-sr">{{ 'form.picture.add_photo'|trans }}</span>
         </label>
@@ -385,7 +414,8 @@
     {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden ' ~ input_class } }) }}
     {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
     {% if value and value.file ? true : false %}
-        <a class="js-file-preview-remove-submit black-color icon-remove" title="{{ 'form.picture.remove_photo'|trans }}">
+        <a class="js-file-preview-remove-submit black-color icon-remove"
+           title="{{ 'form.picture.remove_photo'|trans }}">
             <span class="show-for-sr">{{ 'form.picture.remove_photo'|trans }}</span>
         </a>
     {% else %}
@@ -398,7 +428,8 @@
 
 {% block _message_attachments_entry_widget %}
     <div class="messages-item-attachments-field is-flex">
-        <label for="{{ form.vars.id }}" class="button small {{ label_class|default('') }}">{{ 'conversation.answer.field.attachments.add'|trans }}</label>
+        <label for="{{ form.vars.id }}"
+               class="button small {{ label_class|default('') }}">{{ 'conversation.answer.field.attachments.add'|trans }}</label>
         {{ form_widget(form, {'attr':{'class':'is-hidden'}}) }}
         <span class="js-delete-attachment icon-close is-hidden"></span>
     </div>
@@ -412,7 +443,10 @@
 {% block _project_projectVehicles_entry_widget %}
     {% set index = index|default('__name__') %}
     <li class="wish-item block-gray">
-        <label for="wish-1" class="wish-label black-color small-12">{{ 'user.project.field.projectVehicle.label'|trans }}&nbsp;{{ index }}<a href="javascript:;" class="delete-project small-right">{{ 'user.project.field.projectVehicle.remove'|trans }}</a></label>
+        <label for="wish-1"
+               class="wish-label black-color small-12">{{ 'user.project.field.projectVehicle.label'|trans }}
+            &nbsp;{{ index }}<a href="javascript:;"
+                                class="delete-project small-right">{{ 'user.project.field.projectVehicle.remove'|trans }}</a></label>
         <div class="row small-12">
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.id) }}
@@ -453,7 +487,6 @@
     </li>
 {% endblock %}
 
-
 {% block _pro_user_specialities_select_proUserProServicesForSpecialities_entry_widget %}
     {{ form_row(form.isSpeciality) }}
 {% endblock %}
@@ -467,10 +500,13 @@
     {% set required_class = required_class|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ name }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
 
-    <select {{ block('widget_attributes') }} type="text" class="{{ class }} {% if value is not defined or value == '' %}is-disabled{% endif %}" {% if required %}required{% endif %} >
+    <select {{ block('widget_attributes') }} type="text"
+                                             class="{{ class }} {% if value is not defined or value == '' %}is-disabled{% endif %}" {% if required %}required{% endif %} >
         {% if value is not defined or value == '' %}
             <option value="" selected="selected">Veuillez rens. le code postal</option>
         {% else %}
@@ -490,17 +526,20 @@
     {% set list_class = list_class|default('small-up-2') %}
     {% set list_item_class = list_item_class|default(null) %}
     {% set list_item_label_class = list_item_label_class|default('white-bg block-border-radius') %}
-    {% set values_translation_domain = values_translation_domain|default('message')%}
+    {% set values_translation_domain = values_translation_domain|default('message') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ name }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
             {% if child.vars.value %}
                 <li class="column small-collapse js-radio-item-container {{ list_item_class }}">
                     {{ form_widget(child) }}
-                    <label for="{{ child.vars.id }}" class="radio-item {{ list_item_label_class }} {{ not required?'js-radio-deselectable' }}">
+                    <label for="{{ child.vars.id }}"
+                           class="radio-item {{ list_item_label_class }} {{ not required?'js-radio-deselectable' }}">
                         {{ child.vars.value|trans({}, values_translation_domain) }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
                     </label>
                 </li>
@@ -527,7 +566,8 @@
             <label class="switch-paddle" for="{{ form.vars.id }}">
                 <span class="show-for-sr">{{ label }}</span>
                 {% for inner in switch_inners %}
-                    <span class="{{ loop.index0 is even ?'switch-active':'switch-inactive'}}" aria-hidden="true">{{ inner }}</span>
+                    <span class="{{ loop.index0 is even ?'switch-active':'switch-inactive' }}"
+                          aria-hidden="true">{{ inner }}</span>
                 {% endfor %}
             </label>
         </div>
@@ -546,7 +586,10 @@
     {% set label_class = label_class|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ name }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}
+        </label>
     {% endif %}
 
     <div class="small-12 medium-5 large-6">
@@ -554,7 +597,7 @@
             {% for index, child in form %}
                 {{ form_widget(child) }}
                 <label for="{{ child.vars.id }}" class="star-item"><span
-                        class="show-for-sr">{{ child.vars.label }}</span></label>
+                            class="show-for-sr">{{ child.vars.label }}</span></label>
             {% endfor %}
             {% for child in form %}
                 <span class="star-label">{{ child.vars.label }}</span>
@@ -577,7 +620,9 @@
     {% set label_class = label_class|default('') %}
     {% set list_class = list_class|default('small-up-2') %}
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ name }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
@@ -603,7 +648,10 @@
     {% set li_class = li_class|default('small-12 small-collapse medium-4') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ name }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}
+        </label>
     {% endif %}
 
     <ul class="block-grid {{ list_class }}">
@@ -619,14 +667,14 @@
 {%- endblock personal_orientation_action_widget -%}
 
 {%- block _vehicle_registrationNumber_widget -%}
-<div class="{{ class_field }}">
-    <input
-        type="text"
-        {{ block('widget_attributes') }}
-        value="{{ value }}"
-        class="input {{ class }}"
-        readonly />
-</div>
+    <div class="{{ class_field }}">
+        <input
+                type="text"
+                {{ block('widget_attributes') }}
+                value="{{ value }}"
+                class="input {{ class }}"
+                readonly/>
+    </div>
 {%- endblock _vehicle_registrationNumber_widget -%}
 
 {%- block _message_vehicle_widget -%}
@@ -653,11 +701,11 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-        <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>
-    {% if loader is defined %}
-        {% include 'front/Layout/includes/forms/loader.html.twig' %}
-    {% endif %}
-    {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+    <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>
+        {% if loader is defined %}
+            {% include 'front/Layout/includes/forms/loader.html.twig' %}
+        {% endif %}
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
 {%- endblock button_widget -%}
 
 {%- block amount_widget -%}
@@ -674,19 +722,21 @@
     {% set type = type|default('text') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+        <label for="{{ id }}"
+               {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span
+                class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
     {% endif %}
     <input
-        type="{{ type }}"
-        {{ block('widget_attributes') }}
-        value="{{ value ? value|localizednumber : '' }}"
-        class="input {{ class }}"
-        placeholder="{{ placeholder }}"
-        data-equalto="{{ equalTo }}"
-        {{ required ? 'required' }}>
+            type="{{ type }}"
+            {{ block('widget_attributes') }}
+            value="{{ value ? value|localizednumber : '' }}"
+            class="input {{ class }}"
+            placeholder="{{ placeholder }}"
+            data-equalto="{{ equalTo }}"
+            {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -754,4 +804,43 @@
             {%- endfor -%}
         </ul>
     {%- endif -%}
+{%- endblock -%}
+
+{%- block _script_version_scriptSections_entry_widget %}
+    <div id="{{ form.scriptSequences.vars.id }}" class="js-script-section-sequences-list"
+         data-index="{{ form.scriptSequences|length }}"
+         data-prototype="{{ form_widget(form.scriptSequences.vars.prototype)|e('html_attr') }}">
+        {{ form_label(form.scriptSequences, 'coaching_video.script_sequences.form.field.label'|trans,
+            {'label_attr':{'class':'is-hidden'}}
+        ) }}
+        {% for sequence in form.scriptSequences %}
+            {{ form_widget(sequence) }}
+        {% endfor %}
+    </div>
+{%- endblock -%}
+
+{%- block _script_version_scriptSections_entry_scriptSequences_entry_widget %}
+    <div class="script-sequence-field">
+        {#<fieldset class="">#}
+        {{ form_widget(form.dialogue, {
+            'label' : 'coaching_video.script_sequences.form.field.dialogue.label'|trans,
+            'required' : false,
+            'required_class': 'show-for-sr'
+        }) }}
+        {{ form_widget(form.scene, {
+            'label' : 'coaching_video.script_sequences.form.field.scene.label'|trans,
+            'required' : false,
+            'required_class': 'show-for-sr'
+        }) }}
+        {{ form_widget(form.shot, {
+            'label' : 'coaching_video.script_sequences.form.field.shot.label'|trans,
+            'required' : false,
+            'required_class': 'show-for-sr'
+        }) }}
+        {# TODO necessaire pour ajouter/supprimer des sequences
+        <span class="js-delete-sequence button icon-close is-hidden">Supprimer cette séquence</span>
+        </fieldset>
+        <label for="{{ form.vars.id }}"
+               class="js-add-sequence button small {{ label_class|default('') }}">{{ 'coaching_video.script_sequences.form.field.add'|trans }}</label>#}
+    </div>
 {%- endblock -%}
