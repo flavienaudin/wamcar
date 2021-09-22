@@ -57,7 +57,7 @@
       background: $primary-color;
     }
 
-    &::after {
+    &.with-icon::after {
       content: url('#{$img-folder}/register/vehicle.svg');
       right: 0;
       transform: scale(.5) translate3d(170%, -95%, 0);

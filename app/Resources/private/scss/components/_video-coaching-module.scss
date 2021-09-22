@@ -234,7 +234,7 @@
        ===================================== */
 
     &-navigation {
-      background-color: $light-gray-peexeo;
+      background-color: $white;
       counter-reset: section;
       flex: 1;
 
@@ -358,6 +358,9 @@
   /* Script VersionWizard
      ===================================== */
   .script-version-wizard {
+    background-color: $white;
+    margin-bottom: rem-calc(25);
+
     .script-sequence-field {
       label {
         font-size: rem-calc(14);
@@ -371,6 +374,20 @@
         font-size: rem-calc(14);
       }
 
+    }
+
+    .aside-instructions{
+      background-color: $light-gray-peexeo;
+      padding: rem-calc(25);
+
+      p, ul {
+        margin-bottom: rem-calc(12px);
+
+      }
+      ul {
+        list-style: initial;
+        margin-left: rem-calc(15);
+      }
     }
   }
 }
