@@ -1667,6 +1667,11 @@ coaching_video:
           shot: Plan
     create:
       title: Ajouter une nouvelle version du script
+    wizard:
+      instructions:
+        title: Les conseils Wamcar
+      shottype:
+        title: Illustration des types de plan
     edit:
       title: Editer la version du script
     form:
