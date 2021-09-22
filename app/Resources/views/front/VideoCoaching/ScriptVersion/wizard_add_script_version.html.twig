@@ -1,6 +1,6 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding-top video-coaching{% endblock %}
+{% block mainClass %}video-coaching{% endblock %}
 
 {% block title %}{{ 'coaching_video.script_version.create.title'|trans }}{% endblock %}
 {% block meta_description %}{% endblock %}
@@ -9,14 +9,14 @@
 
     <section class="row script-version-wizard">
         <div class="column small-12">
-            <div class="is-relative-for-ie is-sticky margin-bottom-1">
+            <div class="is-relative-for-ie is-sticky margin-bottom-3">
                 <nav id="js-scriptversion-step-navigation" class="video-coaching-step-navigation block-grid small-auto">
                     {% for scriptSection in scriptVersionForm.vars.data.scriptSections %}
                         <a class="js-step-navigation video-coaching-step-navigation-item {{ loop.index0 == 0 ? 'is-active': '' }}"><span
                                     class="show-for-medium">{{ scriptSection.type.name|title }}</span></a>
                     {% endfor %}
                 </nav>
-                {% include 'front/Security/Register/includes/step_progress_bar.html.twig' %}
+                {% include 'front/Security/Register/includes/step_progress_bar.html.twig' with {'icon' : false} %}
             </div>
 
             {{ form_start(scriptVersionForm, {
@@ -30,9 +30,21 @@
             <ul id="js-script-version-wizardstep" class="step">
                 {% for scriptSectionForm in scriptVersionForm.children.scriptSections %}
                     <li class="row" data-step="{{ loop.index }}">
-                        <div class="column small-12">
-                            {{ form_widget(scriptSectionForm) }}
+                        <div class="column small-12 large-7">
+                            {{ form_widget(scriptSectionForm, {
+                                'sectionType': scriptSectionForm.vars.data.type
+                            }) }}
                         </div>
+                        <aside class="column small-12 large-5">
+                            <div class="aside-instructions">
+                                <h2 class="text-center">{{ 'coaching_video.script_version.wizard.instructions.title'|trans }}</h2>
+
+                                {{ scriptSectionForm.vars.data.type.instruction|raw }}
+
+                                <h4>{{ 'coaching_video.script_version.wizard.shottype.title'|trans }}</h4>
+                                <img src="{{ asset('assets/images/videoproject/shottype.png') }}" alt="{{ 'coaching_video.script_version.wizard.shottype.title'|trans }}">
+                            </div>
+                        </aside>
 
                         {# Si dernière étape #}
                         {% if loop.index == scriptVersionForm.children.scriptSections|length %}
@@ -76,7 +88,7 @@
             <div class="row">
                 <div id="js-step-navigation" class="column small-12 text-center margin-bottom-1">
                     <a href="{{ path('front_coachingvideo_videoproject_view', {'videoProjectId': scriptVersion.videoProjectIteration.videoProject.id}) }}"
-                       class="button">Retour au projet</a>
+                       class="button">{{ 'global.button.cancel'|trans }}</a>
                 </div>
             </div>
 

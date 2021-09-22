@@ -809,12 +809,12 @@
 {%- block _script_version_scriptSections_entry_widget %}
     <div id="{{ form.scriptSequences.vars.id }}" class="js-script-section-sequences-list"
          data-index="{{ form.scriptSequences|length }}"
-         data-prototype="{{ form_widget(form.scriptSequences.vars.prototype)|e('html_attr') }}">
+         data-prototype="{{ form_widget(form.scriptSequences.vars.prototype, {'sectionType':sectionType|default(null)})|e('html_attr') }}">
         {{ form_label(form.scriptSequences, 'coaching_video.script_sequences.form.field.label'|trans,
             {'label_attr':{'class':'is-hidden'}}
         ) }}
         {% for sequence in form.scriptSequences %}
-            {{ form_widget(sequence) }}
+            {{ form_widget(sequence, {'sectionType':sectionType|default(null)}) }}
         {% endfor %}
     </div>
 {%- endblock -%}
@@ -823,17 +823,20 @@
     <div class="script-sequence-field">
         {#<fieldset class="">#}
         {{ form_widget(form.dialogue, {
-            'label' : 'coaching_video.script_sequences.form.field.dialogue.label'|trans,
+            'label' : sectionType.dialogueLabel is defined and sectionType.dialogueLabel is not empty? sectionType.dialogueLabel : 'coaching_video.script_sequences.form.field.dialogue.label'|trans,
+            'placeholder' : sectionType.dialoguePlaceholder is defined and sectionType.dialoguePlaceholder is not empty ? sectionType.dialoguePlaceholder,
             'required' : false,
             'required_class': 'show-for-sr'
         }) }}
         {{ form_widget(form.scene, {
-            'label' : 'coaching_video.script_sequences.form.field.scene.label'|trans,
+            'label' : sectionType.sceneLabel is defined and sectionType.sceneLabel is not empty ? sectionType.sceneLabel : 'coaching_video.script_sequences.form.field.scene.label'|trans,
+            'placeholder' : sectionType.scenePlaceholder is defined and sectionType.scenePlaceholder is not empty ? sectionType.scenePlaceholder,
             'required' : false,
             'required_class': 'show-for-sr'
         }) }}
         {{ form_widget(form.shot, {
-            'label' : 'coaching_video.script_sequences.form.field.shot.label'|trans,
+            'label' : sectionType.shotLabel is defined and sectionType.shotLabel is not empty ? sectionType.shotLabel : 'coaching_video.script_sequences.form.field.shot.label'|trans,
+            'placeholder' : sectionType.shotPlaceholder is defined and sectionType.shotPlaceholder is not empty ? sectionType.shotPlaceholder,
             'required' : false,
             'required_class': 'show-for-sr'
         }) }}
