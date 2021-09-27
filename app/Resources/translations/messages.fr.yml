@@ -323,7 +323,7 @@ sidebar:
   account_creation:
     title: Je me crée un compte %sitename%
     personal: Je suis un particulier
-    professionnal: Je suis un conseiller automobile
+    professionnal: Inscription
 
 login_form:
   title: J'ai un compte %sitename%
