@@ -22,8 +22,6 @@
             <tr>
                 <td>{{ action_button(url('front_garage_view',{'slug':garage.slug}),
                         'notifyProUserOfGarageAssignation.action.see_garage'|trans) }}</td>
-                <td>{{ action_button(url('front_vehicle_pro_add',{'garage_id':garage.id}),
-                        'notifyProUserOfGarageAssignation.action.add_vehicle'|trans) }}</td>
             </tr>
         </table>
     </div>

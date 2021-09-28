@@ -45,7 +45,7 @@ class ProUser extends BaseUser
 
     /** @var boolean */
     protected $videoModuleAccess;
-    /** @var Collection of VideoProject accessible (creator/follower) by the user */
+    /** @var Collection of VideoProjectViewer accessible (creator/follower) by the user */
     protected $videoProjects;
     /** @var Collection of VideoProjectMessage */
     protected $videoProjectMessages;
@@ -411,11 +411,13 @@ class ProUser extends BaseUser
      * Indique si le profil est publiable. Conditions actuelles :
      * - Informations obligatoires renseeignées
      *
+     * Modèle B2B : toujours publié
+     *
      * @return bool
      */
     public function isPublishable(): bool
     {
-        return $this->isRequiredInformationFilled();
+        return true; /*$this->isRequiredInformationFilled();*/
     }
 
     /**
@@ -550,7 +552,7 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @return Collection
+     * @return Collection of VideoProjectViewer
      */
     public function getVideoProjects(): Collection
     {
@@ -558,7 +560,7 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @return Collection
+     * @return Collection of VideoProjectViewer
      */
     public function getFollowedVideoProjects(): Collection
     {
@@ -568,7 +570,7 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @return Collection
+     * @return Collection of VideoProjectViewer
      */
     public function getCreatedVideoProjects(): Collection
     {

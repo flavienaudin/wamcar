@@ -140,7 +140,6 @@ notifyProOfAcceptedPendingRequestToJoinGarage:
     </div>
   action:
     see_garage: Voir la page entreprise
-    add_vehicle: Ajouter un véhicule
 
 notifyProOfDeclinedPendingRequestToJoinGarage:
   object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été refusée"
@@ -176,7 +175,6 @@ notifyProUserOfGarageAssignation:
     </div>
   action:
     see_garage: Voir la page entreprise
-    add_vehicle: Ajouter un véhicule
 
 notifyProUserOfGarageUnassignation:
   object: "%seller_fullname%, vous avez été détaché de %garage_name%"

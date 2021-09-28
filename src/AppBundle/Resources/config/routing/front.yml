@@ -452,10 +452,7 @@
 #  controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 #
 ## Module "Suivi/Coaching Vidéo"
-#front_coaching_video_dashboard:
-#  path: /module/video
-#  controller: AppBundle:Front\ModuleContext\VideoCoaching:dashboard
-#
+
 #front_coachingvideo_videoproject_view:
 #  path: /module/video/videoproject/{id}
 #  controller: AppBundle:Front\ModuleContext\VideoCoaching:view

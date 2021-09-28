@@ -1,5 +1,5 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <span class="js-flash-message is-hidden" data-level="{{ label }}" data-message="{{ message|trans|raw }}"></span>
+        <span class="js-flash-message is-hidden" data-level="{{ label }}" data-message="{{ message|trans|raw|escape }}"></span>
     {% endfor %}
 {% endfor %}

@@ -63,7 +63,7 @@ front_edit_prouser_specialities:
   path: /prospecialities/edit
   controller: AppBundle:Front\ProContext\ProService:editProUserSpecialities
 
-# Garage
+# Garage / Entreprise
 front_garage_view:
   path: /g/{slug}
   controller: AppBundle:Front\ProContext\Garage:view
@@ -138,10 +138,6 @@ front_expert_toggle:
   controller: AppBundle:Front\ProContext\Favorite:toggleExpert
 
 # Module "Suivi/Coaching Vidéo"
-front_coaching_video_dashboard:
-  path: /module/video
-  controller: AppBundle:Front\ModuleContext\VideoCoaching:dashboard
-
 front_coachingvideo_videoproject_view:
   path: /module/video/videoproject/{videoProjectId}/{iterationId}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:view

@@ -302,7 +302,8 @@ header:
     coaching_video_module: Mon tableau de bord
     my_garage: Mon garage
     my_garages: Mes garages
-    dashboard: Tableau de bord
+    my_society: Mon entreprise
+    my_societies: Mes entreprises
     my_performances: Mes performances
     my_sales: Suivi des ventes
     my_leads: Mes contacts
@@ -517,10 +518,14 @@ landing:
            outils pour collaborer de la meilleure manière.</li>
         </ul>
 garage:
-  my_garage: Mon garage
+  page_title:
+    view: Mon entreprise
+    create: Créer mon entreprise
+    edit: Editer mon entreprise
   action:
     edit: Modifier mon garage
     join: Rejoindre ce garage
+    back: Retour à mon entreprise
   infos:
     edit: Edition du profil
     see_on_gmaps: Voir sur Google Maps
@@ -1296,7 +1301,7 @@ user:
 
   garage:
     seller_for: Vendeur pour
-    add: Ajouter un garage
+    add: Ajouter mon entreprise
     join: Rejoindre un garage
     quit: Quitter ce garage
     close: Fermer ce garage
@@ -1625,8 +1630,6 @@ phone_number:
     call: Vous devez être connecté pour pouvoir appeler directement
 
 coaching_video:
-  dashboard:
-    page.title: Mes projets videos
   video_project:
     action:
       add: Créer un nouveau projet video
@@ -1638,7 +1641,8 @@ coaching_video:
         title: "%creatorFirstName% présente"
     list:
       user:
-        title: Mes projets
+        my_projects: Mes projets
+        user_projects: Les projets de %username%
       followed:
         title: Partagés avec moi
     share:

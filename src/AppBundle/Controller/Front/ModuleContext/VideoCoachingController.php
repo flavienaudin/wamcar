@@ -48,6 +48,14 @@ class VideoCoachingController extends BaseController
     private $videoVersionService;
 
 
+    /**
+     * VideoCoachingController constructor.
+     * @param FormFactoryInterface $formFactory
+     * @param TranslatorInterface $translator
+     * @param VideoProjectService $videoProjectService
+     * @param ScriptVersionService $scriptVersionService
+     * @param VideoVersionService $videoVersionService
+     */
     public function __construct(FormFactoryInterface $formFactory, TranslatorInterface $translator, VideoProjectService $videoProjectService, ScriptVersionService $scriptVersionService, VideoVersionService $videoVersionService)
     {
         $this->formFactory = $formFactory;
@@ -55,40 +63,6 @@ class VideoCoachingController extends BaseController
         $this->videoProjectService = $videoProjectService;
         $this->scriptVersionService = $scriptVersionService;
         $this->videoVersionService = $videoVersionService;
-    }
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse|Response
-     */
-    public function dashboardAction(Request $request)
-    {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
-
-        /** @var ProUser $currentUser */
-        $currentUser = $this->getUser();
-        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.module_access');
-            return $this->redirectToRoute('front_view_current_user_info');
-        }
-
-        // Formulaire de création d'un projet vidéo
-        $videoProjectDTO = new VideoProjectDTO();
-        $createdVideoProjectForm = $this->formFactory->create(VideoProjectType::class, $videoProjectDTO);
-        $createdVideoProjectForm->handleRequest($request);
-        if ($createdVideoProjectForm->isSubmitted() && $createdVideoProjectForm->isValid()) {
-            $videoProject = $this->videoProjectService->create($videoProjectDTO, $currentUser);
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.save');
-            return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                'videoProjectId' => $videoProject->getId()
-            ]);
-        }
-        return $this->render('front/VideoCoaching/dashboard.html.twig', [
-            'createdVideoProjectViewers' => $currentUser->getCreatedVideoProjects(),
-            'followedVideoProjectViewers' => $currentUser->getFollowedVideoProjects(),
-            'createdVideoProjectForm' => $createdVideoProjectForm ? $createdVideoProjectForm->createView() : null
-
-        ]);
     }
 
     /**
@@ -111,7 +85,7 @@ class VideoCoachingController extends BaseController
 
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_VIEW, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.view');
-            return $this->redirectToRoute('front_coaching_video_dashboard');
+            return $this->redirectToRoute('front_view_current_user_info');
         }
 
         // Set current video project iteration if defined by the route param "iterationId"
@@ -265,11 +239,11 @@ class VideoCoachingController extends BaseController
 
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_DELETE, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.delete');
-            return $this->redirectToRoute('front_coaching_video_dashboard');
+            return $this->redirectToRoute('front_view_current_user_info');
         }
         $this->videoProjectService->delete($videoProject);
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.delete');
-        return $this->redirectToRoute('front_coaching_video_dashboard');
+        return $this->redirectToRoute('front_view_current_user_info');
     }
 
     /**

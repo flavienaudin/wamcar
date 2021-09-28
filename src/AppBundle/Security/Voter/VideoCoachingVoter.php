@@ -49,12 +49,12 @@ class VideoCoachingVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute is one we support with the correct subject type, return true
-        if (in_array($attribute, [self::MODULE_ACCESS]) && $subject instanceof ProUser) {
+        if (in_array($attribute, [self::MODULE_ACCESS, self::VIDEO_PROJECT_ADD]) && $subject instanceof ProUser) {
             return true;
         }
 
         // if the attribute is one we support with the correct subject type, return true
-        if (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_ADD, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_DELETE]) && $subject instanceof VideoProject) {
+        if (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_DELETE]) && $subject instanceof VideoProject) {
             return true;
         }
 
@@ -79,17 +79,31 @@ class VideoCoachingVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         if ($this->decisionManager->decide($token, array('ROLE_PRO_ADMIN'))) {
-            //return true;
+            return true;
         }
 
         // Video Coaching Module access
         if (in_array($attribute, [self::MODULE_ACCESS])) {
+            // Autorisation en version restreinte pour tous
+            return true;
             // you know $subject is a ProUser object, thanks to supports
             /** @var ProUser $proUser */
             $proUser = $subject;
-            return $proUser->hasVideoModuleAccess();
+            //$proUser->hasVideoModuleAccess();
+        }// Video coaching project creation
+        elseif (in_array($attribute, [self::VIDEO_PROJECT_ADD])){
+            // you know $subject is a ProUser object, thanks to supports
+            /** @var ProUser $proUser */
+            $proUser = $subject;
+
+            if(!$proUser->is($token->getUser())){
+                return false;
+            }
+
+            // Abonnement payant ou restreint sans projet déjà créé
+            return $proUser->hasVideoModuleAccess() || $proUser->getCreatedVideoProjects()->isEmpty();
         } // Video coaching project management
-        elseif (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_ADD, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_DELETE])) {
+        elseif (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_DELETE])) {
             // you know $subject is a VideoProject object, thanks to supports
             /** @var VideoProject $videoProject */
             $videoProject = $subject;
@@ -100,17 +114,16 @@ class VideoCoachingVoter extends Voter
             if ($currentUser instanceof ProUser) {
                 switch ($attribute) {
                     case self::VIDEO_PROJECT_VIEW:
-                        /** @var VideoProjectViewer $videoProjectCreators */
-                        foreach ($videoProject->getViewers() as $videoProjectCreators) {
-                            if ($videoProjectCreators->getViewer()->is($currentUser)) {
+                        /** @var VideoProjectViewer $videoProjectViewer */
+                        foreach ($videoProject->getViewers() as $videoProjectViewer) {
+                            if ($videoProjectViewer->getViewer()->is($currentUser)) {
                                 return true;
                             }
                         }
                         return false;
-                    case self::VIDEO_PROJECT_ADD:
                     case self::VIDEO_PROJECT_EDIT:
                     case self::VIDEO_PROJECT_DELETE:
-                        /** @var VideoProjectViewer $videoProjectViewer */
+                        /** @var VideoProjectViewer $videoProjectCreators */
                         foreach ($videoProject->getCreators() as $videoProjectCreators) {
                             if ($videoProjectCreators->getViewer()->is($currentUser)) {
                                 return true;

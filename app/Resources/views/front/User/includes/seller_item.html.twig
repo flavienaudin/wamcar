@@ -3,7 +3,7 @@
 {% set displayPresentationTitle = displayPresentationTitle ?? true %}
 {% set userProfileUrl = seller.isPro ?
     path('front_view_pro_user_info', {'slug': seller.slug}) :
-    path('front_view_personal_user_info', {'slug': seller.slug}) %}
+    '#' %} {#path('front_view_personal_user_info', {'slug': seller.slug})#}
 {% set wholeClickable  = wholeClickable is defined ? wholeClickable  : false %}
 
 <div class="{{ itemClass }} seller-item" {% if wholeClickable %}onclick="window.location='{{ userProfileUrl }}'"{% endif %}>
