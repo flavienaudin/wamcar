@@ -69,5 +69,9 @@ label,
 
   form & {
     line-height: 1;
+
+    &.registration-checkbox {
+      line-height: 1.8;
+    }
   }
 }

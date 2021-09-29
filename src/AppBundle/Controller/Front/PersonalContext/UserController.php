@@ -10,23 +10,22 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
-use AppBundle\Elasticsearch\Elastica\ElasticUtils;
 use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\MessageDTO;
-use AppBundle\Form\DTO\UserPasswordDTO;
-use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProPresentationVideoDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\ProUserPresentationDTO;
-use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\UserDeletionDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\DTO\UserPasswordDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
+use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
+use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\Type\ContactProType;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\MessageType;
@@ -37,17 +36,18 @@ use AppBundle\Form\Type\ProUserContactDetailsType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\ProUserPresentationType;
-use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserBannerType;
 use AppBundle\Form\Type\UserDeletionType;
 use AppBundle\Form\Type\UserPasswordType;
 use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Form\Type\UserPresentationType;
+use AppBundle\Form\Type\VideoProjectType;
 use AppBundle\Form\Type\YoutubePlaylistInsertType;
 use AppBundle\Security\Voter\ProUserVoter;
 use AppBundle\Security\Voter\SellerPerformancesVoter;
 use AppBundle\Security\Voter\UserVoter;
+use AppBundle\Security\Voter\VideoCoachingVoter;
 use AppBundle\Security\Voter\VideosInsertVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\App\CaptchaVerificator;
@@ -60,6 +60,7 @@ use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\User\UserVideosInsertService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Services\VideoCoaching\VideoProjectService;
 use AppBundle\Twig\FormatExtension;
 use AppBundle\Twig\TrackingExtension;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -136,6 +137,8 @@ class UserController extends BaseController
     protected $userVideosInsertService;
     /** @var CaptchaVerificator $captchaService */
     protected $captchaService;
+    /** @var VideoProjectService */
+    private $videoProjectService;
 
     /**
      * UserController constructor.
@@ -159,6 +162,7 @@ class UserController extends BaseController
      * @param ConversationEditionService $conversationEditionService
      * @param UserVideosInsertService $userVideosInsertService
      * @param CaptchaVerificator $captchaService
+     * @param VideoProjectService $videoProjectService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -180,7 +184,8 @@ class UserController extends BaseController
         ConversationRepository $conversationRepository,
         ConversationEditionService $conversationEditionService,
         UserVideosInsertService $userVideosInsertService,
-        CaptchaVerificator $captchaService
+        CaptchaVerificator $captchaService,
+        VideoProjectService $videoProjectService
     )
     {
         $this->formFactory = $formFactory;
@@ -203,6 +208,7 @@ class UserController extends BaseController
         $this->conversationEditionService = $conversationEditionService;
         $this->userVideosInsertService = $userVideosInsertService;
         $this->captchaService = $captchaService;
+        $this->videoProjectService = $videoProjectService;
     }
 
     /**
@@ -346,7 +352,7 @@ class UserController extends BaseController
             return $response;
         }
 
-        /** @var BaseUser|ApplicationUser $currentUser */
+        /** @var BaseUser|ApplicationUser|ProUSer|ProApplicationUser $currentUser */
         $currentUser = $this->getUser();
         $userIsCurrentUser = $user->is($currentUser);
 
@@ -609,6 +615,22 @@ class UserController extends BaseController
             }
         }
 
+
+        $createdVideoProjectForm = null;
+        if ($this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_ADD, $user)) {
+            // Formulaire de création d'un projet vidéo
+            $videoProjectDTO = new VideoProjectDTO();
+            $createdVideoProjectForm = $this->formFactory->create(VideoProjectType::class, $videoProjectDTO);
+            $createdVideoProjectForm->handleRequest($request);
+            if ($createdVideoProjectForm->isSubmitted() && $createdVideoProjectForm->isValid()) {
+                $videoProject = $this->videoProjectService->create($videoProjectDTO, $user);
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.save');
+                return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                    'videoProjectId' => $videoProject->getId()
+                ]);
+            }
+        }
+
         return $this->render('front/Seller/card.html.twig', [
             'profileFillingData' => $profileFillingData,
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
@@ -619,6 +641,9 @@ class UserController extends BaseController
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,
             'editVideosInsertFormViews' => !empty($editVideosInsertFormViews) ? $editVideosInsertFormViews : null,
+            'createdVideoProjectForm' => $createdVideoProjectForm ? $createdVideoProjectForm->createView() : null,
+            'userCreatedVideoProjectViewers' => $user->getCreatedVideoProjects(),
+            'userFollowedVideoProjectViewers' => $user->getFollowedVideoProjects(),
             'videosInserts' => $videosInserts,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'contactForm' => $contactForm ? $contactForm->createView() : null,

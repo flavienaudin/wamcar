@@ -10,26 +10,28 @@ use AppBundle\Form\DTO\ScriptVersionDTO;
 use Wamcar\VideoCoaching\ScriptSection;
 use Wamcar\VideoCoaching\ScriptSectionTypeRepository;
 use Wamcar\VideoCoaching\ScriptSequence;
+use Wamcar\VideoCoaching\ScriptSequenceRepository;
 use Wamcar\VideoCoaching\ScriptVersion;
 use Wamcar\VideoCoaching\ScriptVersionRepository;
 
-class ScriptVersionService
+class VideoProjectScriptService
 {
 
     /** @var ScriptVersionRepository */
     private $scriptVersionRepository;
     /** @var ScriptSectionTypeRepository */
     private $scriptSectionTypeRepository;
+    /** @var ScriptSequenceRepository */
+    private $scriptSequenceRepoository;
 
-    /**
-     * ScriptVersionService constructor.
-     * @param ScriptVersionRepository $scriptVersionRepository
-     * @param ScriptSectionTypeRepository $scriptSectionTypeRepository
-     */
-    public function __construct(ScriptVersionRepository $scriptVersionRepository, ScriptSectionTypeRepository $scriptSectionTypeRepository)
+
+    public function __construct(ScriptVersionRepository $scriptVersionRepository,
+                                ScriptSectionTypeRepository $scriptSectionTypeRepository,
+                                ScriptSequenceRepository $scriptSequenceRepoository)
     {
         $this->scriptVersionRepository = $scriptVersionRepository;
         $this->scriptSectionTypeRepository = $scriptSectionTypeRepository;
+        $this->scriptSequenceRepoository = $scriptSequenceRepoository;
     }
 
     /**
@@ -63,16 +65,16 @@ class ScriptVersionService
         $contentType = $this->scriptSectionTypeRepository->findOneBy(['name' => 'Contenu']);
         if ($contentType) {
             $contentSectionDTO = new ScriptSectionDTO($scriptVersion);
-            $contentSectionDTO ->setType($contentType);
-            $contentSectionDTO ->setPosition(3);
-            $scriptVersionDTO->addScriptSection($contentSectionDTO );
+            $contentSectionDTO->setType($contentType);
+            $contentSectionDTO->setPosition(3);
+            $scriptVersionDTO->addScriptSection($contentSectionDTO);
         }
 
         // Outroduction
         $outroductionType = $this->scriptSectionTypeRepository->findOneBy(['name' => 'Outroduction']);
-        if ($outroductionType ) {
+        if ($outroductionType) {
             $outroductionSectionDTO = new ScriptSectionDTO($scriptVersion);
-            $outroductionSectionDTO->setType($outroductionType );
+            $outroductionSectionDTO->setType($outroductionType);
             $outroductionSectionDTO->setPosition(4);
             $scriptVersionDTO->addScriptSection($outroductionSectionDTO);
         }
@@ -81,7 +83,7 @@ class ScriptVersionService
         $callToActionType = $this->scriptSectionTypeRepository->findOneBy(['name' => 'Appels à l\'action']);
         if ($callToActionType) {
             $callToActionSectionDTO = new ScriptSectionDTO($scriptVersion);
-            $callToActionSectionDTO->setType($callToActionType );
+            $callToActionSectionDTO->setType($callToActionType);
             $callToActionSectionDTO->setPosition(5);
             $scriptVersionDTO->addScriptSection($callToActionSectionDTO);
         }
@@ -181,5 +183,17 @@ class ScriptVersionService
     public function delete(ScriptVersion $scriptVersion)
     {
         $this->scriptVersionRepository->remove($scriptVersion);
+    }
+
+    /**
+     * @param ScriptSequenceDTO $scriptSequenceDTO
+     * @param ScriptSequence $scriptSequence
+     */
+    public function updateScriptsequence(ScriptSequenceDTO $scriptSequenceDTO, ScriptSequence $scriptSequence)
+    {
+        $scriptSequence->setDialogue($scriptSequenceDTO->getDialogue());
+        $scriptSequence->setScene($scriptSequenceDTO->getScene());
+        $scriptSequence->setShot($scriptSequenceDTO->getShot());
+        $this->scriptSequenceRepoository->update($scriptSequence);
     }
 }

@@ -1,7 +1,8 @@
+import {Reveal} from 'foundation-sites/js/foundation.reveal';
+
 /* ===========================================================================
    Video Script
    =========================================================================== */
-
 
 /* Script Sequence list*/
 initScriptSequencesListForm();
@@ -52,3 +53,61 @@ function addScriptSequenceInput($attachmentsCollectionHolder) {
     addScriptSequenceInput($attachmentsCollectionHolder);
   });*/
 }
+
+
+/* Script Sequence Edition */
+
+const $editSequenceButtons = $('.js-script-sequence-getform');
+const $scriptSequenceEditModalContainer = $('#jsScriptSequenceEditModalContainer');
+$editSequenceButtons.each((index, editSequenceButton) => {
+  const $editSequenceButton = $(editSequenceButton);
+  $editSequenceButton.on('click', ($event) => {
+    $.ajax({
+      url: $editSequenceButton.data('url'),
+      method: 'GET'
+    }).done(function (success) {
+      if (success.hasOwnProperty('html')) {
+        $scriptSequenceEditModalContainer.html(success.html);
+
+        const $modal = $('#' + success.modalId);
+        const editFormModal = new Reveal($modal);
+        editFormModal.open();
+
+        $modal.find('form').on('submit', (e) => {
+          e.preventDefault();
+          const $editForm = $(e.currentTarget);
+          const $formAction = $editForm.attr('action');
+          const formData = new FormData($editForm[0]);
+
+          const $submitButton = $editForm.find('button[type=submit]');
+          $submitButton.attr('disabled', 'disabled');
+          $submitButton.addClass('is-disabled');
+
+          $.ajax({
+            url: $formAction,
+            type: 'POST',
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false
+          })
+            .done(function (success) {
+              if (success.hasOwnProperty('redirectTo')) {
+                window.location = success.redirectTo;
+              }
+            })
+            .fail(function (jqXHR, textStatus) {
+              console.log('fail');
+            });
+        });
+
+        $(document).on('closed.zf.reveal', '#' + success.modalId, (event) => {
+          $('#' + success.modalId).parent().remove();
+        });
+      }
+    }).fail(function (jqXHR, textStatus) {
+      console.log('fail');
+    });
+  });
+});
+

@@ -24,6 +24,17 @@
     }
 ] %}
 
+{% set videoCoachingUserProjects %}{% spaceless %}
+    {% for userCreatedVideoProjectViewer in userCreatedVideoProjectViewers %}
+        {% if is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_VIEW'), userCreatedVideoProjectViewer.videoProject) %}
+            <li class="margin-bottom-2">
+                <a href="{{ path('front_coachingvideo_videoproject_view', {'videoProjectId': userCreatedVideoProjectViewer.videoProject.id}) }}">
+                    {{ userCreatedVideoProjectViewer.videoProject.title }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+{% endspaceless %}{% endset %}
+
 {% block body %}
     {% include 'front/User/includes/seller_profile_header.html.twig' %}
 
@@ -31,7 +42,8 @@
         {# Left column #}
         <div class="js-profile-left-column profile-left-column column small-12 large-8">
             {# Registration Blue Block : désactivé #}
-            {% if false%}
+            {# Modèle B2B
+            {% if not isLogged %}
                 <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
                     <div class="column small-12 large-8 text-justify">
                         {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
@@ -45,6 +57,7 @@
             {# END Registration Blue Block #}
 
             {# ProUser published Block #}
+            {# Modèle B2B
             {% if profileFillingData != null and profileFillingData.missing_items|length > 0 %}
                 <div class="profile-section block-light-shadow">
                     {{ 'user.profile.publish.missing_items'|trans }} ({{ (profileFillingData.required_nb-profileFillingData.missing_items|length) ~ '/' ~ profileFillingData.required_nb }})
@@ -57,6 +70,44 @@
             {% endif %}
             {# END ProUser published Block #}
 
+            {# Video projects created by the user #}
+            {% if videoCoachingUserProjects is not empty or userIsMe or createdVideoProjectForm|default(null) is not null %}
+                <div class="profile-section block-light-shadow">
+                    <h2>
+                        {% if createdVideoProjectForm|default(null) is not null %}
+                            <span class="profile-section-action icon-plus" data-open="js-create-videoproject">
+                                <span class="show-for-sr">{{ 'coaching_video.video_project.action.add'|trans }}</span>
+                            </span>
+                            {{ include('front/VideoCoaching/VideoProject/includes/modal_create_video_project.html.twig', {
+                                'createdVideoProjectForm': createdVideoProjectForm
+                            }) }}
+                        {% endif %}
+                        {{ userIsMe ? 'coaching_video.video_project.list.user.my_projects'|trans : 'coaching_video.video_project.list.user.user_projects'|trans({'%username%' : user.fullname}) }}
+                    </h2>
+                    {% if createdVideoProjectForm|default(null) is null and userIsMe %}
+                        <p class="padding-1 dark-gray-blue-peexeo-bg white-color">
+                            Vous avez atteint la limite du nombre de projet vidéo autorisé en version gratuite. Pour créer d'autres projets,
+                            abonnez-vous à Wamcar. Vous aurez accès à l'ensemble des fonctionnalités : Coach,...</p>
+                    {% endif %}
+                    <ol>{{ videoCoachingUserProjects }}</ol>
+                </div>
+            {% endif %}
+
+            {# Video projects followed by the user #}
+            {% if userIsMe and userFollowedVideoProjectViewers|length > 0 %}
+                <div class="profile-section block-light-shadow">
+                    <h2>{{ 'coaching_video.video_project.list.followed.title'|trans }}</h2>
+                    <ol>
+                        {% for userFollowedVideoProjectViewer in userFollowedVideoProjectViewers %}
+                            <li class="margin-bottom-2">
+                                <a href="{{ path('front_coachingvideo_videoproject_view', {'videoProjectId': userFollowedVideoProjectViewer.videoProject.id}) }}">
+                                    {{ userFollowedVideoProjectViewer.videoProject.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            {% endif %}
+
             {# User Description Block #}
             {{ include('front/User/includes/user_description_profile_block.html.twig', {
                 'userTitle': user.presentationTitle
@@ -64,6 +115,7 @@
             {# END User Description Block #}
 
             {# Applointment Block #}
+            {# Modèle B2B
             {% if user.appointmentText is not empty %}
                 <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
                     <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
@@ -200,6 +252,7 @@
             {# END Presentation Video Block #}
 
             {# User Specialities & Services Block #}
+            {# Modèle B2B
             {% set userSpecialities = user.proUserSpecialities %}
             {% set proServices = user.proUserServices(true, true) %}
             {% set userHobbies = user.hobbies %}
@@ -354,8 +407,8 @@
             {% endif %}
             {# END Add Videos Inserts Block #}
 
-            {# User Vehicles Block : Désactivé car plus d'affectations de véhicule aux vendeurs #}
-            {#{% if vehicles.totalHits > 0 %}
+            {# User Vehicles Block : Désactivé car plus d'affectations de véhicule aux vendeurs
+            {% if vehicles.totalHits > 0 %}
                 <div class="profile-seller-vehicles" id="vehicles">
                     <h2>{{ 'user.vehicles.title'|trans }}</h2>
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
@@ -365,11 +418,11 @@
                         'columnsSizes' : 'small-up-2 medium-up-3'
                     } %}#}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}{#
                 </div>
-            {% endif %}#}
+            {% endif %}
             {# END User Vehicles Block #}
 
             {# Account Block #}
-            {% if userIsMe %}
+            {% if is_granted(constant('AppBundle\\Security\\Voter\\ProUserVoter::EDIT')) %}
                 <div class="profile-section seller-account block-light-shadow">
                     <h2>{{ 'user.profile.account.title'|trans }}</h2>
                     {% if passwordForm is defined and passwordForm is not null %}

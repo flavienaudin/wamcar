@@ -321,10 +321,9 @@ class GarageController extends BaseController
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_WARNING,
                     $this->translator->trans('flash.warning.garage.same_as_existing', [
-                            '%requestUrl%' => $this->generateRoute('front_garage_request_to_join', [
-                                'garage_id' => $e->getGarage()->getId()
-                            ])]
-                    ));
+                        '%requestUrl%' => $this->generateRoute('front_garage_request_to_join', [
+                            'garage_id' => $e->getGarage()->getId()
+                        ])]));
                 return $this->redirectToRoute('front_garage_view', [
                     'slug' => $e->getGarage()->getSlug(),
                     '_fragment' => 'sellers']);

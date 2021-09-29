@@ -132,8 +132,8 @@ function initMessageFormSubmission() {
       $submitButton.addClass('is-disabled');
 
       const $formAction = $messageForm.attr('action');
-      let form = $('#js_message_form')[0];
-      let formData = new FormData(form);
+      const form = $('#js_message_form')[0];
+      const formData = new FormData(form);
 
       $.ajax({
         url: $formAction,

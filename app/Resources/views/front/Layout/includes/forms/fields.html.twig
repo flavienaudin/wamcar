@@ -286,7 +286,7 @@
 
 {%- block _personal_vehicle_userRegistration_accept_row -%}
     {{- form_widget(form) -}}
-    <label for="{{ id }}" class="checkbox">
+    <label for="{{ id }}" class="checkbox {{ label_class|default('') }}">
         <b>{{ 'user.field.accept.start'|trans({}, 'security') }}
             <a href="{{ path('cgu') }}" class="black-color text-underline"
                target="_blank">{{ 'user.field.accept.text-cgu-link'|trans({}, 'security') }}</a> {{ 'user.field.accept.and'|trans({}, 'security') }}

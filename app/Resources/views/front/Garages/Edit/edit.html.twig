@@ -5,7 +5,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ isNew ? 'Créer' : 'Editer' }} {{ 'garage.my_garage'|trans }}{% endblock %}
+{% block title %}{{ isNew ? 'garage.page_title.create'|trans : 'garage.page_title.edit'|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
@@ -23,7 +23,7 @@
 
     <div class="row">
         {% if not isNew and not isUserAdmin  %}
-            <p class="column small-12"><a href="{{  path('front_garage_view', {'slug': garage.slug}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
+            <p class="column small-12"><a href="{{  path('front_garage_view', {'slug': garage.slug}) }}" class="text-underline">{{ 'garage.action.back'|trans }}</a><br><br></p>
         {% endif %}
 
         {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}

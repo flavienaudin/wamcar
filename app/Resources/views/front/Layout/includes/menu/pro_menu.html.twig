@@ -1,20 +1,16 @@
-{% if app.user.videoModuleAccess == true %}
-    <li><a href="{{ path('front_coaching_video_dashboard') }}">{{ 'header.pro.coaching_video_module'|trans }}</a></li>
-{% endif %}
-
 <li><a href="{{ path('front_view_current_user_info') }}">{{ 'header.common.my_profile'|trans }}</a></li>
 
 {% set nbOfGarages = app.user.numberOfGarages %}
 
 {% if nbOfGarages == 0 %}
-    <li><a href="{{ path('front_garage_create') }}">{{ 'header.pro.my_garage'|trans }}</a></li>
+    <li><a href="{{ path('front_garage_create') }}">{{ 'header.pro.my_society'|trans }}</a></li>
 {% elseif nbOfGarages == 1 %}
     <li>
-        <a href="{{ path('front_garage_view', {'slug': app.user.enabledGarageMemberships.first.garage.slug}) }}">{{ 'header.pro.my_garage'|trans }}</a>
+        <a href="{{ path('front_garage_view', {'slug': app.user.enabledGarageMemberships.first.garage.slug}) }}">{{ 'header.pro.my_society'|trans }}</a>
     </li>
 {% else %}
     <li>
-        <a href="#">{{ 'header.pro.my_garages'|trans }}</a>
+        <a href="#">{{ 'header.pro.my_societies'|trans }}</a>
         <ul class="menu">
             {% for garageMemberShip in app.user.enabledGarageMemberships %}
                 <li><a href="{{ path('front_garage_view', {'slug': garageMemberShip.garage.slug}) }}" class="logo-garage">
