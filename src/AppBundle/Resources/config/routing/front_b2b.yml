@@ -154,6 +154,10 @@ front_coachingvideo_scriptversion_wizard:
   path: /module/video/scriptversion/wizard/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:scriptVersionWizard
 
+front_coachingvideo_scriptversion_sequence_edit:
+  path: /module/video/scriptversion/scriptsequence/{id}/edit
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:editScriptSequenceAjax
+
 front_coachingvideo_scriptversion_delete:
   path: /module/video/scriptversion/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteScriptVersion

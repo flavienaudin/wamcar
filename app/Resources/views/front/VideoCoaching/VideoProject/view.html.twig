@@ -141,14 +141,19 @@
                                         {% endif %}
                                         {{ scriptVersion.title }}
                                     </h3>
-                                    <div id="js-scriptversion-title-view-{{ scriptVersion.id }}" data-toggler="is-hidden">
+                                    <div id="js-scriptversion-title-view-{{ scriptVersion.id }}"
+                                         data-toggler="is-hidden">
 
-                                        <table class="video-script-datatable dataTable compact row-border margin-bottom-1">
+                                        <table class="video-script-datatable dataTable compact cell-border margin-bottom-1">
                                             <thead>
                                             <tr>
-                                                <th class="">{{ 'coaching_video.script_version.view.table.header.narration'|trans }}</th>
-                                                <th class="">{{ 'coaching_video.script_version.view.table.header.scene'|trans }}</th>
-                                                <th class="">{{ 'coaching_video.script_version.view.table.header.shot'|trans }}</th>
+                                                <th>{{ 'coaching_video.script_version.view.table.header.narration'|trans }}</th>
+                                                <th>{{ 'coaching_video.script_version.view.table.header.scene'|trans }}</th>
+                                                <th>{{ 'coaching_video.script_version.view.table.header.shot'|trans }}</th>
+                                                <th>{{ 'coaching_video.script_version.view.table.header.duration'|trans }}</th>
+                                                {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
+                                                    <th></th>
+                                                {% endif %}
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -158,13 +163,21 @@
                                                         <td>{{ sequence.dialogue|nl2br }}</td>
                                                         <td>{{ sequence.scene|nl2br }}</td>
                                                         <td>{{ sequence.shot ? sequence.shot.label }}</td>
+                                                        <td class="text-center">{{ sequence.dialogue|dialogueDuration ~ 's' }}</td>
+                                                        {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
+                                                            <td><span class="js-script-sequence-getform button button-icon icon-pen"
+                                                                      data-url="{{ path('front_coachingvideo_scriptversion_sequence_edit', {'id':sequence.id}) }}"
+                                                                      data-id="{{ sequence.id }}"></span></td>
+                                                        {% endif %}
                                                     </tr>
                                                 {% endfor %}
                                             {% endfor %}
                                             </tbody>
                                         </table>
                                         {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
-                                            <a href="{{ path('front_coachingvideo_scriptversion_wizard', {'id': scriptVersion.id}) }}" class="button small">Editer les séquences</a>
+                                            <a href="{{ path('front_coachingvideo_scriptversion_wizard', {'id': scriptVersion.id}) }}"
+                                               class="button small">Editer les séquences</a>
+                                            <div id="jsScriptSequenceEditModalContainer"></div>
                                         {% endif %}
                                     </div>
 

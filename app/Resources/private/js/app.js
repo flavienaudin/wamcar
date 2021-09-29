@@ -323,21 +323,3 @@ function confirm(title, message, id, callback, callbackParam) {
     $('#' + id).parent().remove();
   });
 }
-
-
-/* ===========================================================================
-   Keydown
-   =========================================================================== */
-
-const $debugGrid = document.querySelector('[data-toggle="js-debug-grid"]');
-
-document.addEventListener('keydown', function (e) {
-
-  if ($debugGrid) {
-    if (e.ctrlKey && e.which === 72) {
-      e.preventDefault();
-      $debugGrid.click();
-    }
-  }
-
-});

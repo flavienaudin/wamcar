@@ -1,0 +1,13 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% block title %}{{ 'coaching_video.script_sequence.edit.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('front/VideoCoaching/ScriptSequence/includes/save_form.html.twig', {
+        'scriptSequence' : scriptSequence,
+        'scriptSequenceForm' : scriptSequenceEditForm,
+        'formClass' : 'full-width form-compact'
+    }) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

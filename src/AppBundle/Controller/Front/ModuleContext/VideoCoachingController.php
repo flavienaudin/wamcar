@@ -5,10 +5,12 @@ namespace AppBundle\Controller\Front\ModuleContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Form\DTO\ScriptSequenceDTO;
 use AppBundle\Form\DTO\ScriptVersionDTO;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
 use AppBundle\Form\DTO\VideoVersionDTO;
+use AppBundle\Form\Type\ScriptSequenceType;
 use AppBundle\Form\Type\ScriptVersionTitleType;
 use AppBundle\Form\Type\ScriptVersionType;
 use AppBundle\Form\Type\VideoProjectMessageType;
@@ -16,7 +18,7 @@ use AppBundle\Form\Type\VideoProjectShareType;
 use AppBundle\Form\Type\VideoProjectType;
 use AppBundle\Form\Type\VideoVersionType;
 use AppBundle\Security\Voter\VideoCoachingVoter;
-use AppBundle\Services\VideoCoaching\ScriptVersionService;
+use AppBundle\Services\VideoCoaching\VideoProjectScriptService;
 use AppBundle\Services\VideoCoaching\VideoProjectService;
 use AppBundle\Services\VideoCoaching\VideoVersionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -26,9 +28,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\ProUser;
+use Wamcar\VideoCoaching\ScriptSequence;
 use Wamcar\VideoCoaching\ScriptVersion;
 use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoProjectIteration;
@@ -42,8 +44,8 @@ class VideoCoachingController extends BaseController
     private $translator;
     /** @var VideoProjectService */
     private $videoProjectService;
-    /** @var ScriptVersionService */
-    private $scriptVersionService;
+    /** @var VideoProjectScriptService */
+    private $videoProjectScriptService;
     /** @var VideoVersionService */
     private $videoVersionService;
 
@@ -53,15 +55,15 @@ class VideoCoachingController extends BaseController
      * @param FormFactoryInterface $formFactory
      * @param TranslatorInterface $translator
      * @param VideoProjectService $videoProjectService
-     * @param ScriptVersionService $scriptVersionService
+     * @param VideoProjectScriptService $videoProjectScriptService
      * @param VideoVersionService $videoVersionService
      */
-    public function __construct(FormFactoryInterface $formFactory, TranslatorInterface $translator, VideoProjectService $videoProjectService, ScriptVersionService $scriptVersionService, VideoVersionService $videoVersionService)
+    public function __construct(FormFactoryInterface $formFactory, TranslatorInterface $translator, VideoProjectService $videoProjectService, VideoProjectScriptService $videoProjectScriptService, VideoVersionService $videoVersionService)
     {
         $this->formFactory = $formFactory;
         $this->translator = $translator;
         $this->videoProjectService = $videoProjectService;
-        $this->scriptVersionService = $scriptVersionService;
+        $this->videoProjectScriptService = $videoProjectScriptService;
         $this->videoVersionService = $videoVersionService;
     }
 
@@ -144,7 +146,7 @@ class VideoCoachingController extends BaseController
             $createScriptVersionForm = $this->formFactory->createNamed('addScriptVersion', ScriptVersionTitleType::class, $scriptVersionDTO);
             $createScriptVersionForm->handleRequest($request);
             if ($createScriptVersionForm->isSubmitted() && $createScriptVersionForm->isValid()) {
-                $scriptVersion = $this->scriptVersionService->create($scriptVersionDTO);
+                $scriptVersion = $this->videoProjectScriptService->create($scriptVersionDTO);
                 // $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.scriptversion.save');
                 return $this->redirectToRoute('front_coachingvideo_scriptversion_wizard', [
                     'id' => $scriptVersion->getId()
@@ -161,7 +163,7 @@ class VideoCoachingController extends BaseController
                 $editScriptVersionTitleForm = $this->formFactory->createNamed('editScriptVersionTitle' . $scriptVersion->getId(), ScriptVersionTitleType::class, $editScriptVersionDTO);
                 $editScriptVersionTitleForm->handleRequest($request);
                 if ($editScriptVersionTitleForm->isSubmitted() && $editScriptVersionTitleForm->isValid()) {
-                    $this->scriptVersionService->updateMainInfo($editScriptVersionDTO, $scriptVersion);
+                    $this->videoProjectScriptService->updateMainInfo($editScriptVersionDTO, $scriptVersion);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.scriptversion.update');
                     return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                         'videoProjectId' => $videoProject->getId(),
@@ -273,7 +275,7 @@ class VideoCoachingController extends BaseController
         $scriptVersionForm = $this->formFactory->create(ScriptVersionType::class, $scriptVersionDTO);
         $scriptVersionForm->handleRequest($request);
         if ($scriptVersionForm->isSubmitted() && $scriptVersionForm->isValid()) {
-            $this->scriptVersionService->updateScriptSections($scriptVersionDTO, $scriptVersion);
+            $this->videoProjectScriptService->updateScriptSections($scriptVersionDTO, $scriptVersion);
 
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.scriptversion.save');
             return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
@@ -309,7 +311,7 @@ class VideoCoachingController extends BaseController
             ]);
         }
 
-        $this->scriptVersionService->delete($scriptVersion);
+        $this->videoProjectScriptService->delete($scriptVersion);
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.scriptversion.delete');
         return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
             'videoProjectId' => $videoProject->getId(),
@@ -344,6 +346,56 @@ class VideoCoachingController extends BaseController
         return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
             'videoProjectId' => $videoProject->getId(),
             'iterationId' => $videoVersion->getVideoProjectIteration()->getId()
+        ]);
+    }
+
+    /**
+     * Retourne le formulaire d'édition de la séquence, dans une modale et traite la soumissions du formulaire le cas échéant
+     * @param ScriptSequence $scriptSequence
+     * @param Request $request
+     * @return JsonResponse|RedirectResponse
+     */
+    public function editScriptSequenceAjaxAction(ScriptSequence $scriptSequence, Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        $videoScriptVersion = $scriptSequence->getScriptSection()->getScriptVersion();
+        $videoProject = $videoScriptVersion->getVideoProjectIteration()->getVideoProject();
+        if (!$this->isGranted(VideoCoachingVoter::SCRIPT_VERSION_EDIT, $videoScriptVersion)) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.script_version.edit');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
+        $scriptSequenceDTO = ScriptSequenceDTO::buildFromScriptSequence($scriptSequence);
+        $scriptSequenceEditForm = $this->formFactory->create(ScriptSequenceType::class, $scriptSequenceDTO);
+        $scriptSequenceEditForm->handleRequest($request);
+        if ($scriptSequenceEditForm->isSubmitted()) {
+            if ($scriptSequenceEditForm->isValid()) {
+
+                $this->videoProjectScriptService->updateScriptsequence($scriptSequenceDTO, $scriptSequence);
+
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.scriptsequence.save');
+                return new JsonResponse([
+                    'redirectTo' => $this->generateUrl('front_coachingvideo_videoproject_view', [
+                        'videoProjectId' => $videoProject->getId()
+                    ])]);
+            } else {
+                return new JsonResponse([
+                    'html' => $this->renderTemplate(':front/VideoCoaching/ScriptSequence/includes:modal_script_sequence_form.html.twig', [
+                        'scriptSequenceEditForm' => $scriptSequenceEditForm->createView()
+                    ])], Response::HTTP_BAD_REQUEST);
+            }
+        }
+        $modalId = 'js-edit-scriptsequence-' . $scriptSequence->getId();
+        return new JsonResponse([
+            'modalId' => $modalId,
+            'html' => $this->renderTemplate(':front/VideoCoaching/ScriptSequence/includes:modal_script_sequence_form.html.twig', [
+                'modalId' => $modalId,
+                'scriptSequence' => $scriptSequence,
+                'scriptSequenceEditForm' => $scriptSequenceEditForm->createView()
+            ])
         ]);
     }
 

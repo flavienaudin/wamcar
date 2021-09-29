@@ -84,6 +84,8 @@ flash:
       save: Le script a bien été enresgitré.
       update: La version du script a bien été mise à jour.
       delete: La version du script a été supprimée du projet.
+    scriptsequence:
+      save: La séquence a bien été mise à jour.
     videoversion:
       save: La version de la vidéo a bien été ajoutée au projet.
       update: La version vidéo a bien été mise à jour.
@@ -1669,6 +1671,7 @@ coaching_video:
           narration: Narration
           scene: Scène
           shot: Plan
+          duration: Durée
     create:
       title: Ajouter une nouvelle version du script
     wizard:
@@ -1682,6 +1685,9 @@ coaching_video:
       field:
         title:
           label: Titre de la version
+  script_sequence:
+    edit:
+      title: Editer la sequence
   script_sequences:
     form:
       field:

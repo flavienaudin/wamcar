@@ -1,0 +1,11 @@
+{{ form_start(scriptSequenceForm, {
+    'action': path('front_coachingvideo_scriptversion_sequence_edit', {'id': scriptSequence.id}),
+    'attr' : { 'class': formClass|default('row'), 'data-abide' : '', 'novalidate': 'novalidate'}
+}) }}
+
+{{ form_rest(scriptSequenceForm) }}
+
+<div class="columns small-12 right">
+    <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
+</div>
+{{ form_end(scriptSequenceForm) }}
