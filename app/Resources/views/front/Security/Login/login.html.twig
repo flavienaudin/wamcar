@@ -17,7 +17,7 @@
             <aside class="register-right small-12 medium-6">
                 <h2 class="column small-12 black-color">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
                 <div class="column small-12">
-                    <a href="{{ path('register') }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
+                    {# Modele B2B <a href="{{ path('register') }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>#}
                     <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button full-width">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
                 </div>
             </aside>
@@ -65,9 +65,11 @@
         </div>
     </section>
 
+
+    {# Modèle B2B
     <section class="section reinsurance-container small-12">
         <div class="row">
             {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
         </div>
-    </section>
+    </section>#}
 {% endblock body %}

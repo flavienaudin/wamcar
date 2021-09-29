@@ -9,8 +9,7 @@
     {% set destination_url = destination is defined and destination is not empty ?
         destination : (context == constant("Wamcar\\User\\ProUser::TYPE") ? url('front_affinity_pro_form') : url('register_orientation') ) %}
     #}
-    {% set destination_url = destination is defined and destination is not empty ?
-        destination : (context == constant("Wamcar\\User\\ProUser::TYPE") ? url('front_view_current_user_info') : url('register_orientation') ) %}
+    {% set destination_url = destination is defined and destination is not empty ? destination : url('front_view_current_user_info')  %}
 
     <aside class="register-right small-12 medium-6">
         <h2 class="column small-12 dark-gray-blue-peexeo-color">{{ 'user.social_connect'|trans }}</h2>

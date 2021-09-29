@@ -1,4 +1,4 @@
-{% set context = context|default(constant("Wamcar\\User\\PersonalUser::TYPE")) %}
+{% set context = context|default(constant("Wamcar\\User\\ProUser::TYPE")) %}
 {% set destination_param = (destination is defined)?{'_destination':destination}:{} %}
 {% set services = [
     {

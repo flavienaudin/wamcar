@@ -10,7 +10,7 @@ $directory-item-min-height: 182;
   &-page {
     background-color: $light-gray-peexeo;
 
-    .page-header{
+    .page-header {
       margin-bottom: 0;
     }
 
@@ -92,6 +92,12 @@ $directory-item-min-height: 182;
 
     @include breakpoint(medium) {
       padding-top: rem-calc(30);
+    }
+
+    .no-epxert {
+      margin-bottom: rem-calc(25);
+      padding: rem-calc(25);
+      background-color: $body-background;
     }
 
     .seller-item-container {

@@ -1,6 +1,7 @@
 Wamcar\VideoCoaching\ScriptSequence:
 
   type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineScriptSequenceRepository
 
   id:
     id:

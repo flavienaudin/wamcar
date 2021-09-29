@@ -1,6 +1,6 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding{% endblock %}
+{% block mainClass %}{% endblock %}
 
 {% block title %}{{ 'user.registration.pro.title'|trans }}{% endblock %}
 {% block meta_description%}{{ 'user.registration.pro.meta_description'|trans }}{% endblock %}
@@ -11,11 +11,13 @@
 
 {% block bodyClass %}light-gray-peexeo-bg{% endblock %}
 {% block body %}
+
+    {# Modèle B2B
     {% include 'front/Layout/includes/page_header.html.twig' with {
         page_header_class: 'column register-page-header',
         title: 'user.registration.pro.banner'|trans,
         title_class: 'dark-blue-color'
-    } %}
+    } %}#}
 
     <section class="small-12 padding-bottom-2">
         <div class="row white-bg padding-top-2 padding-bottom-1 form-compact">
@@ -25,11 +27,12 @@
         </div>
     </section>
 
+    {# Modèle B2B
     <section class="section reinsurance-container small-12">
         <div class="row">
             <h2 class="xlarge-no-margin h1 text-center full-width">{{ 'user.reinsurance.pro.title'|trans }} <span class="primary-color">{{ site_name }}</span></h2>
             {% include 'front/Layout/includes/reinsurance/reinsurance_pro.html.twig' %}
             <p class="no-margin text-center full-width">{{ 'user.reinsurance.pro.bottom'|trans }}</p>
         </div>
-    </section>
+    </section>#}
 {% endblock body %}

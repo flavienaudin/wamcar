@@ -92,4 +92,11 @@
 
 .video-script-datatable {
   border: 1px solid $border-color;
+
+  .button.button-icon {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border: none;
+  }
 }
