@@ -99,9 +99,9 @@ class VideoProjectIteration
     }
 
     /**
-     * @return ScriptVersion
+     * @return ScriptVersion|null
      */
-    public function getLastScriptVersion(): ScriptVersion
+    public function getLastScriptVersion(): ?ScriptVersion
     {
         return $this->scriptVersions->first();
     }

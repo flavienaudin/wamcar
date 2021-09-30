@@ -1641,6 +1641,8 @@ coaching_video:
       title: "Projet vidéo : %title%"
       header:
         title: "%creatorFirstName% présente"
+      info:
+        duration: Durée du script %scriptname%
     list:
       user:
         my_projects: Mes projets

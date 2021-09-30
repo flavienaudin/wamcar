@@ -17,6 +17,7 @@ class FormatExtension extends AbstractExtension
             new TwigFilter('phoneFormat', [$this, 'phoneFormat']),
             new TwigFilter('vehicleMakeFormat', [$this, 'vehicleMakeModelFormat']),
             new TwigFilter('vehicleModelFormat', [$this, 'vehicleMakeModelFormat']),
+            new TwigFilter('durationFormat', [$this, 'formatDuration']),
         ];
     }
 
@@ -54,7 +55,36 @@ class FormatExtension extends AbstractExtension
      * @param string $value
      * @return string
      */
-    public static function phoneFormat(string $value) {
+    public static function phoneFormat(string $value)
+    {
         return join('-', str_split($value, 2));
+    }
+
+    /**
+     * Format a duration in seconds into [$Hours h][$min min] $sec s
+     * @param $duration
+     * @return string
+     */
+    public function formatDuration($duration)
+    {
+        $pieces = [];
+        $hours = intdiv($duration, 3600);
+        $duration = $duration % 3600;
+        $minutes = intdiv($duration, 60);
+        $duration = $duration % 60;
+        $seconds = $duration;
+
+        if (!empty($hours)) {
+            $pieces[] = $hours;
+            $pieces[] = 'h';
+        }
+        if (!empty($minutes) || !empty($pieces)) {
+            $pieces[] = $minutes;
+            $pieces[] = ' min';
+        }
+        $pieces[] = $seconds;
+        $pieces[] = 's';
+
+        return join(' ', $pieces);
     }
 }
