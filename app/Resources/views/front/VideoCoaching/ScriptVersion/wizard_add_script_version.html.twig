@@ -31,9 +31,7 @@
                 {% for scriptSectionForm in scriptVersionForm.children.scriptSections %}
                     <li class="row" data-step="{{ loop.index }}">
                         <div class="column small-12 large-7">
-                            {{ form_widget(scriptSectionForm, {
-                                'sectionType': scriptSectionForm.vars.data.type
-                            }) }}
+                            {{ form_widget(scriptSectionForm, {'sectionType': scriptSectionForm.vars.data.type}) }}
                         </div>
                         <aside class="column small-12 large-5">
                             <div class="aside-instructions">
@@ -42,7 +40,8 @@
                                 {{ scriptSectionForm.vars.data.type.instruction|raw }}
 
                                 <h4>{{ 'coaching_video.script_version.wizard.shottype.title'|trans }}</h4>
-                                <img src="{{ asset('assets/images/videoproject/shottype.png') }}" alt="{{ 'coaching_video.script_version.wizard.shottype.title'|trans }}">
+                                <img src="{{ asset('assets/images/videoproject/shottype.png') }}"
+                                     alt="{{ 'coaching_video.script_version.wizard.shottype.title'|trans }}">
                             </div>
                         </aside>
 

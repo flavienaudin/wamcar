@@ -6,6 +6,17 @@ import 'select2';
 import {initAttachmentsListForm} from './conversation';
 import linkifyHtml from 'linkifyjs/html';
 
+// Synchronisation de la sélection du ScriptVersion
+const $scriptVersionsTabs = $('#script-versions-tabs');
+if ($scriptVersionsTabs.length) {
+  $scriptVersionsTabs.on('change.zf.tabs', (e) => {
+    const $activeTab = $(e.currentTarget).find('.is-active');
+    const activeScriptVersionId = $activeTab.data('script-version-id');
+    $('.js-scriptVersion-duration').addClass('is-hidden');
+    $('#jsScriptVersionDuration-' + activeScriptVersionId).removeClass('is-hidden');
+  });
+}
+
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
 let updateLastVisitedAtURL = undefined,

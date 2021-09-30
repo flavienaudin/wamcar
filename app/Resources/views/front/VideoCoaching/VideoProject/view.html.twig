@@ -83,6 +83,18 @@
                         <p>{{ videoProject.description|raw }}</p>
                     {% endif %}
                 </div>
+
+                <div>
+                    {% for scriptVersion in videoProjectIteration.scriptVersions %}
+                        <div id="jsScriptVersionDuration-{{ scriptVersion.id }}" class="row align-middle js-scriptVersion-duration {{ loop.index0 > 0 ? 'is-hidden' }}">
+                            <div class="column small-shrink"><span class="icon-clock no-margin"></span></div>
+                            <div class="column small-collapse">
+                                <b>{{ 'coaching_video.video_project.view.info.duration'|trans({'%scriptname%': scriptVersion.title}) }}</b><br>
+                                {{ scriptVersion|scriptDuration|durationFormat }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             {# END Video Project members and management action #}
 
@@ -112,7 +124,7 @@
                         <ul class="tabs script-selector" data-tabs id="script-versions-tabs" data-deep-link="true"
                             data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true">
                             {% for scriptVersion in videoProjectIteration.scriptVersions %}
-                                <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
+                                <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}" data-script-version-id="{{ scriptVersion.id }}">
                                     <a href="#scriptVersion-{{ scriptVersion.id }}"
                                        aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}">
                                         {{ scriptVersion.title }}
