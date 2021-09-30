@@ -1692,6 +1692,7 @@ coaching_video:
     form:
       field:
         label: Séquences de la section
+        delete: Supprimer cette séquence
         add: Ajouter une séquence à la section
         dialogue:
           label: Textes de la séquence

@@ -191,9 +191,13 @@ class VideoProjectScriptService
      */
     public function updateScriptsequence(ScriptSequenceDTO $scriptSequenceDTO, ScriptSequence $scriptSequence)
     {
-        $scriptSequence->setDialogue($scriptSequenceDTO->getDialogue());
-        $scriptSequence->setScene($scriptSequenceDTO->getScene());
-        $scriptSequence->setShot($scriptSequenceDTO->getShot());
-        $this->scriptSequenceRepoository->update($scriptSequence);
+        if($scriptSequenceDTO->isEmpty()){
+            $this->scriptSequenceRepoository->remove($scriptSequence);
+        }else {
+            $scriptSequence->setDialogue($scriptSequenceDTO->getDialogue());
+            $scriptSequence->setScene($scriptSequenceDTO->getScene());
+            $scriptSequence->setShot($scriptSequenceDTO->getShot());
+            $this->scriptSequenceRepoository->update($scriptSequence);
+        }
     }
 }

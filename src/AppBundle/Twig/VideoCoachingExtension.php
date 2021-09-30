@@ -21,11 +21,15 @@ class VideoCoachingExtension extends AbstractExtension
 
     /**
      * Estime la durée de diction du texte
-     * @param string $value
+     * @param string|null $value
      * @return float
      */
-    public function estimateDialogueDuration(string $value)
+    public function estimateDialogueDuration(?string $value)
     {
-        return round(str_word_count($value) / 2);
+        if (empty($value)) {
+            return 0;
+        } else {
+            return round(str_word_count($value) / 2);
+        }
     }
 }
