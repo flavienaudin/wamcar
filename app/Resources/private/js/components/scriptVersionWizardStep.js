@@ -10,7 +10,7 @@ import getIndex from './getIndex';
 import scrollTo from './scrollTo';
 
 const $scriptVersionWizardstep = document.getElementById('js-script-version-wizardstep');
-const scriptVersionForm = document.getElementById('js-scriptversion-form');
+export const scriptVersionForm = document.getElementById('js-scriptversion-form');
 
 /**
  *

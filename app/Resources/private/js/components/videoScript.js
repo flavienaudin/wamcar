@@ -1,4 +1,5 @@
 import {Reveal} from 'foundation-sites/js/foundation.reveal';
+import {scriptVersionForm} from './scriptVersionWizardStep';
 
 /* ===========================================================================
    Video Script
@@ -8,50 +9,65 @@ import {Reveal} from 'foundation-sites/js/foundation.reveal';
 initScriptSequencesListForm();
 
 function initScriptSequencesListForm() {
-  const $scriptSequencesCollectionHolders = $('.js-script-section-sequences-list');
-  $scriptSequencesCollectionHolders.each((index, scriptSequencesCollectionHolder) => {
-    const $scriptSequencesCollectionHolder = $(scriptSequencesCollectionHolder);
-    const $div = $scriptSequencesCollectionHolder.children('div');
-    if ($div.length === 0) {
+  const $scriptSequencesCollectionManagers = $('.js-script-section-sequences-manager');
+  $scriptSequencesCollectionManagers.each((index, scriptSequencesCollectionManager) => {
+    const $scriptSequencesCollectionManager = $(scriptSequencesCollectionManager);
+    const $scriptSequencesCollectionHolder = $($scriptSequencesCollectionManager.find('.js-script-section-sequences-list')[0]);
+    const $addSequenceButton = $($scriptSequencesCollectionManager.find('.js-add-sequence-button')[0]);
+    $addSequenceButton.on('click', (event) => {
+      addScriptSequenceInput($scriptSequencesCollectionHolder);
+    });
+
+    const $sequenceDiv = $scriptSequencesCollectionHolder.children('fieldset');
+    if ($sequenceDiv.length === 0) {
       addScriptSequenceInput($scriptSequencesCollectionHolder);
     } else {
-      /* TODO necessaire pour ajouter/supprimer des sequences
       // Security : if data where submitted then set event listeners
-      $div.each((index, div) => {
-        $(div).find('.js-delete-sequence').on('click', (event) => {
-          $(div).remove();
-        });
-
-        $(div).change((event) => {
-          $(div).find('.js-delete-sequence').removeClass('is-hidden');
-        });
-
+      $sequenceDiv.each((index, div) => {
+        configDeleteSequenceButton($(div), false);
       });
-      */
     }
   });
 }
 
 function addScriptSequenceInput($attachmentsCollectionHolder) {
-  const index = parseInt($attachmentsCollectionHolder.data('index'));
-  const $newForm = $($attachmentsCollectionHolder.data('prototype').replace(/__name__/g, index));
-  $attachmentsCollectionHolder.data('index', index + 1);
+  const index = parseInt($($attachmentsCollectionHolder[0]).data('index'));
+  const $newForm = $($($attachmentsCollectionHolder).data('prototype').replace(/__name__/g, index));
+  $($attachmentsCollectionHolder).data('index', index + 1);
   $attachmentsCollectionHolder.append($newForm);
 
-  /* TODO necessaire pour ajouter/supprimer des sequences
-  const $deleteSequenceButton = $newForm.find('.js-delete-sequence');
+  // Mettre à jour la hauteur du formulaire
+  scriptVersionForm.dispatchEvent(new Event('change'));
+  // Configure le bouton pour supprimer la séquence
+  configDeleteSequenceButton($newForm, true);
+}
+
+/**
+ * Affiche le bouton "Supprimer la séquence" et enregistre l'événement au "clic" selon "isNewSequence" :
+ * true : supprime la div qui a été ajouté via JS et n'existe donc pas déjà en base de données
+ * false :
+ * - vide les données du formulare (le back-end supprime les séquences vides)
+ * - cache la séquence à l'utilisaeur
+ * @param $sequenceDiv le conteneur de la séquence
+ * @param isNewSequence true si la sequence a été ajouté via JS (sans ID), false si existente en base de données
+ */
+function configDeleteSequenceButton($sequenceDiv, isNewSequence) {
+  const $deleteSequenceButton = $sequenceDiv.find('.js-delete-sequence');
   $deleteSequenceButton.removeClass('is-hidden');
   $deleteSequenceButton.on('click', (event) => {
-    console.log('delete seq', this, $newForm);
-    $newForm.remove();
-  });
+    $sequenceDiv.addClass('is-hidden');
+    if (isNewSequence) {
+      $sequenceDiv.remove();
+    } else {
+      const $inputsToClear = $sequenceDiv.find('.js-empty-on-remove');
+      $inputsToClear.each((index, input) => {
+        input.value = null;
+      });
+    }
 
-  $newForm.find('.js-add-sequence').on('click', (event) => {
-    console.log('Click add Seq', $newForm, event.currentTarget);
-    // $newForm.find('.js-delete-sequence').removeClass('is-hidden');
-    $(event.currentTarget).addClass('is-hidden');
-    addScriptSequenceInput($attachmentsCollectionHolder);
-  });*/
+    // Mettre à jour la hauteur du formulaire
+    scriptVersionForm.dispatchEvent(new Event('change'));
+  });
 }
 
 

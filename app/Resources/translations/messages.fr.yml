@@ -1641,6 +1641,8 @@ coaching_video:
       title: "Projet vidéo : %title%"
       header:
         title: "%creatorFirstName% présente"
+      info:
+        duration: Durée du script %scriptname%
     list:
       user:
         my_projects: Mes projets
@@ -1692,6 +1694,7 @@ coaching_video:
     form:
       field:
         label: Séquences de la section
+        delete: Supprimer cette séquence
         add: Ajouter une séquence à la section
         dialogue:
           label: Textes de la séquence

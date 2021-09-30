@@ -362,6 +362,10 @@
     margin-bottom: rem-calc(25);
 
     .script-sequence-field {
+      &:not(:first-child) {
+        margin-top: rem-calc(15);
+      }
+
       label {
         font-size: rem-calc(14);
         margin-bottom: rem-calc(5);
@@ -376,7 +380,7 @@
 
     }
 
-    .aside-instructions{
+    .aside-instructions {
       background-color: $light-gray-peexeo;
       padding: rem-calc(25);
 
@@ -384,6 +388,7 @@
         margin-bottom: rem-calc(12px);
 
       }
+
       ul {
         list-style: initial;
         margin-left: rem-calc(15);
