@@ -1,0 +1,23 @@
+AppBundle\Doctrine\Entity\VideoProjectBanner:
+
+  type: entity
+  table: videoproject_banner
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    fileName:
+      type: string
+    fileSize:
+      type: integer
+    fileMimeType:
+      type: string
+    fileOriginalName:
+      type: string
+
+  oneToOne:
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      mappedBy: banner

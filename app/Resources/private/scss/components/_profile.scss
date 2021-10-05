@@ -91,11 +91,16 @@ $profile-image-offset: rem-calc(40);
           margin-bottom: rem-calc(60px);
           line-height: map-get(map-get(map-get($header-styles, medium), 'h1'), 'line-height');
 
-          @include breakpoint(large) {
-            margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, large), 'h1'), 'font-size') + 25));
-            margin-bottom: rem-calc(40px);
-            line-height: map-get(map-get(map-get($header-styles, large), 'h1'), 'line-height');
+          a {
+            background-color: #ffffff;
+            border-radius: 50%;
           }
+        }
+
+        @include breakpoint(large) {
+          margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, large), 'h1'), 'font-size') + 25));
+          margin-bottom: rem-calc(40px);
+          line-height: map-get(map-get(map-get($header-styles, large), 'h1'), 'line-height');
 
           a {
             background-color: #ffffff;
@@ -334,7 +339,7 @@ $profile-image-offset: rem-calc(40);
   /* Summary
      ===================================== */
   &-summary {
-    // profile-titles.height / 2 + 25
+    // profile-titles.height - (header.height - header>div.padding-top) + 25
     margin-top: rem-calc(150 + 25);
     background-color: white;
     padding: rem-calc(15);
