@@ -80,6 +80,7 @@ flash:
     videoproject:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.
+      banner.edit: L'image de votre projet a bien été mise à jour.
     scriptversion:
       save: Le script a bien été enresgitré.
       update: La version du script a bien été mise à jour.
@@ -516,7 +517,7 @@ landing:
            engageantes qui puissent leur permettre d'augmenter leur commuanuté dans le monde digital.
            Ils ont besoin d'outils pour créer des vidéos de qualité en accord avec la charte graphique de la
            marque qu'ils représentent, et besoin d'aide pour se lancer.</li>
-          <li>Nous créons donc des équipes gagnantes entre vendeurs et influenceurs, tout n leur donnant les
+          <li>Nous créons donc des équipes gagnantes entre vendeurs et influenceurs, tout en leur donnant les
            outils pour collaborer de la meilleure manière.</li>
         </ul>
 garage:

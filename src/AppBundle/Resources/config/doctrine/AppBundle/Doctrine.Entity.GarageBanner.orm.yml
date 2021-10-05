@@ -1,13 +1,13 @@
 AppBundle\Doctrine\Entity\GarageBanner:
 
-    type: entity
+  type: entity
 
-    exclusion_policy: ALL
+  exclusion_policy: ALL
 
-    oneToOne:
-        garage:
-            targetEntity: Wamcar\Garage\Garage
-            inversedBy: banner
-            joinColumn:
-                name: garage_id
-                referencedColumnName: id
+  oneToOne:
+    garage:
+      targetEntity: Wamcar\Garage\Garage
+      inversedBy: banner
+      joinColumn:
+        name: garage_id
+        referencedColumnName: id

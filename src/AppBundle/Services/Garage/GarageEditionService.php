@@ -71,8 +71,7 @@ class GarageEditionService
         GarageFromDTOBuilder $garageBuilder,
         ProVehicleEditionService $proVehicleEditionService,
         GoogleMapsApiConnector $googleMapsApiConnector,
-        MessageBus $eventBus
-    )
+        MessageBus $eventBus)
     {
         $this->garageRepository = $garageRepository;
         $this->garageProUserRepository = $garageProUserRepository;

@@ -46,6 +46,7 @@ parameters:
             +: '/assets/images/placeholders/user/letters/plus.png'
             unknown: '/assets/images/placeholders/user/letters/unknown.png'
         user_banner: '/assets/images/placeholders/user/banner.jpg'
+        videoproject_banner: '/assets/images/placeholders/videocoaching/videoproject/banner.jpg'
         banner: '/assets/images/placeholders/garages/banner.png'
         logo: '/assets/images/placeholders/garages/logo.png'
         vehicle: '/assets/images/register/pictures_default.jpg'
@@ -282,6 +283,16 @@ vich_uploader:
             inject_on_load:     true
             delete_on_remove: true
             delete_on_update: true
+        videoproject_banner:
+            uri_prefix:         /uploads/images/videoprojects/banners
+            upload_destination: '%env(UPLOAD_DIR)%/images/videoprojects/banners'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
 
 liip_imagine:
     loaders:
@@ -370,7 +381,11 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [50, 50], mode: inset }
-
+        videoproject_banner:
+            quality: 75
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [1200, 400], mode: outbound, allow_upscale: true }
 hwi_oauth:
     http:
         client: Http\Adapter\Guzzle6\Client

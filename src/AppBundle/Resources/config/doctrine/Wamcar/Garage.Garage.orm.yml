@@ -1,115 +1,117 @@
 Wamcar\Garage\Garage:
 
-    type: entity
-    inheritanceType: SINGLE_TABLE
-    table: garage
-    discriminatorColumn:
-        name: discriminator
-        type: string
-    discriminatorMap:
-        basic: Wamcar\Garage\Garage
-        application: AppBundle\Doctrine\Entity\ApplicationGarage
-    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
+  type: entity
+  inheritanceType: SINGLE_TABLE
+  table: garage
+  discriminatorColumn:
+    name: discriminator
+    type: string
+  discriminatorMap:
+    basic: Wamcar\Garage\Garage
+    application: AppBundle\Doctrine\Entity\ApplicationGarage
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: false
 
-    exclusion_policy: ALL
+  exclusion_policy: ALL
 
-    embedded:
-        address:
-            class: Wamcar\Garage\Address
-            columnPrefix: address_
+  embedded:
+    address:
+      class: Wamcar\Garage\Address
+      columnPrefix: address_
 
+  id:
     id:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: AUTO
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
 
-    fields:
-        googlePlaceId:
-            type: string
-            length: 64
-            nullable: true
-            unique: true
-        name:
-            type: string
-            length: 128
-            nullable: false
-        siren:
-            type: string
-            length: 32
-            nullable: true
-            unique: true
-        phone:
-            type: string
-            nullable: true
-        email:
-            type: string
-            length: 191   # needed to index field in utf8mb4
-            nullable: true
-        openingHours:
-            type: text
-            nullable: true
-        presentation:
-            type: text
-            nullable: true
-        benefit:
-            type: text
-            nullable: true
-        googleRating:
-            type: float
-            nullable: true
-        optionAdminSellers:
-            type: boolean
-            nullable: false
-        optionAdminVisible:
-            type: boolean
-            nullable: false
-        deletedAt:
-            type: date
-            nullable: true
-        apiClientId:
-            type: string
-            nullable: true
-        apiSecret:
-            type: string
-            nullable: true
-        polevoId:
-            type: string
-            nullable: true
+  fields:
+    googlePlaceId:
+      type: string
+      length: 64
+      nullable: true
+      unique: true
+    name:
+      type: string
+      length: 128
+      nullable: false
+    siren:
+      type: string
+      length: 32
+      nullable: true
+      unique: true
+    phone:
+      type: string
+      nullable: true
+    email:
+      type: string
+      length: 191   # needed to index field in utf8mb4
+      nullable: true
+    openingHours:
+      type: text
+      nullable: true
+    presentation:
+      type: text
+      nullable: true
+    benefit:
+      type: text
+      nullable: true
+    googleRating:
+      type: float
+      nullable: true
+    optionAdminSellers:
+      type: boolean
+      nullable: false
+    optionAdminVisible:
+      type: boolean
+      nullable: false
+    deletedAt:
+      type: date
+      nullable: true
+    apiClientId:
+      type: string
+      nullable: true
+    apiSecret:
+      type: string
+      nullable: true
+    polevoId:
+      type: string
+      nullable: true
+    slug:
+      type: string
+      length: 512
+      gedmo:
         slug:
-            type: string
-            length: 512
-            gedmo:
-                slug:
-                    unique: true
-                    separator: -
-                    style: default
-                    updatable: false
-                    fields:
-                        - name
-                        - address.city.name
+          unique: true
+          separator: -
+          style: default
+          updatable: false
+          fields:
+            - name
+            - address.city.name
 
-    oneToMany:
-        members:
-            targetEntity: GarageProUser
-            mappedBy: garage
-            cascade: ["persist", "merge", "remove"]
-        proVehicles:
-            targetEntity: Wamcar\Vehicle\ProVehicle
-            mappedBy: garage
-            cascade: ["persist", "merge", "remove"]
+  oneToMany:
+    members:
+      targetEntity: GarageProUser
+      mappedBy: garage
+      cascade: ["persist", "merge", "remove"]
+    proVehicles:
+      targetEntity: Wamcar\Vehicle\ProVehicle
+      mappedBy: garage
+      cascade: ["persist", "merge", "remove"]
 
-    oneToOne:
-        banner:
-            targetEntity: AppBundle\Doctrine\Entity\GarageBanner
-            mappedBy: garage
-            cascade: ["persist", "merge", "remove"]
-        logo:
-            targetEntity: AppBundle\Doctrine\Entity\GarageLogo
-            mappedBy: garage
-            cascade: ["persist", "merge", "remove"]
+  oneToOne:
+    banner:
+      targetEntity: AppBundle\Doctrine\Entity\GarageBanner
+      mappedBy: garage
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+    logo:
+      targetEntity: AppBundle\Doctrine\Entity\GarageLogo
+      mappedBy: garage
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true

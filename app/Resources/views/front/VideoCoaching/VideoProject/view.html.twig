@@ -7,16 +7,24 @@
 
     {# Header #}
     <header class="videoproject-header"
-            style="background-image: url('{{ asset('assets/images/placeholders/user/banner.jpg') }}')">
+            style="background-image: url('{{ videoProject.banner|videoProjectBanner('videoproject_banner') }}')">
         <div class="row align-center-middle">
-            <div class="column ">
-                <div class="titles">
-                    <h1>{{ 'coaching_video.video_project.view.header.title'|trans({'%creatorFirstName%' : videoProject.creators.first.viewer.firstName|title}) }}</h1>
-
-                    {% if videoProject.title is defined %}
-                        <h2>{{ videoProject.title }}</h2>
-                    {% endif %}
+            {% if editVideoProjectBannerForm is defined and editVideoProjectBannerForm is not null %}
+                <div class="actions">
+                    {{ form_start(editVideoProjectBannerForm, { 'attr' : {'class': 'videoproject-banner-form','data-abide' : '','novalidate': 'novalidate'}}) }}
+                    {{ form_widget(editVideoProjectBannerForm.banner, {
+                        'input_class': 'js-onchange-submit',
+                        'iconButton':  'icon-picture-o no-margin'
+                    }) }}
+                    {{ form_widget(editVideoProjectBannerForm) }}
+                    {{ form_end(editVideoProjectBannerForm) }}
                 </div>
+            {% endif %}
+            <div class="column small-12">
+                <h2>{{ 'coaching_video.video_project.view.header.title'|trans({'%creatorFirstName%' : videoProject.creators.first.viewer.firstName|title}) }}</h2>
+            </div>
+            <div class="column small-12">
+                <h1>{{ videoProject.title }}</h1>
             </div>
         </div>
     </header>
@@ -86,7 +94,8 @@
 
                 <div>
                     {% for scriptVersion in videoProjectIteration.scriptVersions %}
-                        <div id="jsScriptVersionDuration-{{ scriptVersion.id }}" class="row align-middle js-scriptVersion-duration {{ loop.index0 > 0 ? 'is-hidden' }}">
+                        <div id="jsScriptVersionDuration-{{ scriptVersion.id }}"
+                             class="row align-middle js-scriptVersion-duration {{ loop.index0 > 0 ? 'is-hidden' }}">
                             <div class="column small-shrink"><span class="icon-clock no-margin"></span></div>
                             <div class="column small-collapse">
                                 <b>{{ 'coaching_video.video_project.view.info.duration'|trans({'%scriptname%': scriptVersion.title}) }}</b><br>
@@ -124,7 +133,8 @@
                         <ul class="tabs script-selector" data-tabs id="script-versions-tabs" data-deep-link="true"
                             data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true">
                             {% for scriptVersion in videoProjectIteration.scriptVersions %}
-                                <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}" data-script-version-id="{{ scriptVersion.id }}">
+                                <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}"
+                                    data-script-version-id="{{ scriptVersion.id }}">
                                     <a href="#scriptVersion-{{ scriptVersion.id }}"
                                        aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}">
                                         {{ scriptVersion.title }}

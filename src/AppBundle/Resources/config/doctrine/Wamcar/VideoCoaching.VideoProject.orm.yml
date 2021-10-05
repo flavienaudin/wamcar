@@ -15,6 +15,16 @@ Wamcar\VideoCoaching\VideoProject:
       generator:
         strategy: AUTO
 
+  oneToOne:
+    banner:
+      targetEntity: AppBundle\Doctrine\Entity\VideoProjectBanner
+      inversedBy: videoProject
+      joinColumn:
+        name: banner_id
+        referencedColumnName: id
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+
   oneToMany:
     viewers:
       targetEntity: Wamcar\VideoCoaching\VideoProjectViewer

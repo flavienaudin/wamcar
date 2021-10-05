@@ -4,6 +4,7 @@
 namespace AppBundle\Services\VideoCoaching;
 
 
+use AppBundle\Doctrine\Entity\VideoProjectBanner;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
@@ -94,6 +95,26 @@ class VideoProjectService
     {
         $videoProject->setTitle($videoProjectDTO->getTitle());
         $videoProject->setDescription($videoProjectDTO->getDescription());
+        $this->videoProjectRepository->update($videoProject);
+        return $videoProject;
+    }
+
+    /**
+     * @param VideoProjectDTO $videoProjectDTO Les informations du projet vidéo
+     * @param VideoProject $videoProject Le projet vidéo à éditer
+     * @return VideoProject
+     * @throws \Exception
+     */
+    public function updateBanner(VideoProjectDTO $videoProjectDTO, VideoProject $videoProject)
+    {
+        if ($videoProjectDTO->getBanner()) {
+            if ($videoProjectDTO->getBanner()->isRemoved) {
+                $videoProject->setBanner(null);
+            } elseif ($videoProjectDTO->getBanner()->file) {
+                $picture = new VideoProjectBanner($videoProject, $videoProjectDTO->getBanner()->file);
+                $videoProject->setBanner($picture);
+            }
+        }
         $this->videoProjectRepository->update($videoProject);
         return $videoProject;
     }

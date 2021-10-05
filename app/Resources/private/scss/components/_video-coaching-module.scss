@@ -21,80 +21,81 @@
       text-align: center;
       color: $body-font-color;
 
-      height: 300px;
+      height: 200px;
 
       @include breakpoint(medium) {
         height: 400px;
       }
 
       > div {
-        padding-top: rem-calc(200);
+        height: 200px;
 
         @include breakpoint(medium) {
-          padding-top: 0;
+          height: 400px;
         }
       }
 
-      .titles {
-        height: 250px;
-        border-radius: $global-radius;
-        background-color: #ffffff;
-        padding-top: rem-calc(75);
-        padding-left: rem-calc(15);
-        padding-right: rem-calc(15);
+      h1, h2 {
+        color: $white;
+        margin-bottom: 0;
 
-        @include breakpoint(small only) {
-          @include lightShadow;
-        }
         @include breakpoint(medium) {
-          padding-top: rem-calc(50);
-          background-color: transparent;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        }
+      }
+
+      .actions {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+
+        label {
+          margin-bottom: 0;
         }
 
-        h1 {
-          margin-top: 35px;
-        }
+        a {
+          background-color: #ffffff;
+          border-radius: 50%;
+          width: 35px;
+          height: 35px;
+          margin-left: 5px;
+          margin-right: 5px;
+          font-weight: normal;
+          font-size: 1.2rem;
 
-        h1, h2 {
-          color: $white;
+          @include breakpoint(medium) {
+            font-size: 14px;
+          }
+
+          &::before {
+            margin: auto
+          }
         }
       }
     }
-
-    // End &-header
 
     /* Body
          ===================================== */
     &-body {
-      padding-top: rem-calc(20);
-
-      /* Profile left column
-         ===================================== */
-      &-left-column {
-        > .videoproject-section {
-          margin-bottom: rem-calc(25);
-        }
+      @include breakpoint(medium) {
+        padding-top: rem-calc(20);
       }
-
-      // End profile-left-column
-
-      /* Profile right column
-     ===================================== */
-      &-right-column {
-        > div {
-          margin-top: rem-calc(25);
-          margin-bottom: rem-calc(25);
-
-          @include breakpoint(medium) {
-            margin-top: 0;
-          }
-        }
-      }
-
-      // End profile-right-column
     }
 
     // End &-body
+
+    /* left column
+       ===================================== */
+    &-left-column {
+      @include breakpoint(small only) {
+        > .videoproject-section:first-child {
+          margin-top: rem-calc(25);
+        }
+      }
+    }
+
+    // End -left-column
 
     &-section {
       border-radius: $global-radius;
