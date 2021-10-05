@@ -1,7 +1,5 @@
 {% for message in messages %}
-    {% if showPrevious == true and loop.index0 == 0 and end|localizeddate('short','none') != message.createdAt|localizeddate('short','none') %}
-        <hr class="hr-text" data-content="{{ end|localizeddate('short','none') }}">
-    {% elseif olderMessageDate is defined and olderMessageDate|localizeddate('short','none') != message.createdAt|localizeddate('short','none') %}
+    {% if olderMessageDate is defined and olderMessageDate|localizeddate('short','none') != message.createdAt|localizeddate('short','none') %}
         <hr class="hr-text" data-content="{{ olderMessageDate|localizeddate('short','none') }}">
     {% endif %}
 
@@ -16,7 +14,7 @@
                 </span><b>{{ message.author.firstname|title }}</b>
             </span>
 
-            <span>{{ message.createdAt|localizeddate('none','short') }}</span>
+            <span title="{{ message.createdAt|localizeddate('short','short') }}">{{ message.createdAt|localizeddate('none','short') }}</span>
         </span>
         <span class="message-content">{{ message.content }}</span>
         {% if message.attachments|length > 0 %}
@@ -54,7 +52,9 @@
                 {% endfor %}
             </div>
         {% endif %}
-
     </div>
+    {% if loop.last %}
+        <hr class="hr-text" data-content="{{ message.createdAt|localizeddate('short','none') }}">
+    {% endif %}
     {% set olderMessageDate = message.createdAt %}
 {% endfor %}

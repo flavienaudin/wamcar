@@ -18,4 +18,16 @@ function debounce(func, delay) {
   };
 }
 
-export {debounce};
+/**
+ * Retourne "true" si les deux dates correspondent au même jour
+ * @param d1 Date
+ * @param d2 Date
+ * @returns {boolean}
+ */
+function sameDay(d1, d2){
+  return d1.getFullYear() === d2.getFullYear() &&
+  d1.getMonth() === d2.getMonth() &&
+  d1.getDate() === d2.getDate();
+}
+
+export {debounce, sameDay};
