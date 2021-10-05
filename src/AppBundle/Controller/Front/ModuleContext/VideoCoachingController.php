@@ -493,12 +493,14 @@ class VideoCoachingController extends BaseController
             $end->setTimestamp(intval($endParam));
         }
 
-        $showPreviousParam = $request->get('showPrevious', false);
+        $showPreviousParam = boolval($request->get('showPrevious', false));
 
         $messages = $this->videoProjectService->getMessages($videoProject, $start, $end);
         return new JsonResponse([
             "start" => $start ? $start->getTimestamp() : null,
             "end" => $end ? $end->getTimestamp() : null,
+            "firstMessageDate" => isset($messages[0]) ? $messages[0]->getCreatedAt()->getTimestamp() : null,
+            "lastMessageDate" => isset($messages[count($messages)-1]) ? $messages[count($messages)-1]->getCreatedAt()->getTimestamp() : null,
             "messages" => $this->renderTemplate('front/VideoCoaching/VideoProject/Messages/includes/view.html.twig', [
                 "messages" => $messages,
                 "videoProjectViewer" => $videoProject->getViewerInfo($currentUser),

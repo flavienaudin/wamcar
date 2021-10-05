@@ -4,6 +4,7 @@
 
 import 'select2';
 import {initAttachmentsListForm} from './conversation';
+import {sameDay} from './utils';
 import linkifyHtml from 'linkifyjs/html';
 
 // Synchronisation de la sélection du ScriptVersion
@@ -63,7 +64,7 @@ function getMessages(showPrevious = false) {
   const startTimestamp = showPrevious ? undefined : parseInt($discussionMessagesSection.data('start'));
   let searchEndTimestamp = undefined;
   if (showPrevious) {
-    const $olderMessage = $discussionMessagesSection.children().last();
+    const $olderMessage = $discussionMessagesSection.children('div').last();
     searchEndTimestamp = $olderMessage.data('postedat');
   }
   const endTimestamp = searchEndTimestamp ? searchEndTimestamp : parseInt(new Date().getTime() / 1000);
@@ -75,20 +76,41 @@ function getMessages(showPrevious = false) {
     data: {
       start: isNaN(startTimestamp) ? undefined : startTimestamp,
       end: endTimestamp,
-      showPrevious: showPrevious
+      showPrevious: (showPrevious ? 1 : 0)
     }
   }).done(function (responseData) {
     if (showPrevious) {
+      const $lastDiscussionElt = $discussionMessagesSection.children().last();
+      if ($lastDiscussionElt.prop('tagName') === 'HR') {
+        const endDate = new Date(parseInt(responseData.end) * 1000);
+        const firstMessageDate = new Date(parseInt(responseData.firstMessageDate) * 1000);
+        if (sameDay(endDate, firstMessageDate)) {
+          $lastDiscussionElt.remove();
+        }
+      }
+
       $discussionMessagesSection.append(responseData.messages);
       if (responseData.messages.length === 0 && $showPreviousMessagesButton.length > 0) {
         $showPreviousMessagesButton.addClass('is-hidden');
         $('#js_nomore_previous_message').removeClass('is-hidden');
       }
     } else {
-      $discussionMessagesSection.prepend(responseData.messages);
+      let $messages = $(responseData.messages);
+      if (responseData.lastMessageDate != null) {
+        const lastMessageDate = new Date(parseInt(responseData.lastMessageDate) * 1000);
+        const $topMessage = $discussionMessagesSection.children().first();
+        if ($topMessage.length) {
+          const topMessageDate = new Date(parseInt($topMessage.data('postedat')) * 1000);
+          if (sameDay(lastMessageDate, topMessageDate)) {
+            $messages.last().hide();
+          }
+        }
+      }
+
+      $discussionMessagesSection.prepend($messages);
+      // Set next start timestamp with the "end" param of last request
+      $discussionMessagesSection.data('start', responseData.end);
     }
-    // Set next start timestamp with the "end" param of last request
-    $discussionMessagesSection.data('start', responseData.end);
 
     /* Detect URL in message to wrap with <a>*/
     const $messagesContents = $discussionMessagesSection.find('.message-content');

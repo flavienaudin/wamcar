@@ -143,7 +143,7 @@ class VideoProjectService
         foreach ($emails as $email) {
             /** @var ProUser|null $proUser */
             $proUser = $this->proUserRepository->findOneByEmail($email);
-            if ($proUser && $proUser->hasVideoModuleAccess()) {
+            if ($proUser) {
                 $follower = new VideoProjectViewer($videoProject, $proUser, false);
                 $videoProject->addViewer($follower);
                 $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $follower;
