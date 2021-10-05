@@ -9,6 +9,11 @@
     height: 1.5em;
     opacity: .5;
 
+    & + .hr-text,
+    &:first-child {
+      display: none;
+    }
+
     &:before {
       content: '';
       // use the linear-gradient for the fading effect
