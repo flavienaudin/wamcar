@@ -13,6 +13,7 @@ use AppBundle\Form\DTO\VideoVersionDTO;
 use AppBundle\Form\Type\ScriptSequenceType;
 use AppBundle\Form\Type\ScriptVersionTitleType;
 use AppBundle\Form\Type\ScriptVersionType;
+use AppBundle\Form\Type\VideoProjectBannerType;
 use AppBundle\Form\Type\VideoProjectMessageType;
 use AppBundle\Form\Type\VideoProjectShareType;
 use AppBundle\Form\Type\VideoProjectType;
@@ -101,17 +102,30 @@ class VideoCoachingController extends BaseController
         }
 
         $editVideoProjectForm = null;
+        $editVideoProjectBannerForm = null;
         $shareVideoProjectForm = null;
         // Formulaire d'édition du projet vidéo
         if ($this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
+            $videoProjectDTO = VideoProjectDTO::buildFromVideoProject($videoProject);
 
             // Formulaire d'édition des informations du projet video (title, description)
-            $videoProjectDTO = VideoProjectDTO::buildFromVideoProject($videoProject);
             $editVideoProjectForm = $this->formFactory->create(VideoProjectType::class, $videoProjectDTO);
             $editVideoProjectForm->handleRequest($request);
             if ($editVideoProjectForm->isSubmitted() && $editVideoProjectForm->isValid()) {
                 $videoProject = $this->videoProjectService->update($videoProjectDTO, $videoProject);
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.save');
+                return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                    'videoProjectId' => $videoProject->getId(),
+                    'iterationId' => $videoProjectIteration->getId()
+                ]);
+            }
+
+            // Formulaire d'édition de l'image de couverture du projet video (banner)
+            $editVideoProjectBannerForm = $this->formFactory->create(VideoProjectBannerType::class, $videoProjectDTO);
+            $editVideoProjectBannerForm->handleRequest($request);
+            if ($editVideoProjectBannerForm->isSubmitted() && $editVideoProjectBannerForm->isValid()) {
+                $videoProject = $this->videoProjectService->updateBanner($videoProjectDTO, $videoProject);
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.banner.edit');
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                     'videoProjectId' => $videoProject->getId(),
                     'iterationId' => $videoProjectIteration->getId()
@@ -217,6 +231,7 @@ class VideoCoachingController extends BaseController
             'videoProject' => $videoProject,
             'videoProjectIteration' => $videoProjectIteration,
             'editVideoProjectForm' => $editVideoProjectForm ? $editVideoProjectForm->createView() : null,
+            'editVideoProjectBannerForm' => $editVideoProjectBannerForm ? $editVideoProjectBannerForm->createView() : null,
             'shareVideoProjectForm' => $shareVideoProjectForm ? $shareVideoProjectForm->createView() : null,
             'createScriptVersionForm' => $createScriptVersionForm ? $createScriptVersionForm->createView() : null,
             'editScriptVersionTitleForms' => $editScriptVersionTitleForms,

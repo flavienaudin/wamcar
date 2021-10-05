@@ -80,6 +80,7 @@ flash:
     videoproject:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.
+      banner.edit: L'image de votre projet a bien été mise à jour.
     scriptversion:
       save: Le script a bien été enresgitré.
       update: La version du script a bien été mise à jour.

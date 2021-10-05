@@ -12,12 +12,15 @@ class VideoProjectDTO
     private $title;
     /** @var null|string */
     private $description;
+    /** @var VideoProjectPictureDTO */
+    private $banner;
 
     public static function buildFromVideoProject(VideoProject $videoProject)
     {
         $videoProjectDTO = new VideoProjectDTO();
         $videoProjectDTO->title = $videoProject->getTitle();
         $videoProjectDTO->description = $videoProject->getDescription();
+        $videoProjectDTO->banner = new VideoProjectPictureDTO($videoProject->getBannerFile());
         return $videoProjectDTO;
     }
 
@@ -51,6 +54,22 @@ class VideoProjectDTO
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return VideoProjectPictureDTO
+     */
+    public function getBanner(): VideoProjectPictureDTO
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @param VideoProjectPictureDTO $banner
+     */
+    public function setBanner(VideoProjectPictureDTO $banner): void
+    {
+        $this->banner = $banner;
     }
 
 }

@@ -6,10 +6,12 @@ namespace AppBundle\Twig;
 use AppBundle\Doctrine\Entity\UserBanner;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Entity\VehiclePicture;
+use AppBundle\Doctrine\Entity\VideoProjectBanner;
 use AppBundle\Services\Picture\PathGaragePicture;
 use AppBundle\Services\Picture\PathUserBanner;
 use AppBundle\Services\Picture\PathUserPicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
+use AppBundle\Services\Picture\PathVideoProjectBanner;
 use AppBundle\Utils\AccentuationUtils;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -30,6 +32,8 @@ class PictureExtension extends AbstractExtension
     protected $pathUserPicture;
     /** @var PathUserBanner */
     protected $pathUserBanner;
+    /** @var PathVideoProjectBanner */
+    protected $pathVideoProjectBanner;
 
 
     /**
@@ -40,6 +44,7 @@ class PictureExtension extends AbstractExtension
      * @param PathGaragePicture $pathGaragePicture
      * @param PathUserPicture $pathUserPicture
      * @param PathUserBanner $pathUserBanner
+     * @param PathVideoProjectBanner $pathVideoProjectBanner
      */
     public function __construct(
         UploaderHelper $uploaderHelper,
@@ -47,7 +52,8 @@ class PictureExtension extends AbstractExtension
         PathVehiclePicture $pathVehiclePicture,
         PathGaragePicture $pathGaragePicture,
         PathUserPicture $pathUserPicture,
-        PathUserBanner $pathUserBanner
+        PathUserBanner $pathUserBanner,
+        PathVideoProjectBanner $pathVideoProjectBanner
     )
     {
         $this->uploaderHelper = $uploaderHelper;
@@ -56,6 +62,7 @@ class PictureExtension extends AbstractExtension
         $this->pathGaragePicture = $pathGaragePicture;
         $this->pathUserPicture = $pathUserPicture;
         $this->pathUserBanner = $pathUserBanner;
+        $this->pathVideoProjectBanner = $pathVideoProjectBanner;
     }
 
     public function getFilters()
@@ -64,6 +71,7 @@ class PictureExtension extends AbstractExtension
             new TwigFilter('avatar', array($this, 'avatarFilter')),
             new TwigFilter('userBanner', array($this, 'userBannerFilter')),
             new TwigFilter('banner', array($this, 'bannerFilter')),
+            new TwigFilter('videoProjectBanner', array($this, 'videoProjectBannerFilter')),
             new TwigFilter('logo', array($this, 'logoFilter')),
             new TwigFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
             new TwigFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter')),
@@ -128,5 +136,10 @@ class PictureExtension extends AbstractExtension
     public function defaultVehicleFormPictureFilter(?string $filter, $index)
     {
         return $this->pathVehiclePicture->getFormPathPlaceholder($filter, $index);
+    }
+
+    public function videoProjectBannerFilter(?VideoProjectBanner $videoProjectBanner, string $filter)
+    {
+        return $this->pathVideoProjectBanner->getPath($videoProjectBanner, $filter);
     }
 }

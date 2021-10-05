@@ -4,10 +4,12 @@
 namespace Wamcar\VideoCoaching;
 
 
+use AppBundle\Doctrine\Entity\VideoProjectBanner;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\User\ProUser;
 
 class VideoProject
@@ -24,6 +26,8 @@ class VideoProject
     private $title;
     /** @var null|string */
     private $description;
+    /** @var null|VideoProjectBanner */
+    private $banner;
     /** @var Collection of VideoProjectViewer */
     private $viewers;
     /** @var Collection of VideoProjectIteration */
@@ -95,6 +99,30 @@ class VideoProject
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return VideoProjectBanner|null
+     */
+    public function getBanner(): ?VideoProjectBanner
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getBannerFile(): ?File
+    {
+        return $this->banner ? $this->banner->getFile() : null;
+    }
+
+    /**
+     * @param VideoProjectBanner|null $banner
+     */
+    public function setBanner(?VideoProjectBanner $banner): void
+    {
+        $this->banner = $banner;
     }
 
     /**

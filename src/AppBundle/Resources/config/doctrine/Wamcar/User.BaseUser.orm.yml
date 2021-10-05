@@ -111,6 +111,7 @@ Wamcar\User\BaseUser:
                 name: banner_id
                 referencedColumnName: id
             cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
         preferences:
             targetEntity: AppBundle\Doctrine\Entity\UserPreferences
             mappedBy: user
