@@ -132,7 +132,6 @@
 
     // End &-section
 
-
     &-viewers {
       .avatar {
         display: inline-block;
@@ -153,6 +152,7 @@
       }
     }
 
+    // End &-viewers
     &-discussion {
       &-writer {
         .attachments-field-list {
@@ -162,6 +162,8 @@
         }
       }
     }
+
+    // End &-discussion
 
     &-messages {
 
@@ -223,6 +225,7 @@
 
       }
     }
+    // End &-messages
   }
 
   /*
