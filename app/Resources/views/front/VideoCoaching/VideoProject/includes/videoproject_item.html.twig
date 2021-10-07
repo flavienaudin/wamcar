@@ -1,0 +1,14 @@
+{% set videoProjectLink = path('front_coachingvideo_videoproject_view', {'videoProjectId': videoProject.id}) %}
+
+<div class="column">
+    <div class="card block-light-shadow">
+        <a href="{{ videoProjectLink }}" class="is-block card-image">
+            <img src="{{ videoProject.banner|videoProjectBanner('videoproject_banner') }}"
+                 alt="{{ videoProject.title }}" title="{{ videoProject.title }}">
+        </a>
+        <div class="card-section">
+            <h3><a href="{{ videoProjectLink }}" class="is-block">{{ videoProject.title|title }}</a></h3>
+            <div>{{ videoProject.description|raw }}</div>
+        </div>
+    </div>
+</div>

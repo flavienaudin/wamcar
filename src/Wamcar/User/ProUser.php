@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Wamcar\Conversation\ProContactMessage;
+use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 use Wamcar\Sale\Declaration;
-use Wamcar\VideoCoaching\VideoProjectViewer;
 use Wamcar\VideoCoaching\VideoProjectMessage;
+use Wamcar\VideoCoaching\VideoProjectViewer;
 
 class ProUser extends BaseUser
 {
@@ -279,6 +280,25 @@ class ProUser extends BaseUser
     public function numberOfGarages(): int
     {
         return count($this->getEnabledGarageMemberships());
+    }
+
+    /**
+     * Retourne un tableau contenant les autres membres des garages du pro
+     * @return array of ProUser with prouser->id as key
+     */
+    public function getCoworkers()
+    {
+        $coworkers = [];
+        /** @var Garage $garage */
+        foreach ($this->getGarages() as $garage) {
+            /** @var GarageProUser $member */
+            foreach ($garage->getEnabledMembers() as $member) {
+                if (!$member->getProUser()->is($this)) {
+                    $coworkers[$member->getProUser()->getId()] = $member->getProUser();
+                }
+            }
+        }
+        return $coworkers;
     }
 
     /**

@@ -9,6 +9,7 @@ use AppBundle\Form\DTO\ScriptSequenceDTO;
 use AppBundle\Form\DTO\ScriptVersionDTO;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
+use AppBundle\Form\DTO\VideoProjectViewersDTO;
 use AppBundle\Form\DTO\VideoVersionDTO;
 use AppBundle\Form\Type\ScriptSequenceType;
 use AppBundle\Form\Type\ScriptVersionTitleType;
@@ -133,19 +134,11 @@ class VideoCoachingController extends BaseController
             }
 
             // Formulaire de partage du projet vidéo avec d'autres utilisateurs
-            $shareVideoProjectForm = $this->formFactory->create(VideoProjectShareType::class);
+            $coworkersDTO = new VideoProjectViewersDTO($videoProject);
+            $shareVideoProjectForm = $this->formFactory->create(VideoProjectShareType::class, $coworkersDTO, ['coworkers' => $currentUser->getCoworkers()]);
             $shareVideoProjectForm->handleRequest($request);
             if ($shareVideoProjectForm->isSubmitted() && $shareVideoProjectForm->isValid()) {
-                $results = $this->videoProjectService->shareVideoProjectToUsersByEmails($videoProject, $shareVideoProjectForm->get('emails')->getData());
-                if (count($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]) > 0) {
-                    $emailsNotFoundList = join(', ', array_values($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]));
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING,
-                        $this->translator->transChoice('flash.warning.video_project.share.not_found',
-                            count($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]),
-                            ['%prousers_notfound_list%' => $emailsNotFoundList]
-                        ));
-                }
-
+                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers());
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                     'videoProjectId' => $videoProject->getId(),
                     'iterationId' => $videoProjectIteration->getId()
@@ -500,7 +493,7 @@ class VideoCoachingController extends BaseController
             "start" => $start ? $start->getTimestamp() : null,
             "end" => $end ? $end->getTimestamp() : null,
             "firstMessageDate" => isset($messages[0]) ? $messages[0]->getCreatedAt()->getTimestamp() : null,
-            "lastMessageDate" => isset($messages[count($messages)-1]) ? $messages[count($messages)-1]->getCreatedAt()->getTimestamp() : null,
+            "lastMessageDate" => isset($messages[count($messages) - 1]) ? $messages[count($messages) - 1]->getCreatedAt()->getTimestamp() : null,
             "messages" => $this->renderTemplate('front/VideoCoaching/VideoProject/Messages/includes/view.html.twig', [
                 "messages" => $messages,
                 "videoProjectViewer" => $videoProject->getViewerInfo($currentUser),
