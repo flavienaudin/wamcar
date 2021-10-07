@@ -27,10 +27,9 @@
 {% set videoCoachingUserProjects %}{% spaceless %}
     {% for userCreatedVideoProjectViewer in userCreatedVideoProjectViewers %}
         {% if is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_VIEW'), userCreatedVideoProjectViewer.videoProject) %}
-            <li class="margin-bottom-2">
-                <a href="{{ path('front_coachingvideo_videoproject_view', {'videoProjectId': userCreatedVideoProjectViewer.videoProject.id}) }}">
-                    {{ userCreatedVideoProjectViewer.videoProject.title }}</a>
-            </li>
+            {{ include('front/VideoCoaching/VideoProject/includes/videoproject_item.html.twig', {
+                videoProject:userCreatedVideoProjectViewer.videoProject
+            }) }}
         {% endif %}
     {% endfor %}
 {% endspaceless %}{% endset %}
@@ -86,10 +85,14 @@
                     </h2>
                     {% if createdVideoProjectForm|default(null) is null and userIsMe %}
                         <p class="padding-1 dark-gray-blue-peexeo-bg white-color">
-                            Vous avez atteint la limite du nombre de projet vidéo autorisé en version gratuite. Pour créer d'autres projets,
+                            Vous avez atteint la limite du nombre de projet vidéo autorisé en version gratuite. Pour
+                            créer d'autres projets,
                             abonnez-vous à Wamcar. Vous aurez accès à l'ensemble des fonctionnalités : Coach,...</p>
                     {% endif %}
-                    <ol>{{ videoCoachingUserProjects }}</ol>
+
+                    <div class="row small-up-1 medium-up-2">
+                        {{ videoCoachingUserProjects }}
+                    </div>
                 </div>
             {% endif %}
 
@@ -97,14 +100,13 @@
             {% if userIsMe and userFollowedVideoProjectViewers|length > 0 %}
                 <div class="profile-section block-light-shadow">
                     <h2>{{ 'coaching_video.video_project.list.followed.title'|trans }}</h2>
-                    <ol>
+                    <div class="row small-up-1 medium-up-2">
                         {% for userFollowedVideoProjectViewer in userFollowedVideoProjectViewers %}
-                            <li class="margin-bottom-2">
-                                <a href="{{ path('front_coachingvideo_videoproject_view', {'videoProjectId': userFollowedVideoProjectViewer.videoProject.id}) }}">
-                                    {{ userFollowedVideoProjectViewer.videoProject.title }}</a>
-                            </li>
+                            {{ include('front/VideoCoaching/VideoProject/includes/videoproject_item.html.twig', {
+                                videoProject: userFollowedVideoProjectViewer.videoProject
+                            }) }}
                         {% endfor %}
-                    </ol>
+                    </div>
                 </div>
             {% endif %}
 
@@ -212,7 +214,8 @@
                         {% endif %}
                     </div>
                     {% if videoPresentationForm is not null %}
-                        <div id="jsVideoPresentationForm" {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                        <div id="jsVideoPresentationForm" {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }}
+                             data-toggler="is-hidden">
                             {{ form_start(videoPresentationForm, {
                                 'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
                             }) }}
@@ -372,38 +375,40 @@
 
             {# Add Videos Inserts Block #}
             {% if addVideosInsertForm is not null %}
-            <div class="profile-section block-light-shadow">
-                <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
-                <div id="addVideosInsertForm" data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
-                    {% set formAttr = (not addVideosInsertForm.vars.valid?{
-                        'id' : addVideosInsertForm.vars.id,
-                        'data-scroll-to-now':addVideosInsertForm.vars.id}
-                        :{}) %}
-                    {{ form_start(addVideosInsertForm, {
-                        'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
-                    }) }}
-
-                    {{ form_widget(addVideosInsertForm.title, {
-                        'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
-                        'required' : false,
-                        'required_class': 'show-for-sr',
-                        'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
-                    }) }}
-                    {% if addVideosInsertForm.playlistId %}
-                        {{ form_widget(addVideosInsertForm.playlistId, {
-                            'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
-                            'required' : true,
-                            'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
+                <div class="profile-section block-light-shadow">
+                    <div class="icon-plus"
+                         data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
+                    <div id="addVideosInsertForm"
+                         data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
+                        {% set formAttr = (not addVideosInsertForm.vars.valid?{
+                            'id' : addVideosInsertForm.vars.id,
+                            'data-scroll-to-now':addVideosInsertForm.vars.id}
+                            :{}) %}
+                        {{ form_start(addVideosInsertForm, {
+                            'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
                         }) }}
-                        {{ form_errors(addVideosInsertForm.playlistId) }}
-                    {% endif %}
 
-                    <div class="is-flex align-right">
-                        <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                        {{ form_widget(addVideosInsertForm.title, {
+                            'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                            'required' : false,
+                            'required_class': 'show-for-sr',
+                            'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                        }) }}
+                        {% if addVideosInsertForm.playlistId %}
+                            {{ form_widget(addVideosInsertForm.playlistId, {
+                                'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
+                                'required' : true,
+                                'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
+                            }) }}
+                            {{ form_errors(addVideosInsertForm.playlistId) }}
+                        {% endif %}
+
+                        <div class="is-flex align-right">
+                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                        </div>
+                        {{ form_end(addVideosInsertForm) }}
                     </div>
-                    {{ form_end(addVideosInsertForm) }}
                 </div>
-            </div>
             {% endif %}
             {# END Add Videos Inserts Block #}
 
@@ -429,13 +434,15 @@
                         <div>
                             <h3>{{ 'user.profile.edit.form.titles.id'|trans }}</h3>
                             <p>{{ 'user.profile.edit.form.email.label'|trans }} : {{ user.email }} <br>
-                                <a class="text-underline" data-toggle="js-update-password">{{ 'user.profile.edit.form.password.edit'|trans }}</a>
+                                <a class="text-underline"
+                                   data-toggle="js-update-password">{{ 'user.profile.edit.form.password.edit'|trans }}</a>
                             </p>
-                            <div id="js-update-password" {{ passwordForm.vars.valid ? 'class="is-hidden"' }} data-toggler=".is-hidden">
+                            <div id="js-update-password" {{ passwordForm.vars.valid ? 'class="is-hidden"' }}
+                                 data-toggler=".is-hidden">
                                 {% set formAttr = (not passwordForm.vars.valid?{
                                     'id' : passwordForm.vars.id,
                                     'data-scroll-to-now':passwordForm.vars.id
-                                    }:{}) %}
+                                }:{}) %}
                                 {{ form_start(passwordForm, {
                                     'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
                                 }) }}
@@ -463,7 +470,8 @@
                                         }) }}
                                     </div>
                                 </div>
-                                <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
+                                <button type="submit"
+                                        class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
 
                                 {{ form_end(passwordForm) }}
                             </div>

@@ -127,7 +127,7 @@ class VideoProject
 
     /**
      * @param bool $excludeCreators set to true to get only followers, no creators
-     * @return Collection
+     * @return Collection of VideoProjectViewer
      */
     public function getViewers(bool $excludeCreators = false): Collection
     {
@@ -142,9 +142,9 @@ class VideoProject
     /**
      * Return the VideoProjectViewer or null, of the given ProUser
      * @param ProUser $proUser
-     * @return null|VideoProjectViewer
+     * @return VideoProjectViewer|bool false if not found
      */
-    public function getViewerInfo(ProUser $proUser): VideoProjectViewer
+    public function getViewerInfo(ProUser $proUser)
     {
         return $this->viewers->filter(function (VideoProjectViewer $videoProjectViewer) use ($proUser) {
             return $videoProjectViewer->getViewer()->is($proUser);

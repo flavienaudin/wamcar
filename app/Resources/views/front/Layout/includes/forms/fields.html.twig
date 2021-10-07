@@ -550,8 +550,8 @@
 
 {%- block checkbox_row %}
     {{ form_widget(form) }}
-    <label for="{{ form.vars.id }}" class="checkbox">
-        {{ form.vars.label }}
+    <label for="{{ form.vars.id }}" class="checkbox {{ checkbox_class|default('') }}">
+        {{ form.vars.label|raw }}
     </label>
 {%- endblock checkbox_row %}
 

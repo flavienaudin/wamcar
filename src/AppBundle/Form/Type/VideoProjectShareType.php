@@ -3,35 +3,47 @@
 namespace AppBundle\Form\Type;
 
 
+use AppBundle\Form\DTO\VideoProjectViewersDTO;
+use AppBundle\Services\Picture\PathUserPicture;
+use AppBundle\Utils\AccentuationUtils;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\User\ProUser;
 
 class VideoProjectShareType extends AbstractType
 {
+
+    /** @var PathUserPicture */
+    private $pathUserPicture;
+
     /**
-     * {@inheritdoc}
+     * VideoProjectShareType constructor.
+     * @param PathUserPicture $pathUserPicture
      */
+    public function __construct(PathUserPicture $pathUserPicture)
+    {
+        $this->pathUserPicture = $pathUserPicture;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('emails', ChoiceType::class, [
-            'multiple' => true
-        ]);
+        parent::buildForm($builder, $options);
+        $builder->add('coworkers', VideoProjectCoworkerType::class, [
+            'choices' => $options['coworkers'],
+            'choice_label' => function (ProUser $coworker) {
+                $imagePath = $this->pathUserPicture->getPath($coworker->getAvatar(), 'user_mini_thumbnail', AccentuationUtils::remove($coworker->getFullName()));
 
-        // Replace choice by text to prevent validation, as fields are dynamically filled
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $form = $event->getForm();
-            $data = $event->getData();
-
-            if ($form->has('emails') && isset($data['emails'])) {
-                $form->remove('emails');
-                $form->add('emails', ChoiceType::class, [
-                    'choices' => $data['emails'],
-                    'multiple' => true
-                ]);
+                return '<img src="' . $imagePath . '" alt="' . $coworker->getFullName() . '" title="' . $coworker->getFullName() . '">'
+                    . $coworker->getFullName();
             }
-        });
+        ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(['data_class' => VideoProjectViewersDTO::class]);
+        $resolver->setRequired('coworkers');
     }
 }

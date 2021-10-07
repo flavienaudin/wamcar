@@ -15,7 +15,7 @@ class VideoProjectSharingSuccessEvent extends AbstractVideoProjectEvent implemen
     /**
      * VideoProjectSuccessEvent constructor.
      * @param VideoProject $videoProject
-     * @param array $followers
+     * @param array $followers email => VideoProjectViewer
      */
     public function __construct(VideoProject $videoProject, array $followers)
     {

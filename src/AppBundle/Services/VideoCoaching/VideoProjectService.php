@@ -128,6 +128,52 @@ class VideoProjectService
         $this->videoProjectRepository->remove($videoProject);
     }
 
+    /**
+     * @param VideoProject $videoProject
+     * @param array $coworkers
+     */
+    public function updateVideoProjectCoworkers(VideoProject $videoProject, array $coworkers)
+    {
+        $viewersToKeep = [];
+        $newFollowers = [];
+        /** @var ProUser $coworker */
+        foreach ($coworkers as $coworker) {
+            $actualViewerToKeep = $videoProject->getViewerInfo($coworker);
+            if ($actualViewerToKeep) {
+                $viewersToKeep[] = $actualViewerToKeep;
+            } else {
+                /** @var VideoProjectViewer $existingSoftDeletedViewer */
+                $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $coworker]);
+                if ($existingSoftDeletedViewer) {
+                    $existingSoftDeletedViewer->setDeletedAt(null);
+                    $newFollower = $existingSoftDeletedViewer;
+                } else {
+                    $newFollower = new VideoProjectViewer($videoProject, $coworker, false);
+                }
+
+                $videoProject->addViewer($newFollower);
+                $newFollowers[$coworker->getEmail()] = $newFollower;
+                $viewersToKeep[] = $newFollower;
+            }
+        }
+        /** @var VideoProjectViewer $videoProjectViewer */
+        foreach ($videoProject->getViewers() as $videoProjectViewer) {
+            $toKeep = $videoProjectViewer->isCreator();
+
+            // TODO : do not delete coach / wamcar coach when implemnted
+
+            /** @var VideoProjectViewer $viewerToKeep */
+            foreach ($viewersToKeep as $viewerToKeep) {
+                $toKeep |= $viewerToKeep->getViewer()->is($videoProjectViewer->getViewer());
+            }
+            if (!$toKeep) {
+                $videoProject->removeViewer($videoProjectViewer);
+            }
+        }
+        $this->videoProjectRepository->update($videoProject);
+        $this->eventBus->handle(new VideoProjectSharingSuccessEvent($videoProject, $newFollowers));
+    }
+
 
     /**
      * @param VideoProject $videoProject
