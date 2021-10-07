@@ -7,10 +7,10 @@ easy_admin:
       - { label: "Tableau d'administration", route: 'admin_board' }
       - { label: 'Quitter', route: 'front_default' }
       - { label: "Utilisateurs" }
-      - PersonalApplicationUser
-      - ProApplicationUser
+      - { entity: ProApplicationUser, default: true}
       - Garage
       - ProUserProService
+      - PersonalApplicationUser
       - { label: "Référentiel de données"}
       - ProServiceCategory
       - ProService
