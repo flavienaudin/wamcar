@@ -3,7 +3,7 @@
         <hr class="hr-text" data-content="{{ olderMessageDate|localizeddate('short','none') }}">
     {% endif %}
 
-    <div class="{{ not message.author.is(app.user) and videoProjectViewer.visitedAt < message.createdAt ? "unread" }} {{ message.author.is(app.user) ? "is-author" }}"
+    <div class="{{ not message.author.is(app.user) and (videoProjectViewer is not same as(false) and videoProjectViewer.visitedAt < message.createdAt ? "unread") }} {{ message.author.is(app.user) ? "is-author" }}"
          data-postedat="{{ message.createdAt.timestamp }}">
         <span class="is-flex align-justify margin-bottom-1">
             <span>
@@ -39,15 +39,17 @@
                     <div class="messages-item-link-preview">
                         {% if linkPreview.image is not empty %}
                             <a href="{{ linkPreview.url }}" target="_blank">
-                                <img src="{{ linkPreview.image }}" alt="{{ linkPreview.description|default('pas de description') }}">
+                                <img src="{{ linkPreview.image }}"
+                                     alt="{{ linkPreview.description|default('pas de description') }}">
                             </a>
                         {% else %}
                             <div class="no-img">&nbsp;</div>
                         {% endif %}
-                        {% if linkPreview.title is not empty%}
+                        {% if linkPreview.title is not empty %}
                             <b class="linkpreview-title">{{ linkPreview.title|raw }}</b>
                         {% endif %}
-                        <a href="{{ linkPreview.url }}" target="_blank" class="linkpreview-link">{{ linkPreview.domainUrl }}</a>
+                        <a href="{{ linkPreview.url }}" target="_blank"
+                           class="linkpreview-link">{{ linkPreview.domainUrl }}</a>
                     </div>
                 {% endfor %}
             </div>

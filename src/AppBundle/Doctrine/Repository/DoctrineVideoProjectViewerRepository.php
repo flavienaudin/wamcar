@@ -10,6 +10,7 @@ use Wamcar\VideoCoaching\VideoProjectViewerRepository;
 
 class DoctrineVideoProjectViewerRepository extends EntityRepository implements VideoProjectViewerRepository
 {
+    use SoftDeletableEntityRepositoryTrait;
 
     /**
      * {@inheritdoc}

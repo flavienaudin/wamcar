@@ -3,19 +3,15 @@
         { 'attr' : { 'class': formClass|default('row'), 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 
     <div class="columns small-12 input-margin">
-        {{ form_widget(shareVideoProjectForm.emails, {
-            'class':'js-videoproject-share-emails',
-            'label':'coaching_video.video_project.share.form.field.email.label'|trans,
-            'label_class':'show-for-sr',
-            'required' : true,
-            'required_message': 'coaching_video.video_project.share.form.field.email.error.empty'|trans,
-            'multiple':'multiple',
-            'attr':{
-                'data-placeholder':'coaching_video.video_project.share.form.field.email.placeholder'|trans
-            }
-        }) }}
+        <label>{{ 'coaching_video.video_project.share.form.field.coworkers.label'|trans }}</label>
+        {% for id, coworkerCheckbox in shareVideoProjectForm.coworkers %}
+            <div>
+                {{ form_row(coworkerCheckbox, {
+                    'checkbox_class' : 'user-thumbnail-mini'
+                }) }}
+            </div>
+        {% endfor %}
     </div>
-    <div class="columns small-12"><i>{{ 'garage.assignation.invitation.field.email.instruction'|trans }}</i></div>
 
     {{ form_rest(shareVideoProjectForm) }}
     <div class="columns small-12 right">
