@@ -1,10 +1,10 @@
 <div>
-    {{ form_start(shareVideoProjectForm,
+    {{ form_start(selectCoworkersVideoProjectForm,
         { 'attr' : { 'class': formClass|default('row'), 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 
     <div class="columns small-12 input-margin">
         <label>{{ 'coaching_video.video_project.share.form.field.coworkers.label'|trans }}</label>
-        {% for id, coworkerCheckbox in shareVideoProjectForm.coworkers %}
+        {% for id, coworkerCheckbox in selectCoworkersVideoProjectForm.coworkers %}
             <div>
                 {{ form_row(coworkerCheckbox, {
                     'checkbox_class' : 'user-thumbnail-mini'
@@ -13,9 +13,9 @@
         {% endfor %}
     </div>
 
-    {{ form_rest(shareVideoProjectForm) }}
+    {{ form_rest(selectCoworkersVideoProjectForm) }}
     <div class="columns small-12 right">
         <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
     </div>
-    {{ form_end(shareVideoProjectForm) }}
+    {{ form_end(selectCoworkersVideoProjectForm) }}
 </div>
