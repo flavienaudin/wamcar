@@ -3,6 +3,10 @@
 #    resource: "routing/front.yml"
 #    prefix: /
 
+legacy_front:
+  resource: "routing/front.yml"
+  prefix: /
+
 b2b:
   resource: "routing/front_b2b.yml"
   prefix: /

@@ -289,4 +289,15 @@ class DefaultController extends BaseController
     {
         return $this->render('/front/Home/landing_b2b.html.twig');
     }
+
+    /**
+     * Pour les page supprimées
+     * @return Response
+     */
+    public function goneAction()
+    {
+        $response = $this->render('front/Exception/error410.html.twig');
+        $response->setStatusCode(Response::HTTP_GONE);
+        return $response;
+    }
 }

@@ -131,9 +131,9 @@
 #  path: /conseiller-auto/{slug}
 #  controller: AppBundle:Front\PersonalContext\User:proUserViewInformation
 #
-#front_view_personal_user_info:
-#  path: /particulier/{slug}
-#  controller: AppBundle:Front\PersonalContext\User:personalUserViewInformation
+front_view_personal_user_info:
+  path: /particulier/{slug}
+  controller: AppBundle:Front\Default:gone
 #
 #front_user_edit_preferences:
 #  path: /preferences
@@ -221,9 +221,10 @@
 #    replace: false
 #
 ## Vehicles professionnels
-#front_vehicle_pro_detail:
-#  path: /voiture-pro/{slug}
+front_vehicle_pro_detail:
+  path: /voiture-pro/{slug}
 #  controller: AppBundle:Front\ProContext\Vehicle:detail
+  controller: AppBundle:Front\Default:gone
 #  requirements:
 #    slug: '.+'
 #
@@ -305,11 +306,12 @@
 #  controller: AppBundle:Front\ProContext\Sales:declareForm
 #
 ## Vehicules particuliers
-#front_vehicle_personal_detail:
-#  path: /voiture-particulier/{slug}
+front_vehicle_personal_detail:
+  path: /voiture-particulier/{slug}
+  controller: AppBundle:Front\Default:gone
 #  controller: AppBundle:Front\ProContext\PersonalVehicle:detail
-#  requirements:
-#    slug: '.+'
+  requirements:
+    slug: '.+'
 #
 #legacy_vehicle_personal_detail:
 #  path: /vehicule/particulier/detail/{id}

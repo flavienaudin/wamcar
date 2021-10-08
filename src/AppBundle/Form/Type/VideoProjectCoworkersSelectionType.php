@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Wamcar\User\ProUser;
 
-class VideoProjectShareType extends AbstractType
+class VideoProjectCoworkersSelectionType extends AbstractType
 {
 
     /** @var PathUserPicture */
