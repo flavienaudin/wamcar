@@ -15,8 +15,9 @@ use AppBundle\Form\Type\ScriptSequenceType;
 use AppBundle\Form\Type\ScriptVersionTitleType;
 use AppBundle\Form\Type\ScriptVersionType;
 use AppBundle\Form\Type\VideoProjectBannerType;
+use AppBundle\Form\Type\VideoProjectCoworkersSelectionType;
+use AppBundle\Form\Type\VideoProjectFollowersByEmailType;
 use AppBundle\Form\Type\VideoProjectMessageType;
-use AppBundle\Form\Type\VideoProjectShareType;
 use AppBundle\Form\Type\VideoProjectType;
 use AppBundle\Form\Type\VideoVersionType;
 use AppBundle\Security\Voter\VideoCoachingVoter;
@@ -104,7 +105,8 @@ class VideoCoachingController extends BaseController
 
         $editVideoProjectForm = null;
         $editVideoProjectBannerForm = null;
-        $shareVideoProjectForm = null;
+        $selectCoworkersVideoProjectForm = null;
+        $addFollowersByEmailVideoProjectForm = null;
         // Formulaire d'édition du projet vidéo
         if ($this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
             $videoProjectDTO = VideoProjectDTO::buildFromVideoProject($videoProject);
@@ -133,12 +135,31 @@ class VideoCoachingController extends BaseController
                 ]);
             }
 
-            // Formulaire de partage du projet vidéo avec d'autres utilisateurs
+            // Formulaire de partage du projet vidéo avec les membres des entreprises
             $coworkersDTO = new VideoProjectViewersDTO($videoProject);
-            $shareVideoProjectForm = $this->formFactory->create(VideoProjectShareType::class, $coworkersDTO, ['coworkers' => $currentUser->getCoworkers()]);
-            $shareVideoProjectForm->handleRequest($request);
-            if ($shareVideoProjectForm->isSubmitted() && $shareVideoProjectForm->isValid()) {
+            $selectCoworkersVideoProjectForm = $this->formFactory->create(VideoProjectCoworkersSelectionType::class, $coworkersDTO, ['coworkers' => $currentUser->getCoworkers()]);
+            $selectCoworkersVideoProjectForm->handleRequest($request);
+            if ($selectCoworkersVideoProjectForm->isSubmitted() && $selectCoworkersVideoProjectForm->isValid()) {
                 $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers());
+                return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                    'videoProjectId' => $videoProject->getId(),
+                    'iterationId' => $videoProjectIteration->getId()
+                ]);
+            }
+
+            // Formulaire de partage du projet vidéo avec d'autres utilisateurs via e-mail
+            $addFollowersByEmailVideoProjectForm = $this->formFactory->create(VideoProjectFollowersByEmailType::class);
+            $addFollowersByEmailVideoProjectForm->handleRequest($request);
+            if ($addFollowersByEmailVideoProjectForm->isSubmitted() && $addFollowersByEmailVideoProjectForm->isValid()) {
+                $results = $this->videoProjectService->shareVideoProjectToUsersByEmails($videoProject, $addFollowersByEmailVideoProjectForm->get('emails')->getData());
+                if (count($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]) > 0) {
+                    $emailsNotFoundList = join(', ', array_values($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]));
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING,
+                        $this->translator->transChoice('flash.warning.video_project.share.not_found',
+                            count($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]),
+                            ['%prousers_notfound_list%' => $emailsNotFoundList]
+                        ));
+                }
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                     'videoProjectId' => $videoProject->getId(),
                     'iterationId' => $videoProjectIteration->getId()
@@ -225,7 +246,8 @@ class VideoCoachingController extends BaseController
             'videoProjectIteration' => $videoProjectIteration,
             'editVideoProjectForm' => $editVideoProjectForm ? $editVideoProjectForm->createView() : null,
             'editVideoProjectBannerForm' => $editVideoProjectBannerForm ? $editVideoProjectBannerForm->createView() : null,
-            'shareVideoProjectForm' => $shareVideoProjectForm ? $shareVideoProjectForm->createView() : null,
+            'selectCoworkersVideoProjectForm' => $selectCoworkersVideoProjectForm ? $selectCoworkersVideoProjectForm->createView() : null,
+            'addFollowersByEmailVideoProjectForm' => $addFollowersByEmailVideoProjectForm ? $addFollowersByEmailVideoProjectForm->createView() : null,
             'createScriptVersionForm' => $createScriptVersionForm ? $createScriptVersionForm->createView() : null,
             'editScriptVersionTitleForms' => $editScriptVersionTitleForms,
             'createVideoVersionForm' => $createVideoVersionForm ? $createVideoVersionForm->createView() : null,

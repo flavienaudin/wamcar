@@ -134,6 +134,10 @@ class VideoProjectService
      */
     public function updateVideoProjectCoworkers(VideoProject $videoProject, array $coworkers)
     {
+
+        /** @var VideoProjectViewer $creator */
+        $creator = $videoProject->getCreators()->first();
+        $creatorCoworkers = $creator->getViewer()->getCoworkers();
         $viewersToKeep = [];
         $newFollowers = [];
         /** @var ProUser $coworker */
@@ -160,7 +164,10 @@ class VideoProjectService
         foreach ($videoProject->getViewers() as $videoProjectViewer) {
             $toKeep = $videoProjectViewer->isCreator();
 
-            // TODO : do not delete coach / wamcar coach when implemnted
+            // Keep if the viewer is not a coworker (so was added by its email)
+            $toKeep |= !array_key_exists($videoProjectViewer->getViewer()->getId(), $creatorCoworkers);
+
+            // TODO : do not delete coach / wamcar coach when implemented
 
             /** @var VideoProjectViewer $viewerToKeep */
             foreach ($viewersToKeep as $viewerToKeep) {
@@ -190,9 +197,17 @@ class VideoProjectService
             /** @var ProUser|null $proUser */
             $proUser = $this->proUserRepository->findOneByEmail($email);
             if ($proUser) {
-                $follower = new VideoProjectViewer($videoProject, $proUser, false);
-                $videoProject->addViewer($follower);
-                $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $follower;
+                /** @var VideoProjectViewer $existingSoftDeletedViewer */
+                $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $proUser]);
+                if ($existingSoftDeletedViewer === null) {
+                    $follower = new VideoProjectViewer($videoProject, $proUser, false);
+                    $videoProject->addViewer($follower);
+                    $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $follower;
+                }elseif ($existingSoftDeletedViewer->getDeletedAt() != null){
+                    $existingSoftDeletedViewer->setDeletedAt(null);
+                    $videoProject->addViewer($existingSoftDeletedViewer);
+                    $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $existingSoftDeletedViewer;
+                }
             } else {
                 $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL][] = $email;
             }

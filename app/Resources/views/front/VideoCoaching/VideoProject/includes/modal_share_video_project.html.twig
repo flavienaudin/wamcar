@@ -5,10 +5,25 @@
 {% block title %}{{ 'coaching_video.video_project.share.title'|trans }}{% endblock %}
 
 {% block content %}
-    {{ include('front/VideoCoaching/VideoProject/includes/share_form.html.twig', {
-        'shareVideoProjectForm' : shareVideoProjectForm,
-        'formClass' : 'row form-compact'
-    }) }}
+    <ul class="tabs" data-tabs id="add-followers-tabs">
+        <li class="tabs-title is-active"><a href="#coworkers" aria-selected="true">Mes collègues</a></li>
+        <li class="tabs-title"><a href="#byemail">Par e-mail</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="add-followers-tabs">
+        <div class="tabs-panel is-active" id="coworkers">
+            {{ include('front/VideoCoaching/VideoProject/includes/share_form.html.twig', {
+                'selectCoworkersVideoProjectForm' : selectCoworkersVideoProjectForm,
+                'formClass' : 'row form-compact'
+            }) }}
+        </div>
+        <div class="tabs-panel" id="byemail">
+            {{ include('front/VideoCoaching/VideoProject/includes/add_followers_by_email_form.html.twig', {
+                'addFollowersByEmailVideoProjectForm' : addFollowersByEmailVideoProjectForm,
+                'formClass' : 'row form-compact'
+            }) }}
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block includeFile %}{% endblock %}
