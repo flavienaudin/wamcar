@@ -16,7 +16,7 @@
 
             <span title="{{ message.createdAt|localizeddate('short','short') }}">{{ message.createdAt|localizeddate('none','short') }}</span>
         </span>
-        <span class="message-content">{{ message.content }}</span>
+        <span class="message-content">{{ message.content|nl2br }}</span>
         {% if message.attachments|length > 0 %}
             <div class="full-width attachments-container">
                 {% for attachment in message.attachments %}

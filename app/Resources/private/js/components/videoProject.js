@@ -6,6 +6,7 @@ import 'select2';
 import {initAttachmentsListForm} from './conversation';
 import {sameDay} from './utils';
 import linkifyHtml from 'linkifyjs/html';
+import {default as autosize} from 'autosize';
 
 // Synchronisation de la sélection du ScriptVersion
 const $scriptVersionsTabs = $('#script-versions-tabs');
@@ -28,7 +29,6 @@ let updateLastVisitedAtURL = undefined,
 if ($videoProjectDiscussion.length) {
   // Get URL to update last VisitedAt
   updateLastVisitedAtURL = $videoProjectDiscussion.data('discussion-update-visitedat-url');
-
 
   $manualUpdateButton = $('#js_discussion_update');
   if ($manualUpdateButton.length > 0) {
@@ -178,6 +178,10 @@ function initMessageFormSubmission() {
         cache: false
       }).done(function (data, textStatus) {
         $('#js_video_project_discussion_writer').html(data.messageForm);
+
+        /* Textarea autosize */
+        autosize($('textarea'));
+
         initAttachmentsListForm();
         initMessageFormSubmission();
 

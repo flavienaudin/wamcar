@@ -4,9 +4,7 @@
 
 import linkifyHtml from 'linkifyjs/html';
 
-let $removeButton = document.getElementById('js-remove-vehicle-selected');
-let $inputText = document.getElementById('message_content');
-
+const $removeButton = document.getElementById('js-remove-vehicle-selected');
 if ($removeButton) {
   let $input = document.getElementById('message_vehicle');
 
@@ -17,6 +15,7 @@ if ($removeButton) {
   });
 }
 
+const $inputText = document.getElementById('message_content');
 if ($inputText) {
   window.addEventListener('beforeunload', function (e) {
     let srcUnloadEvent = document.activeElement;
@@ -49,7 +48,7 @@ initAttachmentsListForm();
 export function initAttachmentsListForm() {
   const $attachmentsCollectionHolder = $('#js-attachments-list');
   if ($attachmentsCollectionHolder.length) {
-
+    setupAddAttachmentShortcut();
     const $div = $attachmentsCollectionHolder.children('div');
     if ($div.length === 0) {
       addAttachmentInput($attachmentsCollectionHolder);
@@ -58,6 +57,7 @@ export function initAttachmentsListForm() {
       $div.each((index, div) => {
         $(div).find('.js-delete-attachment').on('click', (event) => {
           $(div).remove();
+          setupAddAttachmentShortcut();
         });
 
         $(div).change((event) => {
@@ -71,6 +71,7 @@ export function initAttachmentsListForm() {
 
             $(div).find('label').html(filename);
             $(div).find('label').removeClass('text-underline');
+            $(div).find('label').removeClass('is-hidden');
 
             $(div).find('.js-delete-attachment').removeClass('is-hidden');
           }
@@ -106,10 +107,25 @@ function addAttachmentInput($attachmentsCollectionHolder  ) {
 
         $newForm.find('label').html(filename);
         $newForm.find('label').removeClass('text-underline');
+        $newForm.find('label').removeClass('is-hidden');
 
         $newForm.find('.js-delete-attachment').removeClass('is-hidden');
       }
       addAttachmentInput($attachmentsCollectionHolder );
+    });
+
+    setupAddAttachmentShortcut();
+  }
+}
+
+
+function setupAddAttachmentShortcut() {
+  const $jsAddAttachmentShortcut = $('#jsAddAttachmentShortcut');
+  if ($jsAddAttachmentShortcut.length > 0) {
+    const $lastLabel = $('#js-attachments-list > .messages-item-attachments-field:last > label');
+    $jsAddAttachmentShortcut.off('click');
+    $jsAddAttachmentShortcut.on('click', (event) => {
+      $lastLabel.click();
     });
   }
 }
