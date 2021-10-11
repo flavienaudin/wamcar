@@ -155,6 +155,10 @@
     // End &-viewers
     &-discussion {
       &-writer {
+        textarea {
+          min-height: 4rem;
+        }
+
         .attachments-field-list {
           label {
             display: inline-flex;

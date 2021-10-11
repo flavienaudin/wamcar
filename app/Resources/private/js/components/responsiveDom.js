@@ -173,19 +173,3 @@ if($baselineTitle.length){
     }
   });
 }
-
-
-/*** VIDEO PROJECT PAGE ***/
-
-const $jsVideoprojectViewers = $('#js-videoproject-config');
-if($jsVideoprojectViewers.length){
-  $jsVideoprojectViewers.each((index, element) => {
-
-    $(element).responsiveDom({
-      prependTo: '.js-videoproject-right-column',
-      mediaQuery: '(min-width: 1024px)',
-      /*callback: (matched) => {}*/
-    });
-  });
-}
-
