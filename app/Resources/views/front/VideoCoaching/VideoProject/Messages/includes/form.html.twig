@@ -13,7 +13,6 @@
         'label_class' : 'show-for-sr',
         'placeholder': 'coaching_video.project_discussion.form.field.content.placeholder'|trans
     }) }}
-    {{ form_errors(messageForm.content) }}
 </div>
 
 <div class="columns small-12">
@@ -28,8 +27,9 @@
     </div>
 </div>
 
-<div class="columns small-12">
-    <button type="submit" class="full-width button  icon-check input-margin-small">{{ 'global.button.send'|trans }}</button>
+<div class="column small-12 is-flex align-middle">
+    <button type="button" id="jsAddAttachmentShortcut" class="icon-attachment margin-bottom-0"><span class="show-for-sr">{{ 'global.button.send'|trans }}</span></button>
+    <button type="submit" class="full-width button icon-check input-margin-small">{{ 'global.button.send'|trans }}</button>
 </div>
 
 {{ form_end(messageForm) }}
