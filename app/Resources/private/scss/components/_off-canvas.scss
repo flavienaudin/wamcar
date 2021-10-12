@@ -3,12 +3,14 @@
    =========================================================================== */
 
 .off-canvas {
-  @include breakpoint(medium down) {
-    top: $header-height;
+  top: $header-height;
+
+  @include breakpoint(medium) {
     padding-bottom: $header-height;
   }
 
   @include breakpoint(large) {
+    top: $header-height-medium;
     border-left: rem-calc(3) solid $primary-color;
     z-index: ($header-zindex + 1);
   }
@@ -45,22 +47,11 @@
   &-header {
     display: flex;
     align-items: center;
-    height: rem-calc(80);
+    height: rem-calc(60);
     background: $primary-color;
     font-size: rem-calc(18);
 
-    @include breakpoint(xlarge) {
-      height: rem-calc(100);
-      font-size: rem-calc(24);
-    }
-
-    /* Exceptions */
-
-    .reveal & {
-      height: rem-calc(80);
-    }
-
-    /* Componenbts */
+    /* Components */
 
     > * {
       color: white;
