@@ -21,17 +21,11 @@
       text-align: center;
       color: $body-font-color;
 
-      height: 200px;
-
-      @include breakpoint(medium) {
-        height: 400px;
-      }
-
-      > div {
+      &, & > div {
         height: 200px;
 
         @include breakpoint(medium) {
-          height: 400px;
+          height: 200px;
         }
       }
 
@@ -218,15 +212,12 @@
         }
 
         .attachments-container {
-          a {
-            width: 100%;
 
-            @include breakpoint(medium) {
-              width: auto;
-            }
+          .attachement-img {
+            max-width: 49%;
+            width: auto;
           }
         }
-
       }
     }
     // End &-messages
