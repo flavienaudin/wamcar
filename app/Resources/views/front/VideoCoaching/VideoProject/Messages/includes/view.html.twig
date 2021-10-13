@@ -22,7 +22,8 @@
                 {% for attachment in message.attachments %}
                     {% if attachment.FileMimeType starts with('image') %}
                         <a href="{{ getAttachmentLink(attachment) }}" target="_blank">
-                            <img src="{{ getAttachmentLink(attachment) }}" alt="{{ attachment.fileOriginalName }}">
+                            <img src="{{ getAttachmentLink(attachment) }}" alt="{{ attachment.fileOriginalName }}"
+                                 class="attachement-img">
                         </a>
 
                     {% else %}
