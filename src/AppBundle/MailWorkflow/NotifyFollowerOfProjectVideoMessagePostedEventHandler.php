@@ -63,11 +63,11 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
         $videoProjectMessage = $event->getVideoProjectMessage();
         $author = $videoProjectMessage->getAuthor();
         $notificationData = json_encode(['id' => $videoProjectMessage->getId()]);
-        $followers = $videoProjectMessage->getVideoProject()->getViewers(true);
+        $followers = $videoProjectMessage->getVideoProject()->getViewers(false);
 
         /** @var VideoProjectViewer $follower */
         foreach ($followers as $follower) {
-            if (!$author->is($follower)) {
+            if (!$author->is($follower->getViewer())) {
                 // Create notification
                 $notifications = $this->notificationsManagerExtended->createNotification(
                     get_class($videoProjectMessage),
