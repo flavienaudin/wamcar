@@ -10,10 +10,6 @@ front_city_autocomplete:
   path: /city/autocomplete
   controller: AppBundle:Front\ProContext\City:autocomplete
 
-legacy_fetch_city:
-  path: /fetch/city.json
-  controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode
-
 # Inscription
 register:
   path: /inscription

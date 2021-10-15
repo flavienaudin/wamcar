@@ -93,8 +93,3 @@ test-behavior: web-up phantom-up database
 	@echo "--> Running behavior test suites"
 	$(DOCKERPHP) ./bin/behat
 
-# Documentation
-api-documentation: app/Resources/public/api/swagger.json
-	cp ./app/Resources/public/api/swagger.json ./web/openapi.json
-app/Resources/public/api/swagger.json:
-	$(DOCKERPHP) ./bin/swagger --output ./app/Resources/public/api/swagger.json ./src/AppBundle

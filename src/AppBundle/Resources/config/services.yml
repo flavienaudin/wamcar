@@ -36,12 +36,7 @@ services:
 
     Liip\ImagineBundle\Imagine\Cache\CacheManager: '@liip_imagine.cache.manager'
 
-    VichUploader\Templating\Helper\UploaderHelper: '@vich_uploader.templating.helper.uploader_helper'
-
-    PragmaRX\ZipCode\ZipCode:
-        class: 'PragmaRX\ZipCode\ZipCode'
-        calls:
-          - ['setCountry', ['FR']]
+    Vich\UploaderBundle\Templating\Helper\UploaderHelper: '@vich_uploader.templating.helper.uploader_helper'
 
 # Guzzle Clients for HwiOauth
     Http\Adapter\Guzzle6\Client:
