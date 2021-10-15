@@ -613,7 +613,7 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script>
           function captchaOnSubmit(token) {
-            document.getElementById("procontact-form").submit();
+            document.getElementById("procontact-form-"{{ user.id }}).submit();
           }
         </script>
     {% endif %}
