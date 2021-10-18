@@ -163,9 +163,10 @@ function initMessageFormSubmission() {
       const $submitButton = $messageForm.find('button[type=submit]');
       $submitButton.attr('disabled', 'disabled');
       $submitButton.addClass('is-disabled');
+      $submitButton.addClass('loader-visible');
 
       const $formAction = $messageForm.attr('action');
-      const form = $('#js_message_form')[0];
+      const form = $messageForm[0];
       const formData = new FormData(form);
 
       $.ajax({

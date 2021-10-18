@@ -26,7 +26,11 @@ class VideoProjectMessageType extends AbstractType
                 'constraints' => [new NotBlank()]
             ])
             ->add('attachments', CollectionType::class, [
+                'required' => false,
                 'entry_type' => FileType::class,
+                'entry_options' => [
+                    'required' => false
+                ],
                 'allow_add' => true,
                 'label' => false
             ]);
