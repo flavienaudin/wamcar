@@ -44,20 +44,20 @@
     "ResponsiveDom": "git+https://github.com/thomashigginbotham/responsive-dom.git",
     "air-datepicker": "^2.2.3",
     "animated-scrollto": "^1.1.0",
+    "autosize": "^4.0.2",
+    "chart.js": "^2.7.3",
+    "datatables.net": "^1.10.19",
+    "datatables.net-buttons": "^1.5.6",
+    "datatables.net-dt": "^1.10.19",
+    "datatables.net-responsive": "^2.2.3",
     "formdata-polyfill": "^3.0.9",
     "foundation-sites": "6.4.3",
+    "linkifyjs": "^2.1.7",
     "motion-ui": "^1.1.1",
     "select2": "^4.0.6",
     "siema": "^1.4.6",
     "slick-carousel": "^1.8.1",
-    "linkifyjs": "^2.1.7",
-    "chart.js": "^2.7.3",
-    "autosize": "^4.0.2",
-    "waypoints": "^4.0.1",
     "toastr": "^2.1.4",
-    "datatables.net": "^1.10.19",
-    "datatables.net-dt": "^1.10.19",
-    "datatables.net-responsive": "^2.2.3",
-    "datatables.net-buttons": "^1.5.6"
+    "waypoints": "^4.0.1"
   }
 }

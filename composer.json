@@ -1,6 +1,6 @@
 {
   "name": "wamcar/wamcar",
-  "description" : "Outil de gestion de production vidéo, spécialisé dans le domaine de l'automobile",
+  "description": "Outil de gestion de production vidéo, spécialisé dans le domaine de l'automobile",
   "license": "proprietary",
   "type": "project",
   "autoload": {
@@ -60,10 +60,14 @@
     "doctrine/doctrine-fixtures-bundle": "^2.4"
   },
   "scripts": {
+    "ckeditorinstall": [
+      "@php bin/console ckeditor:install --clear=drop"
+    ],
     "symfony-scripts": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+      "@ckeditorinstall",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
