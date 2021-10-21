@@ -133,7 +133,11 @@ front_expert_toggle:
   path: /user/expert/toggle/{slug}
   controller: AppBundle:Front\ProContext\Favorite:toggleExpert
 
-# Module "Suivi/Coaching Vidéo"
+#################################
+# Module "Suivi/Coaching Vidéo" #
+#################################
+
+# Video Project
 front_coachingvideo_videoproject_view:
   path: /module/video/videoproject/{videoProjectId}/{iterationId}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:view
@@ -146,6 +150,7 @@ front_coachingvideo_videoproject_delete:
   path: /module/video/videoproject/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:delete
 
+# Script Version
 front_coachingvideo_scriptversion_wizard:
   path: /module/video/scriptversion/wizard/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:scriptVersionWizard
@@ -158,10 +163,12 @@ front_coachingvideo_scriptversion_delete:
   path: /module/video/scriptversion/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteScriptVersion
 
+# Video Version
 front_coachingvideo_videoversion_delete:
   path: /module/video/videoversion/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteVideoVersion
 
+# Discussion
 front_coachingvideo_videoproject_messages_post:
   path: /module/video/discussion/videoproject/{id}/message
   methods: POST
@@ -176,6 +183,16 @@ front_coachingvideo_videoproject_discussion_visited:
   path: /module/video/discussion/videoproject/{id}/discussion/visite
   controller: AppBundle:Front\ModuleContext\VideoCoaching:visiteDiscussion
 
+#Library
+front_coachingvideo_videoproject_library_document_get:
+  path:  /module/video/library/document/{id}
+  methods: GET
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:getDocument
+
+front_coachingvideo_videoproject_library_document_delete:
+  path:  /module/video/library/document/{id}
+  methods: DELETE
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteDocument
 
 # TEST GOOGLE YOUTUBE API
 dev_youtube_api:

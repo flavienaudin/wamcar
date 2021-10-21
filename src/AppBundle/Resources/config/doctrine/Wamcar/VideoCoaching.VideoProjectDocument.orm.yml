@@ -1,0 +1,36 @@
+Wamcar\VideoCoaching\VideoProjectDocument:
+
+  type: entity
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    fileName:
+      type: string
+    fileSize:
+      type: integer
+    fileMimeType:
+      type: string
+    fileOriginalName:
+      type: string
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+
+  manyToOne:
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      inversedBy: documents
+      joinColumn:
+        name: video_project_id
+        referencedColumnName: id
+        nullable: false

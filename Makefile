@@ -60,7 +60,7 @@ $(NPM_OUT): package-lock.json
 	npm install
 	-@md5 npm-shrinkwrap.json > $(NPM_OUT)
 	-@md5sum npm-shrinkwrap.json > $(NPM_OUT)
-front-start: npm-install ## start front dev watcher
+start-front: npm-install ## start front dev watcher
 	@echo "--> Starting npm dev service"
 	npm run start
 front: npm-install ## build prod front

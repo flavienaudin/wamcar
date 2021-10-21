@@ -6,15 +6,19 @@ namespace AppBundle\Services\VideoCoaching;
 
 use AppBundle\Doctrine\Entity\VideoProjectBanner;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
+use AppBundle\Form\DTO\VideoProjectDocumentDTO;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
 use AppBundle\Services\Conversation\ConversationEditionService;
+use GoogleApi\GoogleCloudStorageService;
+use Psr\Http\Message\StreamInterface;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent;
 use Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent;
 use Wamcar\VideoCoaching\VideoProject;
+use Wamcar\VideoCoaching\VideoProjectDocument;
 use Wamcar\VideoCoaching\VideoProjectIteration;
 use Wamcar\VideoCoaching\VideoProjectMessage;
 use Wamcar\VideoCoaching\VideoProjectMessageRepository;
@@ -46,6 +50,9 @@ class VideoProjectService
     /** @var ConversationEditionService */
     private $conversationEditionService;
 
+    /** @var GoogleCloudStorageService */
+    private $googleCloudStorageService;
+
     /**
      * VideoProjectService constructor.
      * @param VideoProjectRepository $videoProjectRepository
@@ -54,13 +61,15 @@ class VideoProjectService
      * @param DoctrineProUserRepository $proUserRepository
      * @param MessageBus $eventBus
      * @param ConversationEditionService $conversationEditionService
+     * @param GoogleCloudStorageService $googleCloudStorageService
      */
     public function __construct(VideoProjectRepository $videoProjectRepository,
                                 VideoProjectMessageRepository $videoProjectMessageRepository,
                                 VideoProjectViewerRepository $videoProjectViewRepository,
                                 DoctrineProUserRepository $proUserRepository,
                                 MessageBus $eventBus,
-                                ConversationEditionService $conversationEditionService)
+                                ConversationEditionService $conversationEditionService,
+                                GoogleCloudStorageService $googleCloudStorageService)
     {
         $this->videoProjectRepository = $videoProjectRepository;
         $this->videoProjectMessageRepository = $videoProjectMessageRepository;
@@ -68,6 +77,7 @@ class VideoProjectService
         $this->proUserRepository = $proUserRepository;
         $this->eventBus = $eventBus;
         $this->conversationEditionService = $conversationEditionService;
+        $this->googleCloudStorageService = $googleCloudStorageService;
     }
 
     /**
@@ -82,8 +92,61 @@ class VideoProjectService
         $videoProject->addVideoProjectIteration(new VideoProjectIteration($videoProject, $videoProjectDTO->getTitle()));
         $videoProject->setTitle($videoProjectDTO->getTitle());
         $videoProject->setDescription($videoProjectDTO->getDescription());
+        $videoProject->setGoogleStorageBucketName($this->googleCloudStorageService->createVideoProjectBucketName());
         $this->videoProjectRepository->add($videoProject);
         return $videoProject;
+    }
+
+    /**
+     * If not already set, set the (google storage) bucket name of the video project and save it in database
+     * @param VideoProject $videoProject
+     */
+    public function initializeGoogleStorageBucket(VideoProject $videoProject)
+    {
+        if (empty($videoProject->getGoogleStorageBucketName())) {
+            $bucketName = $this->googleCloudStorageService->createVideoProjectBucketName();
+            if (!empty($bucketName)) {
+                $videoProject->setGoogleStorageBucketName($bucketName);
+                $this->videoProjectRepository->update($videoProject);
+            }
+        }
+    }
+
+    public function addDocument(VideoProjectDocumentDTO $videoProjectDocumentDTO)
+    {
+        $videoProject = $videoProjectDocumentDTO->getVideoProject();
+        $videoProjectDocument = new VideoProjectDocument($videoProjectDocumentDTO->getFile(), $videoProject);
+        $documentStorageName = $this->googleCloudStorageService->storeFile($videoProjectDocument);
+        $videoProjectDocument->setFileName($documentStorageName);
+        $videoProject->addDocument($videoProjectDocument);
+        $this->videoProjectRepository->update($videoProject);
+    }
+
+    /**
+     * @param VideoProjectDocument $videoProjectDocument
+     * @return StreamInterface
+     */
+    public function getFileStreamOfDocument(VideoProjectDocument $videoProjectDocument): StreamInterface
+    {
+        return $this->googleCloudStorageService->getFileStreamOfDocument($videoProjectDocument);
+    }
+
+    /**
+     * @param VideoProjectDocument $videoProjectDocument
+     * @return bool
+     */
+    public function deleteDocument(VideoProjectDocument $videoProjectDocument): bool
+    {
+        $this->googleCloudStorageService->deleteFile($videoProjectDocument);
+
+        if (!$this->googleCloudStorageService->existsFile($videoProjectDocument)) {
+            $videoProject = $videoProjectDocument->getVideoProject();
+            $videoProject->removeDocument($videoProjectDocument);
+            $this->videoProjectRepository->update($videoProject);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -124,7 +187,6 @@ class VideoProjectService
      */
     public function delete(VideoProject $videoProject)
     {
-        // TODO vérifier s'il y a des associations à supprimer manuellement
         $this->videoProjectRepository->remove($videoProject);
     }
 
@@ -203,7 +265,7 @@ class VideoProjectService
                     $follower = new VideoProjectViewer($videoProject, $proUser, false);
                     $videoProject->addViewer($follower);
                     $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $follower;
-                }elseif ($existingSoftDeletedViewer->getDeletedAt() != null){
+                } elseif ($existingSoftDeletedViewer->getDeletedAt() != null) {
                     $existingSoftDeletedViewer->setDeletedAt(null);
                     $videoProject->addViewer($existingSoftDeletedViewer);
                     $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $existingSoftDeletedViewer;

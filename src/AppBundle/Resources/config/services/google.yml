@@ -1,8 +1,13 @@
 services:
-  GoogleApi\GoogleMapsApiConnector:
+  _defaults:
     autowire: true
     autoconfigure: true
     public: false
+
+  GoogleApi\:
+    resource: '../../../../GoogleApi/'
+
+  GoogleApi\GoogleMapsApiConnector:
     arguments:
       - '@event_bus'
       - '@logger'
@@ -11,25 +16,23 @@ services:
       - '%env(GOOGLE_MAPS_API_PLACE_DETAILS_PATH)%'
 
   GoogleApi\GAReportingAPIService:
-    autowire: true
-    autoconfigure: true
-    public: false
     arguments:
+      $router: '@router'
       $applicationName: '%sitename%'
       $viewId: '%env(GOOGLE_ANALYTICS_VIEW_ID)%'
 
   GoogleApi\GoogleYoutubeApiService:
-    autowire: true
-    autoconfigure: true
-    public: false
     arguments:
       $applicationName: '%sitename%'
 
 
   GoogleApi\GoogleRecaptchaService:
-    autowire: true
-    autoconfigure: true
-    public: false
     arguments:
       - '%env(GOOGLE_RECAPTCHA_VERIFY_URL)%'
       - '%env(GOOGLE_RECAPTCHA_SECRET)%'
+
+  GoogleApi\GoogleCloudStorageService:
+    arguments:
+      $keyFilePath: '%env(GOOGLE_APPLICATION_CREDENTIALS)%'
+      $bucketnamePrefix: '%google.storage.bucketname.prefix%'
+      $namer: '@Vich\UploaderBundle\Naming\SmartUniqueNamer'

@@ -252,10 +252,10 @@ $(function () {
     ===================================== */
   $('a.js-confirm-box').on('click', (e) => {
     e.preventDefault();
-    let href = e.currentTarget.href;
-    let id = $(e.currentTarget).data('id');
-    let title = $(e.currentTarget).data('title');
-    let message = $(e.currentTarget).data('message');
+    const href = e.currentTarget.href,
+      id = $(e.currentTarget).data('id'),
+      title = $(e.currentTarget).data('title'),
+      message = $(e.currentTarget).data('message');
 
     confirm(title, message, id, (param) => {
       window.location = param.href;
@@ -296,7 +296,7 @@ $(function () {
 /*
    Confirm box : functions
    ===================================== */
-function confirm(title, message, id, callback, callbackParam) {
+export function confirm(title, message, id, callback, callbackParam) {
   let modal =
     '<div class="reveal small" id="' + id + '" data-reveal>' +
     '<header class="off-canvas-header">' +

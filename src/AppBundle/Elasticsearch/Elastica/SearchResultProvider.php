@@ -44,6 +44,7 @@ class SearchResultProvider
      * @param PersonalVehicleEntityIndexer $personalVehicleEntityIndexer
      * @param ProVehicleEntityIndexer $proVehicleEntityIndexer
      * @param Client $client
+     * @param LoggerInterface $logger
      */
     public function __construct(EntityIndexer $searchItemIndexer,
                                 EntityIndexer $personalProjectIndexer,
@@ -415,11 +416,11 @@ class SearchResultProvider
 
                 // Query to apply certain score functions to relevant documents
                 $vehicleEntityQuery = $qb->query()->bool();
-                if(in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)) {
+                if (in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)) {
                     $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
                 }
 
-                if(in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
+                if (in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
                     $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
                 }
 
@@ -434,7 +435,7 @@ class SearchResultProvider
                 }
 
                 // Nb likes positifs : Value [0; 5] => Sqrt [0;2,23] => Factor 0 => [ 0;2,23]
-                if($vehicleEntityQuery->count()> 0) {
+                if ($vehicleEntityQuery->count() > 0) {
                     $functionScoreQuery->addFieldValueFactorFunction(
                         'vehicle.nbPositiveLikes', 1,
                         Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,

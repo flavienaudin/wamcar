@@ -81,6 +81,9 @@ flash:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.
       banner.edit: L'image de votre projet a bien été mise à jour.
+      document:
+        add: Le document a bien été ajouté à la bibliothèque du projet vidéo.
+        delete: Le document a bien été supprimé de la bibliothèque du projet vidéo.
     scriptversion:
       save: Le script a bien été enresgitré.
       update: La version du script a bien été mise à jour.
@@ -168,6 +171,11 @@ flash:
       unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
       assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
+    videoproject:
+      document:
+        delete:
+          notfound: Une erreur est survenue lors de la suppression du fichier. Tentez de recharger la page.
+          unauthorized: Vous n'êtes pas autorisé à supprimer ce document.
   warning:
     video_insert:
       unloadable: L'encart vidéo n'a pu être chargé. Tentez de recharger la page.
@@ -239,6 +247,7 @@ global:
     see_phone_number: Voir le numéro
     see_user_profile: Voir le profil
     send: Envoyer
+    send_document: Soumettre le document
     send_message: Envoyer un message
     share: Partager
     show_less: Voir moins
@@ -1643,7 +1652,7 @@ coaching_video:
       header:
         title: "%creatorFirstName% présente"
       info:
-        duration: Durée du script %scriptname%
+        duration: Durée du script
     list:
       user:
         my_projects: Mes projets
@@ -1727,3 +1736,9 @@ coaching_video:
         content:
           label: Votre message
           placeholder: Tapez votre message ici...
+  project_library:
+    title: Bibliothèque de documents
+    documents_list: Documents
+    form:
+      field:
+        add: Sélectionner le document

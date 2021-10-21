@@ -33,3 +33,5 @@ parameters:
     polevo.contact.address: 200 bv de la résistance
     polevo.contact.city: Mâcon
     polevo.contact.zip: 71000
+
+    google.storage.bucketname.prefix: null

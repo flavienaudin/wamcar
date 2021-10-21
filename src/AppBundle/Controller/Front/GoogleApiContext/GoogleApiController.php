@@ -38,13 +38,9 @@ class GoogleApiController extends BaseController
      */
     private function initializeAnalytics()
     {
-        $KEY_FILE_LOCATION = __DIR__ . '/../../../../../app/config/googleApi/client_secret.json';
-
         // Create and configure a new client object.
         $client = new \Google_Client();
         $client->setApplicationName("Wamcar");
-
-//        $client->setAuthConfig($KEY_FILE_LOCATION);
         $client->useApplicationDefaultCredentials();
         $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
         $analytics = new \Google_Service_AnalyticsReporting($client);

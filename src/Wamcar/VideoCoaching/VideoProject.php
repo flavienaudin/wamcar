@@ -28,6 +28,10 @@ class VideoProject
     private $description;
     /** @var null|VideoProjectBanner */
     private $banner;
+    /** @var null|string */
+    private $googleStorageBucketName;
+    /** @var Collection of VideoProjectDocument */
+    private $documents;
     /** @var Collection of VideoProjectViewer */
     private $viewers;
     /** @var Collection of VideoProjectIteration */
@@ -43,6 +47,7 @@ class VideoProject
         $this->viewers = new ArrayCollection();
         $this->videoProjectIterations = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     /**
@@ -124,6 +129,48 @@ class VideoProject
     {
         $this->banner = $banner;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getGoogleStorageBucketName(): ?string
+    {
+        return $this->googleStorageBucketName;
+    }
+
+    /**
+     * @param string|null $googleStorageBucketName
+     */
+    public function setGoogleStorageBucketName(?string $googleStorageBucketName): void
+    {
+        $this->googleStorageBucketName = $googleStorageBucketName;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param VideoProjectDocument $videoProjectDocument
+     */
+    public function addDocument(VideoProjectDocument $videoProjectDocument)
+    {
+        $this->documents->add($videoProjectDocument);
+    }
+
+    /**
+     * @param VideoProjectDocument $videoProjectDocument
+     */
+    public function removeDocument(VideoProjectDocument $videoProjectDocument)
+    {
+        $this->documents->removeElement($videoProjectDocument);
+    }
+
+
 
     /**
      * @param bool $excludeCreators set to true to get only followers, no creators

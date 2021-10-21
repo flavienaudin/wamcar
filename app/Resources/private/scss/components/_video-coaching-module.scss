@@ -163,6 +163,25 @@
 
     // End &-discussion
 
+    &-library {
+      .messages-item-attachments-field {
+        label {
+          display: inline-flex;
+        }
+        .is-invalid-label {
+          color: $input-error-color;
+          border-color: $input-error-color;
+        }
+      }
+      a {
+        color: $body-font-color;
+        &.icon-remove {
+          margin-left: 5px;
+        }
+      }
+    }
+    // End &-library
+
     &-messages {
 
       > div {
