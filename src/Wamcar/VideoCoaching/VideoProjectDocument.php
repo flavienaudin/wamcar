@@ -19,13 +19,16 @@ class VideoProjectDocument implements FileHolder
     private $id;
     /** @var VideoProject $videoProject */
     private $videoProject;
+    /** @var VideoProjectViewer $ownerViewer */
+    private $ownerViewer;
 
     /**
      * VideoProjectDocument constructor.
      * @param UploadedFile $file
      * @param VideoProject $videoProject
+     * @param VideoProjectViewer $owner
      */
-    public function __construct(UploadedFile $file, VideoProject $videoProject)
+    public function __construct(UploadedFile $file, VideoProject $videoProject, VideoProjectViewer $owner)
     {
         $this->id = Uuid::uuid4();
         $this->setFile($file);
@@ -35,6 +38,7 @@ class VideoProjectDocument implements FileHolder
         $this->setFileSize($file->getSize());
 
         $this->videoProject = $videoProject;
+        $this->ownerViewer = $owner;
     }
 
     /**
@@ -51,5 +55,13 @@ class VideoProjectDocument implements FileHolder
     public function getVideoProject(): VideoProject
     {
         return $this->videoProject;
+    }
+
+    /**
+     * @return VideoProjectViewer
+     */
+    public function getOwnerViewer(): VideoProjectViewer
+    {
+        return $this->ownerViewer;
     }
 }

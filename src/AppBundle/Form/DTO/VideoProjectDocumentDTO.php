@@ -4,6 +4,7 @@ namespace AppBundle\Form\DTO;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Wamcar\VideoCoaching\VideoProject;
+use Wamcar\VideoCoaching\VideoProjectViewer;
 
 class VideoProjectDocumentDTO
 {
@@ -11,10 +12,13 @@ class VideoProjectDocumentDTO
     private $file;
     /** @var VideoProject */
     private $videoProject;
+    /** @var VideoProjectViewer */
+    private $owner;
 
-    public function __construct(VideoProject $videoProject, ?UploadedFile $file = null)
+    public function __construct(VideoProject $videoProject, VideoProjectViewer $owner, ?UploadedFile $file = null)
     {
         $this->videoProject = $videoProject;
+        $this->owner = $owner;
         $this->file = $file;
     }
 
@@ -34,6 +38,21 @@ class VideoProjectDocumentDTO
         $this->videoProject = $videoProject;
     }
 
+    /**
+     * @return VideoProjectViewer
+     */
+    public function getOwner(): VideoProjectViewer
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param VideoProjectViewer $owner
+     */
+    public function setOwner(VideoProjectViewer $owner): void
+    {
+        $this->owner = $owner;
+    }
 
     /**
      * @return UploadedFile|null

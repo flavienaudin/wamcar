@@ -91,6 +91,12 @@ class VideoCoachingVoter extends Voter
             return true;
         }
 
+        /** @var ProUser $currentUser */
+        $currentUser = $token->getUser();
+        if (!$currentUser instanceof ProUser) {
+            return false;
+        }
+
         // Video Coaching Module access
         if (in_array($attribute, [self::MODULE_ACCESS])) {
             // Autorisation en version restreinte pour tous
@@ -117,29 +123,24 @@ class VideoCoachingVoter extends Voter
             /** @var VideoProject $videoProject */
             $videoProject = $subject;
 
-            /** @var ProUser $currentUser */
-            $currentUser = $token->getUser();
-
-            if ($currentUser instanceof ProUser) {
-                switch ($attribute) {
-                    case self::VIDEO_PROJECT_VIEW:
-                        /** @var VideoProjectViewer $videoProjectViewer */
-                        foreach ($videoProject->getViewers() as $videoProjectViewer) {
-                            if ($videoProjectViewer->getViewer()->is($currentUser)) {
-                                return true;
-                            }
+            switch ($attribute) {
+                case self::VIDEO_PROJECT_VIEW:
+                    /** @var VideoProjectViewer $videoProjectViewer */
+                    foreach ($videoProject->getViewers() as $videoProjectViewer) {
+                        if ($videoProjectViewer->getViewer()->is($currentUser)) {
+                            return true;
                         }
-                        return false;
-                    case self::VIDEO_PROJECT_EDIT:
-                    case self::VIDEO_PROJECT_DELETE:
-                        /** @var VideoProjectViewer $videoProjectCreators */
-                        foreach ($videoProject->getCreators() as $videoProjectCreators) {
-                            if ($videoProjectCreators->getViewer()->is($currentUser)) {
-                                return true;
-                            }
+                    }
+                    return false;
+                case self::VIDEO_PROJECT_EDIT:
+                case self::VIDEO_PROJECT_DELETE:
+                    /** @var VideoProjectViewer $videoProjectCreators */
+                    foreach ($videoProject->getCreators() as $videoProjectCreators) {
+                        if ($videoProjectCreators->getViewer()->is($currentUser)) {
+                            return true;
                         }
-                        return false;
-                }
+                    }
+                    return false;
             }
         } // Video Project Iteration management
         elseif (in_array($attribute, [self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION, self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION])) {
@@ -147,15 +148,10 @@ class VideoCoachingVoter extends Voter
             /** @var VideoProjectIteration $videoProjectIteration */
             $videoProjectIteration = $subject;
 
-            /** @var ProUser $currentUser */
-            $currentUser = $token->getUser();
-
-            if ($currentUser instanceof ProUser) {
-                switch ($attribute) {
-                    case self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION:
-                    case self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION:
-                        return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $videoProjectIteration->getVideoProject()) && $videoProjectIteration->isLastIteration();
-                }
+            switch ($attribute) {
+                case self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION:
+                case self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION:
+                    return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $videoProjectIteration->getVideoProject()) && $videoProjectIteration->isLastIteration();
             }
             return false;
         } // Script Version management
@@ -164,19 +160,14 @@ class VideoCoachingVoter extends Voter
             /** @var ScriptVersion $scriptVersion */
             $scriptVersion = $subject;
 
-            /** @var ProUser $currentUser */
-            $currentUser = $token->getUser();
-
-            if ($currentUser instanceof ProUser) {
-                switch ($attribute) {
-                    case self::SCRIPT_VERSION_EDIT:
-                        return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $scriptVersion->getVideoProjectIteration()->getVideoProject())
-                            && $scriptVersion->getVideoProjectIteration()->isLastIteration()
-                            && $scriptVersion->isLastScriptVersion();
-                    case self::SCRIPT_VERSION_DELETE:
-                        return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $scriptVersion->getVideoProjectIteration()->getVideoProject())
-                            && $scriptVersion->getVideoProjectIteration()->isLastIteration();
-                }
+            switch ($attribute) {
+                case self::SCRIPT_VERSION_EDIT:
+                    return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $scriptVersion->getVideoProjectIteration()->getVideoProject())
+                        && $scriptVersion->getVideoProjectIteration()->isLastIteration()
+                        && $scriptVersion->isLastScriptVersion();
+                case self::SCRIPT_VERSION_DELETE:
+                    return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $scriptVersion->getVideoProjectIteration()->getVideoProject())
+                        && $scriptVersion->getVideoProjectIteration()->isLastIteration();
             }
         } // Video Version management
         elseif (in_array($attribute, [self::VIDEO_VERSION_EDIT, self::VIDEO_VERSION_DELETE])) {
@@ -184,15 +175,10 @@ class VideoCoachingVoter extends Voter
             /** @var VideoVersion $videoVersion */
             $videoVersion = $subject;
 
-            /** @var ProUser $currentUser */
-            $currentUser = $token->getUser();
-
-            if ($currentUser instanceof ProUser) {
-                switch ($attribute) {
-                    case self::VIDEO_VERSION_EDIT:
-                    case self::VIDEO_VERSION_DELETE:
-                        return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $videoVersion->getVideoProjectIteration()->getVideoProject()) && $videoVersion->getVideoProjectIteration()->isLastIteration();
-                }
+            switch ($attribute) {
+                case self::VIDEO_VERSION_EDIT:
+                case self::VIDEO_VERSION_DELETE:
+                    return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $videoVersion->getVideoProjectIteration()->getVideoProject()) && $videoVersion->getVideoProjectIteration()->isLastIteration();
             }
         }// Library access and management
         elseif (in_array($attribute, [self::LIBRARY_ADD_DOCUMENT])) {
@@ -209,7 +195,8 @@ class VideoCoachingVoter extends Voter
             $videoProjectDocument = $subject;
             switch ($attribute) {
                 case self::LIBRARY_DELETE_DOCUMENT:
-                    return $this->decisionManager->decide($token, [self::VIDEO_PROJECT_EDIT], $videoProjectDocument->getVideoProject());
+                    $currentUserViewerInfo = $videoProjectDocument->getVideoProject()->getViewerInfo($currentUser);
+                    return $videoProjectDocument->getOwnerViewer()->getViewer()->is($currentUser) || ($currentUserViewerInfo != false && $currentUserViewerInfo->isCreator());
             }
         }
         return false;

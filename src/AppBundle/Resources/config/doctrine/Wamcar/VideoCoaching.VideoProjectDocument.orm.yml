@@ -34,3 +34,12 @@ Wamcar\VideoCoaching\VideoProjectDocument:
         name: video_project_id
         referencedColumnName: id
         nullable: false
+    ownerViewer:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectViewer
+      joinColumns:
+        - name: viewer_prouser_id
+          referencedColumnName: pro_user_id
+          nullable: false
+        - name: viewer_videoproject_id
+          referencedColumnName: video_project_id
+          nullable: false

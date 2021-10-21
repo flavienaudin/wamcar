@@ -252,17 +252,19 @@ class VideoCoachingController extends BaseController
         $addDocumentForm = null;
         if ($this->isGranted(VideoCoachingVoter::LIBRARY_ADD_DOCUMENT, $videoProject)) {
             $this->videoProjectService->initializeGoogleStorageBucket($videoProject);
-
-            $addVideoProjectDocumentDTO = new VideoProjectDocumentDTO($videoProject);
-            $addDocumentForm = $this->formFactory->createNamed('addVideoProjectDocument', VideoProjectDocumentType::class, $addVideoProjectDocumentDTO);
-            $addDocumentForm->handleRequest($request);
-            if ($addDocumentForm->isSubmitted() && $addDocumentForm->isValid()) {
-                $this->videoProjectService->addDocument($addVideoProjectDocumentDTO);
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.document.add');
-                return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
-                    'videoProjectId' => $videoProject->getId(),
-                    'iterationId' => $videoProjectIteration->getId()
-                ]);
+            $documentOwnerViewer = $videoProject->getViewerInfo($currentUser);
+            if($documentOwnerViewer != false) {
+                $addVideoProjectDocumentDTO = new VideoProjectDocumentDTO($videoProject, $documentOwnerViewer);
+                $addDocumentForm = $this->formFactory->createNamed('addVideoProjectDocument', VideoProjectDocumentType::class, $addVideoProjectDocumentDTO);
+                $addDocumentForm->handleRequest($request);
+                if ($addDocumentForm->isSubmitted() && $addDocumentForm->isValid()) {
+                    $this->videoProjectService->addDocument($addVideoProjectDocumentDTO);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.document.add');
+                    return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                        'videoProjectId' => $videoProject->getId(),
+                        'iterationId' => $videoProjectIteration->getId()
+                    ]);
+                }
             }
         }
 

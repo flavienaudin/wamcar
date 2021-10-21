@@ -115,7 +115,7 @@ class VideoProjectService
     public function addDocument(VideoProjectDocumentDTO $videoProjectDocumentDTO)
     {
         $videoProject = $videoProjectDocumentDTO->getVideoProject();
-        $videoProjectDocument = new VideoProjectDocument($videoProjectDocumentDTO->getFile(), $videoProject);
+        $videoProjectDocument = new VideoProjectDocument($videoProjectDocumentDTO->getFile(), $videoProject, $videoProjectDocumentDTO->getOwner());
         $documentStorageName = $this->googleCloudStorageService->storeFile($videoProjectDocument);
         $videoProjectDocument->setFileName($documentStorageName);
         $videoProject->addDocument($videoProjectDocument);
