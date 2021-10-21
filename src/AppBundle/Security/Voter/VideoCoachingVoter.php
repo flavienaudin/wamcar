@@ -123,24 +123,15 @@ class VideoCoachingVoter extends Voter
             /** @var VideoProject $videoProject */
             $videoProject = $subject;
 
+            /** @var VideoProjectViewer $currentUserViewerInfo */
+            $currentUserViewerInfo = $videoProject->getViewerInfo($currentUser);
             switch ($attribute) {
                 case self::VIDEO_PROJECT_VIEW:
-                    /** @var VideoProjectViewer $videoProjectViewer */
-                    foreach ($videoProject->getViewers() as $videoProjectViewer) {
-                        if ($videoProjectViewer->getViewer()->is($currentUser)) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return $currentUserViewerInfo != false;
                 case self::VIDEO_PROJECT_EDIT:
+                    return $currentUserViewerInfo->isCreator();
                 case self::VIDEO_PROJECT_DELETE:
-                    /** @var VideoProjectViewer $videoProjectCreators */
-                    foreach ($videoProject->getCreators() as $videoProjectCreators) {
-                        if ($videoProjectCreators->getViewer()->is($currentUser)) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return $currentUserViewerInfo->isOwner();
             }
         } // Video Project Iteration management
         elseif (in_array($attribute, [self::VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION, self::VIDEO_PROJECT_ITERATION_ADD_SCRIPTVERSION])) {

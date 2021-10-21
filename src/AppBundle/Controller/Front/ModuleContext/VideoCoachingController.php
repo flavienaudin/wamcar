@@ -36,6 +36,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\ScriptSequence;
@@ -91,8 +92,11 @@ class VideoCoachingController extends BaseController
      */
     public function viewAction(Request $request, VideoProject $videoProject, VideoProjectIteration $videoProjectIteration = null)
     {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+
         /** @var ProUser $currentUser */
         $currentUser = $this->getUser();
+
         if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.module_access');
             return $this->redirectToRoute('front_view_current_user_info');
