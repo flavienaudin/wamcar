@@ -16,9 +16,9 @@ class VideoProjectViewer
     /** @var VideoProject */
     private $videoProject;
     /** @var bool true if the viewer is the owner */
-    private $isOwner;
+    private $isOwner = false;
     /** @var bool true if the viewer is the creator */
-    private $isCreator;
+    private $isCreator = false;
     /** @var \DateTime|null */
     private $visitedAt;
 
@@ -27,6 +27,7 @@ class VideoProjectViewer
      * @param VideoProject $videoProject
      * @param ProUser $viewer
      * @param bool $isCreator
+     * @param bool $isOwner
      */
     public function __construct(VideoProject $videoProject, ProUser $viewer, bool $isCreator = false, bool $isOwner = false)
     {
