@@ -28,12 +28,12 @@ class VideoProjectViewer
      * @param ProUser $viewer
      * @param bool $isCreator
      */
-    public function __construct(VideoProject $videoProject, ProUser $viewer, bool $isCreator = false)
+    public function __construct(VideoProject $videoProject, ProUser $viewer, bool $isCreator = false, bool $isOwner = false)
     {
         $this->videoProject = $videoProject;
         $this->viewer = $viewer;
         $this->isCreator = $isCreator;
-        $this->isOwner = false;
+        $this->isOwner = $isOwner;
     }
 
     /**

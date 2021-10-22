@@ -88,7 +88,7 @@ class VideoProjectService
     public function create(VideoProjectDTO $videoProjectDTO, ProUser $owner)
     {
         $videoProject = new VideoProject();
-        $videoProject->addViewer(new VideoProjectViewer($videoProject, $owner, true));
+        $videoProject->addViewer(new VideoProjectViewer($videoProject, $owner, true, true));
         $videoProject->addVideoProjectIteration(new VideoProjectIteration($videoProject, $videoProjectDTO->getTitle()));
         $videoProject->setTitle($videoProjectDTO->getTitle());
         $videoProject->setDescription($videoProjectDTO->getDescription());
@@ -214,7 +214,7 @@ class VideoProjectService
                     $existingSoftDeletedViewer->setDeletedAt(null);
                     $newFollower = $existingSoftDeletedViewer;
                 } else {
-                    $newFollower = new VideoProjectViewer($videoProject, $coworker, false);
+                    $newFollower = new VideoProjectViewer($videoProject, $coworker, false, false);
                 }
 
                 $videoProject->addViewer($newFollower);
@@ -262,7 +262,7 @@ class VideoProjectService
                 /** @var VideoProjectViewer $existingSoftDeletedViewer */
                 $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $proUser]);
                 if ($existingSoftDeletedViewer === null) {
-                    $follower = new VideoProjectViewer($videoProject, $proUser, false);
+                    $follower = new VideoProjectViewer($videoProject, $proUser, false, false);
                     $videoProject->addViewer($follower);
                     $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $follower;
                 } elseif ($existingSoftDeletedViewer->getDeletedAt() != null) {
