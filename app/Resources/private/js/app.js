@@ -88,7 +88,7 @@ $(function () {
 
   const $abide = $('[data-abide]');
 
-  $abide.each((inddex, abide) => {
+  $abide.each((index, abide) => {
     return new Abide($(abide));
   });
 
@@ -140,7 +140,7 @@ $(function () {
   /* Orbit */
 
   const $orbits = $('.orbit');
-  if($orbits.length){
+  if ($orbits.length) {
     $orbits.each((index, orbit) => {
       new Orbit($(orbit));
     });
@@ -186,7 +186,7 @@ $(function () {
 
   /* Toastr */
   const levelToFunction = {
-    'success':'success','warning':'warning','alert' : 'error'
+    'success': 'success', 'warning': 'warning', 'alert': 'error'
   };
   Toastr.options = {
     'positionClass': 'toast-top-full-width',
@@ -194,7 +194,7 @@ $(function () {
     'extendedTimeOut': '3000'
   };
   const $flashes = $('.js-flash-message');
-  if($flashes){
+  if ($flashes) {
     $flashes.each((index, flash) => {
       let flashLevel = $(flash).data('level');
       let flashMessage = $(flash).data('message');
@@ -208,7 +208,6 @@ $(function () {
 
   $form.on('forminvalid.zf.abide', function (e) {
     let invalidFields = $(this).find('[data-invalid]');
-
     if (invalidFields) {
       let scrollTo = $('#' + invalidFields[0].id).offset().top - 280;
 
@@ -217,6 +216,8 @@ $(function () {
       }, 400);
     }
   });
+
+  /* Form valid */
 
   const $registerSimpleForm = $('#js-register-simple-form');
   if ($registerSimpleForm) {
@@ -251,10 +252,10 @@ $(function () {
     ===================================== */
   $('a.js-confirm-box').on('click', (e) => {
     e.preventDefault();
-    let href = e.currentTarget.href;
-    let id = $(e.currentTarget).data('id');
-    let title = $(e.currentTarget).data('title');
-    let message = $(e.currentTarget).data('message');
+    const href = e.currentTarget.href,
+      id = $(e.currentTarget).data('id'),
+      title = $(e.currentTarget).data('title'),
+      message = $(e.currentTarget).data('message');
 
     confirm(title, message, id, (param) => {
       window.location = param.href;
@@ -295,7 +296,7 @@ $(function () {
 /*
    Confirm box : functions
    ===================================== */
-function confirm(title, message, id, callback, callbackParam) {
+export function confirm(title, message, id, callback, callbackParam) {
   let modal =
     '<div class="reveal small" id="' + id + '" data-reveal>' +
     '<header class="off-canvas-header">' +

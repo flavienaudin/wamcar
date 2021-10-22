@@ -44,11 +44,21 @@ Wamcar\VideoCoaching\VideoProject:
       orphanRemoval: true
       orderBy:
         createdAt: "DESC"
+    documents:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectDocument
+      mappedBy: videoProject
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+      orderBy:
+        fileOriginalName: "ASC"
 
   fields:
     title:
       type: string
     description:
+      type: string
+      nullable: true
+    googleStorageBucketName:
       type: string
       nullable: true
     createdAt:

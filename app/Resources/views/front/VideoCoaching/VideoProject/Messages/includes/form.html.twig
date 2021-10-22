@@ -11,6 +11,7 @@
         'class': 'input-margin-small',
         'label': 'coaching_video.project_discussion.form.field.content.label'|trans,
         'label_class' : 'show-for-sr',
+        'required': true,
         'placeholder': 'coaching_video.project_discussion.form.field.content.placeholder'|trans
     }) }}
 </div>
@@ -28,8 +29,11 @@
 </div>
 
 <div class="column small-12 is-flex align-middle">
-    <button type="button" id="jsAddAttachmentShortcut" class="icon-attachment margin-bottom-0"><span class="show-for-sr">{{ 'global.button.send'|trans }}</span></button>
-    <button type="submit" class="full-width button icon-check input-margin-small">{{ 'global.button.send'|trans }}</button>
+    <button type="button" id="jsAddAttachmentShortcut" class="icon-attachment margin-bottom-0">
+        <span class="show-for-sr">{{ 'global.button.send'|trans }}</span></button>
+    <button type="submit" class="full-width button icon-check input-margin-small">
+        {% include 'front/Layout/includes/forms/loader.html.twig' with {'loaderClass':'dark-gray-blue-peexeo'} %} {{ 'global.button.send'|trans }}
+    </button>
 </div>
 
 {{ form_end(messageForm) }}

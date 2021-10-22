@@ -20,13 +20,15 @@
                 class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <select {{ block('widget_attributes') }} class="{{ class }}" {{ required ? 'required' }}
-            {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
-            {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
-            {{ dataType ? 'data-type=' ~ dataType ~ '' }}
-            {{ form ? 'form=' ~ form ~ '' }}
+        {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
+        {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
+        {{ dataType ? 'data-type=' ~ dataType ~ '' }}
+        {{ form ? 'form=' ~ form ~ '' }}
     >
         {%- if placeholder is not none -%}
-            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                {{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}
+            </option>
         {%- endif -%}
         {%- if preferred_choices|length > 0 -%}
             {% set options = preferred_choices %}
@@ -92,13 +94,13 @@
         <div class="{{ class_field }}">
     {% endif %}
     <input
-            type="email"
-            {{ block('widget_attributes') }}
-            value="{{ value }}"
-            class="input {{ class }}"
-            placeholder="{{ placeholder }}"
-            data-equalto="{{ equalTo }}"
-            {{ required ? 'required' }}>
+        type="email"
+        {{ block('widget_attributes') }}
+        value="{{ value }}"
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        data-equalto="{{ equalTo }}"
+        {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -129,13 +131,13 @@
         <div class="{{ class_field }}">
     {% endif %}
     <input
-            type="password"
-            {{ block('widget_attributes') }}
-            value="{{ value }}"
-            class="input {{ class }}"
-            placeholder="{{ placeholder }}"
-            {% if equalTo != '' %}data-equalto="{{ equalTo }}"{% endif %}
-            {{ required ? 'required' }}>
+        type="password"
+        {{ block('widget_attributes') }}
+        value="{{ value }}"
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        {% if equalTo != '' %}data-equalto="{{ equalTo }}"{% endif %}
+        {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -170,14 +172,14 @@
         <div class="{{ class_field }}">
     {% endif %}
     <input
-            type="{{ type }}"
-            {{ block('widget_attributes') }}
-            value="{{ value }}"
-            class="input {{ class }} {{ not form.vars.valid ? 'is-invalid-input' }}"
-            placeholder="{{ placeholder }}"
-            data-equalto="{{ equalTo }}"
-            {% if pattern %}pattern="{{ pattern }}"{% endif %}
-            {{ required ? 'required' }}>
+        type="{{ type }}"
+        {{ block('widget_attributes') }}
+        value="{{ value }}"
+        class="input {{ class }} {{ not form.vars.valid ? 'is-invalid-input' }}"
+        placeholder="{{ placeholder }}"
+        data-equalto="{{ equalTo }}"
+        {% if pattern %}pattern="{{ pattern }}"{% endif %}
+        {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -257,13 +259,13 @@
         <div class="{{ class_field }}">
     {% endif %}
     <input
-            type="number"
-            {{ block('widget_attributes') }}
-            value="{{ value }}"
-            class="input {{ class }}"
-            placeholder="{{ placeholder }}"
-            data-equalto="{{ equalTo }}"
-            {{ required ? 'required' }}>
+        type="number"
+        {{ block('widget_attributes') }}
+        value="{{ value }}"
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        data-equalto="{{ equalTo }}"
+        {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -360,7 +362,7 @@
             <button type="button"
                     class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}"
                     title="{{ 'vehicle.field.picture.action.remove'|trans }}"><span
-                        class="show-for-sr">{{ 'vehicle.field.picture.action.remove'|trans }}</span></button>
+                    class="show-for-sr">{{ 'vehicle.field.picture.action.remove'|trans }}</span></button>
         </div>
         <div class="column small-6 medium-12">
             {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input small', 'placeholder' : 'vehicle.field.picture.action.add_caption'|trans } } ) }}
@@ -399,8 +401,9 @@
             <span class="show-for-sr">{{ 'form.picture.add_photo'|trans }}</span>
         </label>
         {% if isRemovable %}
-            <button class="{{ removable_button_class }} file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}"
-                    title="{{ 'form.picture.remove_photo'|trans }}">
+            <button
+                class="{{ removable_button_class }} file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}"
+                title="{{ 'form.picture.remove_photo'|trans }}">
                 {% if setRemovableButtonLoader %}
                     {% include 'front/Layout/includes/forms/loader.html.twig' %}
                 {% endif %}
@@ -427,16 +430,25 @@
 {% endblock %}
 
 {% block _message_attachments_entry_widget %}
+    {% set required = required|default(false) %}
+    {% set add_label = add_label|default('conversation.answer.field.attachments.add'|trans) %}
+
     <div class="messages-item-attachments-field is-flex">
         <span class="js-delete-attachment icon-close is-hidden"></span>
-        <label for="{{ form.vars.id }}"
-               class="button small {{ label_class|default('') }}">{{ 'conversation.answer.field.attachments.add'|trans }}</label>
-        {{ form_widget(form, {'attr':{'class':'is-hidden'}}) }}
+        <label for="{{ form.vars.id }}" class="button small {{ label_class|default('') }}">{{ add_label }}</label>
+        {{ form_widget(form, {'attr':{'class':'is-hidden', 'data-label': 'conversation.answer.field.attachments.add'|trans}}) }}
+        {% if required %}
+            <small class="form-error {{ required_class|default('') }}">{{ required_message|default('Ce champ est requis') }}</small>
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block _video_project_message_attachments_entry_widget %}
     {% set label_class = 'full-width is-hidden' %}
+    {{ block('_message_attachments_entry_widget') }}
+{% endblock %}
+
+{% block _addVideoProjectDocument_file_widget %}
     {{ block('_message_attachments_entry_widget') }}
 {% endblock %}
 
@@ -561,8 +573,9 @@
         {% set switch_class = switch_class|default('') %}
         {% set switch_inners = switch_inners|default({}) %}
         <div class="switch {{ switch_class }}">
-            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-
+            <input type="checkbox" {{ block('widget_attributes') }}
+                {% if value is defined %} value="{{ value }}"{% endif %}
+                {% if checked %} checked="checked"{% endif %} />
             <label class="switch-paddle" for="{{ form.vars.id }}">
                 <span class="show-for-sr">{{ label }}</span>
                 {% for inner in switch_inners %}
@@ -572,7 +585,9 @@
             </label>
         </div>
     {% else %}
-        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <input type="checkbox" {{ block('widget_attributes') }}
+            {% if value is defined %} value="{{ value }}"{% endif %}
+            {% if checked %} checked="checked"{% endif %} />
     {% endif %}
 {%- endblock checkbox_widget -%}
 
@@ -596,8 +611,8 @@
         <div class="star-list">
             {% for index, child in form %}
                 {{ form_widget(child) }}
-                <label for="{{ child.vars.id }}" class="star-item"><span
-                            class="show-for-sr">{{ child.vars.label }}</span></label>
+                <label for="{{ child.vars.id }}" class="star-item">
+                    <span class="show-for-sr">{{ child.vars.label }}</span></label>
             {% endfor %}
             {% for child in form %}
                 <span class="star-label">{{ child.vars.label }}</span>
@@ -669,11 +684,11 @@
 {%- block _vehicle_registrationNumber_widget -%}
     <div class="{{ class_field }}">
         <input
-                type="text"
-                {{ block('widget_attributes') }}
-                value="{{ value }}"
-                class="input {{ class }}"
-                readonly/>
+            type="text"
+            {{ block('widget_attributes') }}
+            value="{{ value }}"
+            class="input {{ class }}"
+            readonly/>
     </div>
 {%- endblock _vehicle_registrationNumber_widget -%}
 
@@ -730,13 +745,13 @@
         <div class="{{ class_field }}">
     {% endif %}
     <input
-            type="{{ type }}"
-            {{ block('widget_attributes') }}
-            value="{{ value ? value|localizednumber : '' }}"
-            class="input {{ class }}"
-            placeholder="{{ placeholder }}"
-            data-equalto="{{ equalTo }}"
-            {{ required ? 'required' }}>
+        type="{{ type }}"
+        {{ block('widget_attributes') }}
+        value="{{ value ? value|localizednumber : '' }}"
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        data-equalto="{{ equalTo }}"
+        {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}

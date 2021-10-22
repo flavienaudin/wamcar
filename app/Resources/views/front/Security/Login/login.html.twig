@@ -56,6 +56,7 @@
                             required_class: 'large-offset-4',
                             required_message: 'user.field.password.first.error'|trans
                         } %}
+                        <input type="hidden" name="_target_path" value="{{ target_path|default(url('front_view_current_user_info')) }}"/>
                         <div class="column small-12">
                            <button type="submit" id="form-login-submit" class="button primary-button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
                         </div>

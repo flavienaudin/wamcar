@@ -16,7 +16,6 @@ use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use PragmaRX\ZipCode\ZipCode;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -46,8 +45,6 @@ class RegistrationController extends BaseController
     protected $userEditionService;
     /** @var ApiConnector */
     protected $autoDataConnector;
-    /** @var ZipCode */
-    protected $zipCodeService;
     /** @var MessageBus */
     protected $eventBus;
 
@@ -60,7 +57,6 @@ class RegistrationController extends BaseController
      * @param UserAuthenticator $userAuthenticator
      * @param UserEditionService $userEditionService
      * @param ApiConnector $autoDataConnector
-     * @param ZipCode $zipCodeService
      * @param MessageBus $eventBus
      */
     public function __construct(
@@ -71,7 +67,6 @@ class RegistrationController extends BaseController
         UserAuthenticator $userAuthenticator,
         UserEditionService $userEditionService,
         ApiConnector $autoDataConnector,
-        ZipCode $zipCodeService,
         MessageBus $eventBus
     )
     {
@@ -82,7 +77,6 @@ class RegistrationController extends BaseController
         $this->userAuthenticator = $userAuthenticator;
         $this->userEditionService = $userEditionService;
         $this->autoDataConnector = $autoDataConnector;
-        $this->zipCodeService = $zipCodeService;
         $this->eventBus = $eventBus;
     }
 
@@ -263,20 +257,6 @@ class RegistrationController extends BaseController
     }
 
     /**
-     * @deprecated
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function getCityByZipcodeAction(Request $request): JsonResponse
-    {
-        $zipcode = $request->get('zipcode', null);
-        $city = $this->zipCodeService->find($zipcode);
-
-        return new JsonResponse($city->toArray());
-    }
-
-
-    /**
      * @param Request $request
      * @return Response
      * @throws \Exception
@@ -313,9 +293,9 @@ class RegistrationController extends BaseController
             PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
             // From landing mixte : orientation action is set in session => automatic validation of this step
             $inscQueryParam = $request->get(SecurityController::INSCRIPTION_QUERY_PARAM);
-            if(!empty($inscQueryParam)){
-                $inscQueryParam = [SecurityController::INSCRIPTION_QUERY_PARAM  => $inscQueryParam];
-            }else{
+            if (!empty($inscQueryParam)) {
+                $inscQueryParam = [SecurityController::INSCRIPTION_QUERY_PARAM => $inscQueryParam];
+            } else {
                 $inscQueryParam = [];
             }
             $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));

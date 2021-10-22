@@ -13,7 +13,7 @@
     <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
         {% block header_right %}
             {# Mobile : header-search-display button #}
-            <button class="l-navigation-item is-logged l-header-button icon-search l-header-button hide-for-large" data-toggle="advisors-header-search"></button>
+            {# B2B model <button class="l-navigation-item is-logged l-header-button icon-search l-header-button hide-for-large" data-toggle="advisors-header-search"></button>#}
 
             {% if isLogged %}
                 <a href="{{ path('front_conversation_list') }}"

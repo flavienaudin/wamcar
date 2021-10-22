@@ -8,7 +8,6 @@ use AppBundle\Api\DTO\VehicleShortDTO;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Psr\Log\LoggerInterface;
-use Swagger\Annotations as SWG;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,11 +22,6 @@ use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 
-/**
- * @SWG\Parameter(parameter="client_id", name="client_id", in="query", description="Votre client ID API", required=true, type="string")
- * @SWG\Parameter(parameter="secret", name="secret", in="header", description="Votre clé secrète", required=true, type="string")
- * @SWG\Parameter(parameter="vehicle_id", name="id", in="path", description="Identifiant unique du véhicule en base d'intégration des stocks", required=true, type="string")
- */
 class VehicleController extends BaseController
 {
     private const MAX_IMAGE_UPLOAD = 8;
@@ -63,22 +57,6 @@ class VehicleController extends BaseController
         $this->logger = $logger;
     }
 
-    /**
-     * @SWG\Delete(
-     *     path="/vehicules",
-     *     summary="Supprimer tous les véhicules du garage",
-     *     tags={"vehicle", "delete", "list"},
-     *     description="Supprimer tous les véhicules du garage",
-     *     operationId="vehicleClearAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Response(response=200, description="Catalogue véhicules supprimé"),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function clearAction(Request $request): Response
     {
         try {
@@ -89,24 +67,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Get(
-     *     path="/vehicules",
-     *     summary="Récupérer tous les vehicules du garage",
-     *     tags={"vehicle", "list"},
-     *     description="Récupérer tous les vehicules du garage (la date de dernière mise à jour ainsi que la liste des photos de chaque véhicule).",
-     *     operationId="vehicleListAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Response(response=200, description="Les véhicules",
-     *       @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/VehicleShort")),
-     *     ),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function getListAction(Request $request): Response
     {
         try {
@@ -128,31 +88,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Post(
-     *     path="/vehicules",
-     *     summary="Créer un Vehicule à partir des données soumises",
-     *     tags={"vehicle", "create"},
-     *     description="Créer un Vehicule à partir des données soumises.",
-     *     operationId="vehicleAddAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Parameter(in="body", name="body", description="Véhicule à créer", required=true,
-     *       @SWG\Schema(
-     *          ref="#/definitions/Vehicle",
-     *          required={"IdentifiantVehicule", "Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description", "CreatedAt", "UpdatedAt"}
-     *       )
-     *     ),
-     *     @SWG\Response(response=200, description="Véhicule créé",
-     *       @SWG\Schema(ref="#/definitions/VehicleShort")
-     *     ),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
-     *     @SWG\Response(response=409, description="Le véhicule existe déjà"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function addAction(Request $request): Response
     {
         try {
@@ -173,25 +108,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Get(
-     *     path="/vehicules/{id}",
-     *     summary="Récupérer la date de dernière mise à jour ainsi que la liste des photos d'un vehicule.",
-     *     tags={"vehicle", "detail"},
-     *     description="Récupérer la date de dernière mise à jour ainsi que la liste des photos d'un vehicule.",
-     *     operationId="vehicleGetAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
-     *     @SWG\Response(response=200, description="Le véhicule",
-     *       @SWG\Schema(ref="#/definitions/Vehicle")
-     *     ),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Vehicule introuvable"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function getAction(Request $request, string $id): Response
     {
         try {
@@ -205,23 +121,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Delete(
-     *     path="/vehicules/{id}",
-     *     summary="Supprimer un véhicule.",
-     *     tags={"vehicle", "delete"},
-     *     description="Supprimer un véhicule.",
-     *     operationId="vehicleDeleteAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
-     *     @SWG\Response(response=200, description="Vehicule supprimée"),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Vehicule introuvable"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function deleteAction(Request $request, string $id): Response
     {
         try {
@@ -235,31 +134,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Put(
-     *     path="/vehicules/{id}",
-     *     summary="Modifier un Vehicule à partir des données soumises",
-     *     tags={"vehicle", "edit"},
-     *     description="Modifier un Vehicule à partir des données soumises.",
-     *     operationId="vehicleEditAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
-     *     @SWG\Parameter(in="body", name="body", description="Données du véhicule à modifier", required=true,
-     *       @SWG\Schema(
-     *          ref="#/definitions/Vehicle",
-     *          required={"Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description", "UpdatedAt"}
-     *       )
-     *     ),
-     *     @SWG\Response(response=200, description="Véhicule mis à jour",
-     *       @SWG\Schema(ref="#/definitions/VehicleShort")
-     *     ),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Vehicule introuvable"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function editAction(Request $request, string $id): Response
     {
         try {
@@ -277,28 +151,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Post(
-     *     path="/vehicules/{id}/images",
-     *     summary="Ajouter des images à une voiture",
-     *     tags={"vehicle", "images", "add"},
-     *     description="Ajouter jusqu'à 8 images à une voiture.",
-     *     operationId="vehiclePictureAddAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
-     *     @SWG\Parameter(in="body", name="body", description="Collection d'images", required=true,
-     *       @SWG\Schema(ref="#/definitions/VehiclePictureCollection")
-     *     ),
-     *     @SWG\Response(response=200, description="Véhicule mis à jour",
-     *       @SWG\Schema(ref="#/definitions/VehicleShort")
-     *     ),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function addImageAction(Request $request, string $id): Response
     {
         try {
@@ -309,7 +161,7 @@ class VehicleController extends BaseController
                     sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD),
                     Response::HTTP_BAD_REQUEST);
 
-            }elseif (count($request->files ) == 0 ){
+            } elseif (count($request->files) == 0) {
                 throw new \InvalidArgumentException('No file received', Response::HTTP_BAD_REQUEST);
             }
 
@@ -331,24 +183,6 @@ class VehicleController extends BaseController
         }
     }
 
-    /**
-     * @SWG\Delete(
-     *     path="/vehicules/{id}/images",
-     *     summary="Retirer les images d'une voiture",
-     *     tags={"vehicle", "images", "delete"},
-     *     description="Premet de retirer l'intégralité des images d'une voiture.",
-     *     operationId="vehiclePicturesRemoveAction",
-     *     @SWG\Parameter(ref="#/parameters/client_id"),
-     *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
-     *     @SWG\Response(response=200, description="Véhicule mis à jour",
-     *       @SWG\Schema(ref="#/definitions/VehicleShort")
-     *     ),
-     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
-     *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=400, description="Erreur"),
-     * )
-     */
     public function removeImagesAction(Request $request, string $id): Response
     {
         try {

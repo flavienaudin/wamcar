@@ -15,6 +15,8 @@ class VideoProjectViewer
     private $viewer;
     /** @var VideoProject */
     private $videoProject;
+    /** @var bool true if the viewer is the owner */
+    private $isOwner;
     /** @var bool true if the viewer is the creator */
     private $isCreator;
     /** @var \DateTime|null */
@@ -63,6 +65,22 @@ class VideoProjectViewer
     public function setViewer(ProUser $viewer): void
     {
         $this->viewer = $viewer;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOwner(): bool
+    {
+        return $this->isOwner;
+    }
+
+    /**
+     * @param bool $isOwner
+     */
+    public function setIsOwner(bool $isOwner): void
+    {
+        $this->isOwner = $isOwner;
     }
 
     /**

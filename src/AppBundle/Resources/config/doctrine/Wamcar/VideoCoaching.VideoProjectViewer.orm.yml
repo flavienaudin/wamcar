@@ -21,6 +21,8 @@ Wamcar\VideoCoaching\VideoProjectViewer:
       associationKey: true
 
   fields:
+    isOwner:
+      type: boolean
     isCreator:
       type: boolean
     visitedAt:

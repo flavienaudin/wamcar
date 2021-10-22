@@ -57,14 +57,9 @@ class GAReportingAPIService
         $this->applicationName = $applicationName;
         $this->viewId = $viewId;
 
-
         // Create and configure a new client object.
         $client = new \Google_Client();
         $client->setApplicationName($this->applicationName);
-
-        // If problem to access the client_secret.json file with Docker and The .env config
-        // $KEY_FILE_LOCATION  = __DIR__.'/../../../../../app/config/googleApi/client_secret.json';
-        // $client->setAuthConfig($KEY_FILE_LOCATION);
         $client->useApplicationDefaultCredentials();
         $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
         $this->analytics = new \Google_Service_AnalyticsReporting($client);
