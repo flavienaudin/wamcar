@@ -225,7 +225,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function supportsClass($class): bool
     {
-        /* B2B model */
-        return ProApplicationUser::class === $class;
+        return ApplicationUser::class === $class || ProApplicationUser::class;
     }
 }

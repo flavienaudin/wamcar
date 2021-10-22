@@ -31,7 +31,6 @@ class VideoProjectIteration
      * VideoProjectIteration constructor.
      * @param VideoProject $videoProject
      * @param string $title
-     * @throws \Exception
      */
     public function __construct(VideoProject $videoProject, string $title)
     {

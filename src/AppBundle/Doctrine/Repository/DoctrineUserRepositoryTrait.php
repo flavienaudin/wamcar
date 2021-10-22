@@ -3,6 +3,7 @@
 namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -109,7 +110,7 @@ trait DoctrineUserRepositoryTrait
      */
     public function supportsClass($class): bool
     {
-        return ApplicationUser::class === $class;
+        return ApplicationUser::class === $class || ProApplicationUser::class;
     }
     /** Fin des méthodes du UserProviderInterface */
 

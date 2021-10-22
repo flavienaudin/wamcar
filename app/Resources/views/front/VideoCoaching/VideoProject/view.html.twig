@@ -61,9 +61,9 @@
                     {% endfor %}
                     {% for follower in videoProject.viewers(true) %}
                         <a class="avatar" href="{{ path('front_view_pro_user_info', {'slug': follower.viewer.slug}) }}">
-                            <img src="{{ follower.viewer.avatar|avatar('user_mini_thumbnail', follower.viewer.fullName) }}"
-                                 alt="{{ follower.viewer.fullName|title }}"
-                                 title="{{ follower.viewer.fullName|title }}">
+                            <img
+                                src="{{ follower.viewer.avatar|avatar('user_mini_thumbnail', follower.viewer.fullName) }}"
+                                alt="{{ follower.viewer.fullName|title }}" title="{{ follower.viewer.fullName|title }}">
                         </a>
                     {% endfor %}
 
@@ -90,19 +90,6 @@
                     {% if videoProject.description is not empty %}
                         <p>{{ videoProject.description|raw }}</p>
                     {% endif %}
-                </div>
-
-                <div>
-                    {% for scriptVersion in videoProjectIteration.scriptVersions %}
-                        <div id="jsScriptVersionDuration-{{ scriptVersion.id }}"
-                             class="row align-middle js-scriptVersion-duration {{ loop.index0 > 0 ? 'is-hidden' }}">
-                            <div class="column small-shrink"><span class="icon-clock no-margin"></span></div>
-                            <div class="column small-collapse">
-                                <b>{{ 'coaching_video.video_project.view.info.duration'|trans({'%scriptname%': scriptVersion.title}) }}</b><br>
-                                {{ scriptVersion|scriptDuration|durationFormat }}
-                            </div>
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
             {# END Video Project members and management action #}
@@ -131,26 +118,24 @@
 
                     <div id="jsScriptVersions" class="" data-toggler="is-hidden">
                         <ul class="tabs script-selector" data-tabs id="script-versions-tabs" data-deep-link="true"
-                            data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true">
+                            data-deep-link-smudge="true" data-deep-link-smudge-delay="600" data-update-history="true"
+                            data-active-collapse="true">
                             {% for scriptVersion in videoProjectIteration.scriptVersions %}
-                                <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}"
-                                    data-script-version-id="{{ scriptVersion.id }}">
-                                    <a href="#scriptVersion-{{ scriptVersion.id }}"
-                                       aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}">
-                                        {{ scriptVersion.title }}
-                                    </a>
+                                <li class="tabs-title" data-script-version-id="{{ scriptVersion.id }}">
+                                    <a href="#scriptVersion-{{ scriptVersion.id }}">{{ scriptVersion.title }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
                         <div class="tabs-content" data-tabs-content="script-versions-tabs">
                             {% for scriptVersion in videoProjectIteration.scriptVersions %}
-                                <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}"
+                                <div class="tabs-panel"
                                      id="scriptVersion-{{ scriptVersion.id }}">
                                     <h3>
                                         {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
                                             <span class="align-right">
-                                                <span data-toggle="js-edit-scriptversion-title-{{ scriptVersion.id }} js-scriptversion-title-view-{{ scriptVersion.id }}"
-                                                      class="videoproject-section-action icon-pen">
+                                                <span
+                                                    data-toggle="js-edit-scriptversion-title-{{ scriptVersion.id }} js-scriptversion-title-view-{{ scriptVersion.id }}"
+                                                    class="videoproject-section-action icon-pen">
                                                     <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span>
                                                 </span>
                                             </span>
@@ -165,8 +150,12 @@
                                     </h3>
                                     <div id="js-scriptversion-title-view-{{ scriptVersion.id }}"
                                          data-toggler="is-hidden">
+                                        <p><b class="icon-clock is-inline">
+                                                {{ 'coaching_video.video_project.view.info.duration'|trans }}&nbsp;:&nbsp;</b>{{ scriptVersion|scriptDuration|durationFormat }}
+                                        </p>
 
-                                        <table class="video-script-datatable dataTable compact cell-border margin-bottom-1">
+                                        <table
+                                            class="video-script-datatable dataTable compact cell-border margin-bottom-1">
                                             <thead>
                                             <tr>
                                                 <th>{{ 'coaching_video.script_version.view.table.header.narration'|trans }}</th>
@@ -187,9 +176,11 @@
                                                         <td>{{ sequence.shot ? sequence.shot.label }}</td>
                                                         <td class="text-center">{{ sequence.dialogue|dialogueDuration ~ 's' }}</td>
                                                         {% if editScriptVersionTitleForms[scriptVersion.id] is defined %}
-                                                            <td><span class="js-script-sequence-getform button button-icon icon-pen"
-                                                                      data-url="{{ path('front_coachingvideo_scriptversion_sequence_edit', {'id':sequence.id}) }}"
-                                                                      data-id="{{ sequence.id }}"></span></td>
+                                                            <td>
+                                                                <span
+                                                                    class="js-script-sequence-getform button button-icon icon-pen"
+                                                                    data-url="{{ path('front_coachingvideo_scriptversion_sequence_edit', {'id':sequence.id}) }}"
+                                                                    data-id="{{ sequence.id }}"></span></td>
                                                         {% endif %}
                                                     </tr>
                                                 {% endfor %}
@@ -242,12 +233,11 @@
                         <div id="jsVideoVersions" class="" data-toggler="is-hidden">
                             <ul class="tabs video-selector" data-tabs id="video-versions-tabs" data-deep-link="true"
                                 data-deep-link-smudge="true" data-deep-link-smudge-delay="600"
-                                data-update-history="true">
+                                data-update-history="true" data-active-collapse="true">
                                 {% for videoVersion in videoProjectIteration.videoVersions %}
                                     {% set versionVideoYoutubeVideoId =  videoVersion.youtubeVideoId %}
-                                    <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
+                                    <li class="tabs-title">
                                         <a href="#videoVersion-{{ videoVersion.id }}"
-                                           aria-selected="{{ loop.index == 0 ? 'true' : 'false' }}"
                                            class="js-youtube-video-thumbnail" data-id="{{ versionVideoYoutubeVideoId }}"
                                            data-alt="{{ videoVersion.title }}"></a>
                                     </li>
@@ -255,13 +245,14 @@
                             </ul>
                             <div class="tabs-content" data-tabs-content="video-versions-tabs">
                                 {% for videoVersion in videoProjectIteration.videoVersions %}
-                                    <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}"
+                                    <div class="tabs-panel"
                                          id="videoVersion-{{ videoVersion.id }}">
                                         <h3>
                                             {% if editVideoVersionForms[videoVersion.id] is defined %}
                                                 <span class="align-right">
-                                                <span data-toggle="js-edit-videoversion-{{ videoVersion.id }} js-videoversion-view-{{ videoVersion.id }}"
-                                                      class="videoproject-section-action icon-pen">
+                                                <span
+                                                    data-toggle="js-edit-videoversion-{{ videoVersion.id }} js-videoversion-view-{{ videoVersion.id }}"
+                                                    class="videoproject-section-action icon-pen">
                                                     <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span>
                                                 </span>
                                             </span>
@@ -296,7 +287,47 @@
                     {% endif %}
                 </div>
             {% endif %}
-            {# END Video vesion #}
+            {# END Video versions #}
+
+            {# Video Project files library #}
+            {% if videoProject.documents|length > 0 or addDocumentForm is not null %}
+                <div class="videoproject-section block-light-shadow videoproject-library">
+                    <h2>{{ 'coaching_video.project_library.title'|trans }}</h2>
+                    <div>
+                        <ul class="no-bullet">
+                            {% for document in videoProject.documents %}
+                                <li class="js-vp-document"><a
+                                        href="{{ path('front_coachingvideo_videoproject_library_document_get', {'id': document.id}) }}"
+                                        class="is-inline icon-download">
+                                        {{ document.fileOriginalName }}</a>
+                                    {% if is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::LIBRARY_DELETE_DOCUMENT'), document) %}
+                                        <a href="{{ path('front_coachingvideo_videoproject_library_document_delete', {'id': document.id}) }}"
+                                           class="js-delete-vp-document is-inline icon-remove"
+                                           data-id="videoProject-document-deletion-{{ document.id }}"
+                                           data-title="Attention!"
+                                           data-message="Confirmez-vous la suppression de ce document ?"></a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if addDocumentForm is not null %}
+                        {{ form_start(addDocumentForm, {'attr':{
+                            'id':'jsAddDocumentForm', 'class': 'is-flex',
+                            'data-abide' : 'data-abide', 'novalidate': 'novalidate'
+                        }}) }}
+                        {{ form_widget(addDocumentForm.file, {
+                            'required' : true,
+                            'add_label' : 'coaching_video.project_library.form.field.add'|trans
+                        }) }}
+                        {{ form_errors(addDocumentForm.file) }}
+                        <button type="submit" class=" is-invalid-label button small margin-top-0 icon-arrow-right-2">
+                            {{ 'global.button.send_document'|trans }}</button>
+                        {{ form_end(addDocumentForm) }}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {# END Video Project files library #}
         </div>
         {# END Left column #}
 

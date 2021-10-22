@@ -5,7 +5,6 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,18 +34,6 @@ class TypeFormController extends BaseController
         return $this->session->get('AUTH_USER');
     }
 
-    /**
-     * @SWG\Post(
-     *     path="/typeform/affinity/personal",
-     *     summary="Soumettre la réponse au formulaire Wamcar Affinity Particulier",
-     *     tags={"user", "submit", "wamcar affinity particulier"},
-     *     description="Soumettre la réponse au formulaire Wamcar Affinity Particulier",
-     *     operationId="submitAffinityPersonalFormAction",
-     *     @SWG\Response(response=200, description="Réponse soumise"),
-     *     @SWG\Response(response=400, description="Données incorrectes"),
-     *     @SWG\Response(response=415, description="Mauvais content-type"),
-     * )
-     */
     public function submitAffinityPersonalFormAction(Request $request): Response
     {
         if (strpos($request->getContentType(), "json") === false) {
@@ -61,19 +48,6 @@ class TypeFormController extends BaseController
         }
     }
 
-
-    /**
-     * @SWG\Post(
-     *     path="/typeform/affinity/pro",
-     *     summary="Soumettre la réponse au formulaire Wamcar Affinity Professionnel",
-     *     tags={"user", "submit", "wamcar affinity professionnel"},
-     *     description="Soumettre la réponse au formulaire Wamcar Affinity Professionnel",
-     *     operationId="submitAffinityProFormAction",
-     *     @SWG\Response(response=200, description="Réponse soumise"),
-     *     @SWG\Response(response=400, description="Données incorrectes"),
-     *     @SWG\Response(response=415, description="Mauvais content-type"),
-     * )
-     */
     public function submitAffinityProFormAction(Request $request): Response
     {
         if (strpos($request->getContentType(), "json") === false) {

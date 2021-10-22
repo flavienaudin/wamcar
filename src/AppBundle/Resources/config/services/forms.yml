@@ -1,24 +1,32 @@
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
 
-    AppBundle\Form\Type\:
-        resource: '../../../Form/Type'
-        exclude: '../../../Form/Type/{VehicleType,VehicleInformationType}.php'
+  AppBundle\Form\Type\:
+    resource: '../../../Form/Type'
+    exclude: '../../../Form/Type/{VehicleType,VehicleInformationType}.php'
 
-    AppBundle\Form\Type\VehicleInformationType:
-        autowire: true
-        arguments:
-            - '%preferred_makeName%'
+  AppBundle\Form\Type\SpecificField\ProServiceCategoryServicesSelectType:
+    arguments:
+      - '@doctrine'
+      -
+  AppBundle\Form\Type\VideoProjectCoworkerType:
+    arguments:
+      - '@doctrine'
 
-    AppBundle\Form\Type\ProjectVehicleType:
-        autowire: true
-        arguments:
-            - '%preferred_makeName%'
+  AppBundle\Form\Type\VehicleInformationType:
+    autowire: true
+    arguments:
+      - '%preferred_makeName%'
 
-    AppBundle\Form\Type\SearchVehicleType:
-        autowire: true
-        arguments:
-            - '%preferred_makeName%'
+  AppBundle\Form\Type\ProjectVehicleType:
+    autowire: true
+    arguments:
+      - '%preferred_makeName%'
+
+  AppBundle\Form\Type\SearchVehicleType:
+    autowire: true
+    arguments:
+      - '%preferred_makeName%'

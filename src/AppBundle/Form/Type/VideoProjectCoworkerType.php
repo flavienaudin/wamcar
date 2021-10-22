@@ -20,7 +20,6 @@ class VideoProjectCoworkerType extends EntityType
             'expanded' => true,
             'choice_label' => 'fullName',
             'choice_value' => 'id'
-
         ]);
     }
 }
