@@ -33,6 +33,7 @@ class VideoProjectViewer
         $this->videoProject = $videoProject;
         $this->viewer = $viewer;
         $this->isCreator = $isCreator;
+        $this->isOwner = false;
     }
 
     /**
