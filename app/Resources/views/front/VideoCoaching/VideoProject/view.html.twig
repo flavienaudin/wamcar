@@ -52,31 +52,35 @@
                 {% endif %}
 
                 <div class="videoproject-viewers">
-                    {% for creator in videoProject.creators %}
-                        <a class="avatar" href="{{ path('front_view_pro_user_info', {'slug': creator.viewer.slug}) }}">
-                            <img class="creator"
-                                 src="{{ creator.viewer.avatar|avatar('user_mini_thumbnail', creator.viewer.fullName) }}"
-                                 alt="{{ creator.viewer.fullname|title }}" title="{{ creator.viewer.fullname|title }}">
-                        </a>
-                    {% endfor %}
-                    {% for follower in videoProject.viewers(true) %}
-                        <a class="avatar" href="{{ path('front_view_pro_user_info', {'slug': follower.viewer.slug}) }}">
-                            <img
-                                src="{{ follower.viewer.avatar|avatar('user_mini_thumbnail', follower.viewer.fullName) }}"
-                                alt="{{ follower.viewer.fullName|title }}" title="{{ follower.viewer.fullName|title }}">
-                        </a>
-                    {% endfor %}
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        {% for creator in videoProject.creators %}
+                            <li class="js-follower-item is-flex">
+                                {{ include('front/VideoCoaching/VideoProject/includes/viewer_avatar.html.twig', {
+                                    'vpviewer' : creator,
+                                    'img_class': 'creator'
+                                }) }}
+                            </li>
+                        {% endfor %}
+                        {% for follower in videoProject.viewers(true) %}
+                            <li class="js-follower-item is-flex">
+                                {{ include('front/VideoCoaching/VideoProject/includes/viewer_avatar.html.twig', {
+                                    'vpviewer' : follower
+                                }) }}
+                            </li>
+                        {% endfor %}
 
-                    {% if selectCoworkersVideoProjectForm is not null and addFollowersByEmailVideoProjectForm is not null %}
-                        <span data-open="js-share-videoproject-modal" class="avatar">
+                        {% if selectCoworkersVideoProjectForm is not null and addFollowersByEmailVideoProjectForm is not null %}
+                            <li><span data-open="js-share-videoproject-modal" class="avatar">
                             <img src="{{ null|avatar('user_mini_thumbnail', '+') }}"
-                                 alt="{{ 'global.button.share'|trans }}" title="{{ 'global.button.share'|trans }}">
-                        </span>
-                        {{ include('front/VideoCoaching/VideoProject/includes/modal_share_video_project.html.twig', {
-                            'selectCoworkersVideoProjectForm': selectCoworkersVideoProjectForm,
-                            'addFollowersByEmailVideoProjectForm': addFollowersByEmailVideoProjectForm
-                        }) }}
-                    {% endif %}
+                                 alt="{{ 'global.button.share'|trans }}"
+                                 title="{{ 'global.button.share'|trans }}"></span>
+                                {{ include('front/VideoCoaching/VideoProject/includes/modal_share_video_project.html.twig', {
+                                    'selectCoworkersVideoProjectForm': selectCoworkersVideoProjectForm,
+                                    'addFollowersByEmailVideoProjectForm': addFollowersByEmailVideoProjectForm
+                                }) }}
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
 
                 {% if editVideoProjectForm is not null %}
@@ -334,7 +338,7 @@
         {# Right column #}
         <div class="js-videoproject-right-column videoproject-right-column column small-12 large-5">
 
-            {# Discussion block#}
+            {# Discussion block #}
             <div id="videoproject-discussion-target" class="videoproject-section block-light-shadow">
                 <h2>
                     <span id="js_discussion_update" class="videoproject-section-action icon-loop21">
@@ -363,7 +367,7 @@
                     </div>
                 </div>
             </div>
-            {# End Discussion block#}
+            {# End Discussion block #}
         </div>
         {# END Right column #}
     </section>

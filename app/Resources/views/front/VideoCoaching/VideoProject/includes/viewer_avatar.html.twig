@@ -1,0 +1,22 @@
+<a class="avatar" href="#">
+    <img class="{{ img_class|default('') }}"
+         src="{{ vpviewer.viewer.avatar|avatar('user_mini_thumbnail', vpviewer.viewer.fullName) }}"
+         alt="{{ vpviewer.viewer.fullname|title }}" title="{{ vpviewer.viewer.fullname|title }}">
+</a>
+<ul class="menu is-dropdown-submenu">
+    <li>
+        <a href="{{ path('front_view_pro_user_info', {'slug': vpviewer.viewer.slug}) }}">
+            {{ 'coaching_video.viewer.link.profile'|trans({'%username%':vpviewer.viewer.firstname|title}) }}</a>
+    </li>
+    {% if not vpviewer.isOwner and is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_EDIT'), vpviewer.videoProject) %}
+        <li>
+            <a href="{{ path('front_coachingvideo_videoproject_viewer_creator_status_toogle', {
+                'videoProjectId': vpviewer.videoProject.id,
+                'proUserId': vpviewer.viewer.id
+            }) }}" id="t-{{ vpviewer.viewer.id ~ vpviewer.videoProject.id }}" class="js-toogle-creator-status"
+               data-set-creator-label="{{ 'coaching_video.viewer.link.set_creator'|trans }}"
+               data-set-viewer-label="{{ 'coaching_video.viewer.link.set_viewer'|trans }}">
+                {{ vpviewer.isCreator ? 'coaching_video.viewer.link.set_viewer'|trans : 'coaching_video.viewer.link.set_creator'|trans }}</a>
+        </li>
+    {% endif %}
+</ul>

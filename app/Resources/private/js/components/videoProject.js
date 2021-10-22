@@ -10,6 +10,32 @@ import {default as autosize} from 'autosize';
 import * as Toastr from 'toastr';
 import {confirm} from '../app';
 
+// Viewers / Creators
+const $toogleCreatorStatusLinks = $('.js-toogle-creator-status');
+if ($toogleCreatorStatusLinks.length > 0) {
+  $toogleCreatorStatusLinks.each((index, element) => {
+    const $toogleCreatorStatusLink = $(element);
+    $toogleCreatorStatusLink.on('click', (event) => {
+      event.preventDefault();
+      const href = $toogleCreatorStatusLink.attr('href');
+      $.ajax({
+        url: href
+      }).done(function (success) {
+        $toogleCreatorStatusLink.parents('li.js-follower-item').find('img').toggleClass('creator');
+        if(success.isCreator) {
+          $toogleCreatorStatusLink.html($toogleCreatorStatusLink.data('set-viewer-label'));
+        }else{
+          $toogleCreatorStatusLink.html($toogleCreatorStatusLink.data('set-creator-label'));
+        }
+        Toastr.success(success.message);
+      }).fail(function (jqXHR, textStatus ) {
+        Toastr.warning(jqXHR.responseJSON.error);
+      });
+    });
+  });
+}
+
+
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
 let updateLastVisitedAtURL = undefined,

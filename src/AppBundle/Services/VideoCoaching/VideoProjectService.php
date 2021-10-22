@@ -39,7 +39,7 @@ class VideoProjectService
     private $videoProjectMessageRepository;
 
     /** @var VideoProjectViewerRepository */
-    private $videoProjectViewRepository;
+    private $videoProjectViewerRepository;
 
     /** @var DoctrineProUserRepository */
     private $proUserRepository;
@@ -57,7 +57,7 @@ class VideoProjectService
      * VideoProjectService constructor.
      * @param VideoProjectRepository $videoProjectRepository
      * @param VideoProjectMessageRepository $videoProjectMessageRepository
-     * @param VideoProjectViewerRepository $videoProjectViewRepository
+     * @param VideoProjectViewerRepository $videoProjectViewerRepository
      * @param DoctrineProUserRepository $proUserRepository
      * @param MessageBus $eventBus
      * @param ConversationEditionService $conversationEditionService
@@ -65,7 +65,7 @@ class VideoProjectService
      */
     public function __construct(VideoProjectRepository $videoProjectRepository,
                                 VideoProjectMessageRepository $videoProjectMessageRepository,
-                                VideoProjectViewerRepository $videoProjectViewRepository,
+                                VideoProjectViewerRepository $videoProjectViewerRepository,
                                 DoctrineProUserRepository $proUserRepository,
                                 MessageBus $eventBus,
                                 ConversationEditionService $conversationEditionService,
@@ -73,7 +73,7 @@ class VideoProjectService
     {
         $this->videoProjectRepository = $videoProjectRepository;
         $this->videoProjectMessageRepository = $videoProjectMessageRepository;
-        $this->videoProjectViewRepository = $videoProjectViewRepository;
+        $this->videoProjectViewerRepository = $videoProjectViewerRepository;
         $this->proUserRepository = $proUserRepository;
         $this->eventBus = $eventBus;
         $this->conversationEditionService = $conversationEditionService;
@@ -95,6 +95,23 @@ class VideoProjectService
         $videoProject->setGoogleStorageBucketName($this->googleCloudStorageService->createVideoProjectBucketName());
         $this->videoProjectRepository->add($videoProject);
         return $videoProject;
+    }
+
+    /**
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @return bool|VideoProjectViewer
+     */
+    public function toogleCreatorStatus(VideoProject $videoProject, ProUser $proUser)
+    {
+        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
+        if ($videoProjectViewer instanceof VideoProjectViewer && !$videoProjectViewer->isOwner()) {
+            $videoProjectViewer->setIsCreator(!$videoProjectViewer->isCreator());
+            $this->videoProjectViewerRepository->update($videoProjectViewer);
+            return $videoProjectViewer;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -209,7 +226,7 @@ class VideoProjectService
                 $viewersToKeep[] = $actualViewerToKeep;
             } else {
                 /** @var VideoProjectViewer $existingSoftDeletedViewer */
-                $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $coworker]);
+                $existingSoftDeletedViewer = $this->videoProjectViewerRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $coworker]);
                 if ($existingSoftDeletedViewer) {
                     $existingSoftDeletedViewer->setDeletedAt(null);
                     $newFollower = $existingSoftDeletedViewer;
@@ -260,7 +277,7 @@ class VideoProjectService
             $proUser = $this->proUserRepository->findOneByEmail($email);
             if ($proUser) {
                 /** @var VideoProjectViewer $existingSoftDeletedViewer */
-                $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $proUser]);
+                $existingSoftDeletedViewer = $this->videoProjectViewerRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $proUser]);
                 if ($existingSoftDeletedViewer === null) {
                     $follower = new VideoProjectViewer($videoProject, $proUser, false, false);
                     $videoProject->addViewer($follower);
@@ -337,7 +354,7 @@ class VideoProjectService
         $videoProjectViewer = $videoProject->getViewerInfo($proUser);
         if ($videoProjectViewer) {
             $videoProjectViewer->setVisitedAt(new \DateTime());
-            $this->videoProjectViewRepository->update($videoProjectViewer);
+            $this->videoProjectViewerRepository->update($videoProjectViewer);
             return true;
         }
         return false;

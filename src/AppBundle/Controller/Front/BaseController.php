@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -102,7 +103,8 @@ abstract class BaseController
      * @param array $parameters
      * @return string
      */
-    protected function renderTemplate(string $view, array $parameters = array()): string {
+    protected function renderTemplate(string $view, array $parameters = array()): string
+    {
         return $this->templatingEngine->render($view, $parameters);
     }
 
@@ -225,7 +227,7 @@ abstract class BaseController
     protected function denyAccessUnlessGranted($attributes, $object = null, $message = null)
     {
         if (!$this->isGranted($attributes, $object)) {
-            if(!empty($message)){
+            if (!empty($message)) {
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $message);
             }
             $exception = $this->createAccessDeniedException($message);
@@ -251,6 +253,17 @@ abstract class BaseController
     protected function createAccessDeniedException($message = 'Access Denied.', \Exception $previous = null)
     {
         return new AccessDeniedException($message, $previous);
+    }
+
+    /**
+     * Throw Exception if $request is not XMKHttpRequest = Ajax request
+     * @param Request $request
+     */
+    protected function checkIfXMLHttpRequest(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
     }
 
     /**

@@ -150,6 +150,11 @@ front_coachingvideo_videoproject_delete:
   path: /module/video/videoproject/delete/{id}
   controller: AppBundle:Front\ModuleContext\VideoCoaching:delete
 
+# Viewers / Creators
+front_coachingvideo_videoproject_viewer_creator_status_toogle:
+  path: /module/video/videoproject/viewer/creator/toogle/{videoProjectId}/{proUserId}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:toogleCreatorStatus
+
 # Script Version
 front_coachingvideo_scriptversion_wizard:
   path: /module/video/scriptversion/wizard/{id}

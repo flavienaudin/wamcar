@@ -10,7 +10,7 @@
    data-toggle
    ===================================== */
 
-[data-toggle] {
+[data-open], [data-toggle] {
   &:hover {
     cursor: pointer;
   }

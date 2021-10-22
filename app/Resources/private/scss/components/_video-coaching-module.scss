@@ -130,9 +130,13 @@
       .avatar {
         display: inline-block;
         margin-left: rem-calc(5);
+        padding: 0;
         height: rem-calc(45);
         width: rem-calc(45);
-        vertical-align: middle;
+
+        &:hover {
+          background: none;
+        }
 
         img {
           max-height: 100%;
