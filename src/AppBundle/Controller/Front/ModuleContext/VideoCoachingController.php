@@ -306,7 +306,9 @@ class VideoCoachingController extends BaseController
 
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_DELETE, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.delete');
-            return $this->redirectToRoute('front_view_current_user_info');
+            return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                'videoProjectId' => $videoProject->getId()
+            ]);
         }
         $this->videoProjectService->delete($videoProject);
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.delete');

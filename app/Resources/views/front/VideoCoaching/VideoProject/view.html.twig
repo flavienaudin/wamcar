@@ -41,12 +41,14 @@
                             <span data-toggle="js-edit-videoproject js-videoproject-info"
                                   class="videoproject-section-action icon-pen">
                                 <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span></span>
-                            <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
-                               class="js-confirm-box videoproject-section-action icon-remove"
-                               data-id="videoProject-deletion-{{ videoProject.id }}"
-                               data-title="Attention!"
-                               data-message="Confirmez-vous la suppression de ce projet vidéo ?">
-                                    <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
+                            {% if is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_DELETE'), videoProject) %}
+                                <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
+                                   class="js-confirm-box videoproject-section-action icon-remove"
+                                   data-id="videoProject-deletion-{{ videoProject.id }}"
+                                   data-title="Attention!"
+                                   data-message="Confirmez-vous la suppression de ce projet vidéo ?">
+                                        <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
+                            {% endif %}
                         </span>
                     </span>
                 {% endif %}
