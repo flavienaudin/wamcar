@@ -23,8 +23,10 @@ Wamcar\VideoCoaching\VideoProjectViewer:
   fields:
     isOwner:
       type: boolean
+      nullable: true
     isCreator:
       type: boolean
+      nullable: true
     visitedAt:
       type: datetime
       nullable: true
