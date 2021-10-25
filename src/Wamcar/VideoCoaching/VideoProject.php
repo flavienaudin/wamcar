@@ -218,6 +218,16 @@ class VideoProject
     }
 
     /**
+     * @return VideoProjectViewer|null
+     */
+    public function getOwner(): ?VideoProjectViewer
+    {
+        return $this->viewers->filter(function (VideoProjectViewer $videoProjectViewer) {
+            return $videoProjectViewer->isOwner();
+        })->get(0);
+    }
+
+    /**
      * @param VideoProjectViewer $viewer
      */
     public function addViewer(VideoProjectViewer $viewer): void

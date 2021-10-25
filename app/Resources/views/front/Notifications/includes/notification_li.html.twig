@@ -65,12 +65,13 @@
     {% set notificator_alt = notification.subject.author.fullname %}
     {% set notification_icon = '<span class="icon-envelop dark-gray-blue-peexeo-color"></span>' %}
 {% elseif notification.notificationEvent is same as('Wamcar\\VideoCoaching\\Event\\VideoProjectSharingSuccessEvent') %}
+    {% set owner = notification.subject.owner.viewer %}
     {% set subject = 'notifications.message.video_project_shared'|trans({
-        '%creator%' : notification.subject.creators.first.viewer.fullname,
+        '%creator%' : owner.viewer.fullname,
         '%videoProjectTitle%' : notification.subject.title
     }) %}
-    {% set notificator_img = notification.subject.creators.first.viewer.avatar|avatar('user_mini_thumbnail', notification.subject.creators.first.viewer.firstName) %}
-    {% set notificator_alt = notification.subject.creators.first.viewer.fullname %}
+    {% set notificator_img = owner.avatar|avatar('user_mini_thumbnail', owner.firstName) %}
+    {% set notificator_alt = owner.fullname %}
     {% set notification_icon = '<span class="icon-film2 dark-gray-blue-peexeo-color"></span>' %}
 {% else %}
     {% set subject = notification.notifiableNotification.notification.subject %}

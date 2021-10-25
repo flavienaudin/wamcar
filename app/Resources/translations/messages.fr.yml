@@ -1658,7 +1658,7 @@ coaching_video:
     view:
       title: "Projet vidéo : %title%"
       header:
-        title: "%creatorFirstName% présente"
+        title: "%ownerFirstName% présente"
       info:
         duration: Durée du script
     list:

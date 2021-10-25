@@ -85,7 +85,7 @@ class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventH
             if ($follower->getViewer()->getPreferences()->isVideoProjectSharingEmailEnabled() &&
                 NotificationFrequency::IMMEDIATELY()->equals($follower->getViewer()->getPreferences()->getVideoProjectSharingEmailFrequency())
             ) {
-                $creatorFullName = $videoProject->getCreators()->first()->getViewer()->getFullName();
+                $creatorFullName = $videoProject->getOwner()->getViewer()->getFullName();
                 $emailObject = $this->translator->trans('notifyNewFollowersOfVideoProjectSharingSuccess.object', [
                     '%authorFullName%' => $creatorFullName,
                     '%videoProjectTitle%' => $videoProject->getTitle()
