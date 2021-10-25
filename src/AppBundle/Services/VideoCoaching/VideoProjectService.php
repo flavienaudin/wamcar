@@ -209,22 +209,20 @@ class VideoProjectService
 
     /**
      * @param VideoProject $videoProject
-     * @param array $coworkers
+     * @param array $selectedCoworkers
+     * @param array $currentUserCoworkers
      */
-    public function updateVideoProjectCoworkers(VideoProject $videoProject, array $coworkers)
+    public function updateVideoProjectCoworkers(VideoProject $videoProject, array $selectedCoworkers, array $currentUserCoworkers)
     {
-
-        /** @var VideoProjectViewer $creator */
-        $creator = $videoProject->getCreators()->first();
-        $creatorCoworkers = $creator->getViewer()->getCoworkers();
         $viewersToKeep = [];
         $newFollowers = [];
         /** @var ProUser $coworker */
-        foreach ($coworkers as $coworker) {
+        foreach ($selectedCoworkers as $coworker) {
             $actualViewerToKeep = $videoProject->getViewerInfo($coworker);
             if ($actualViewerToKeep) {
                 $viewersToKeep[] = $actualViewerToKeep;
             } else {
+                // Get potential SoftDeleted VideoProjectViewer and un-SoftDeleted it
                 /** @var VideoProjectViewer $existingSoftDeletedViewer */
                 $existingSoftDeletedViewer = $this->videoProjectViewerRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $coworker]);
                 if ($existingSoftDeletedViewer) {
@@ -236,22 +234,19 @@ class VideoProjectService
 
                 $videoProject->addViewer($newFollower);
                 $newFollowers[$coworker->getEmail()] = $newFollower;
-                $viewersToKeep[] = $newFollower;
+                $viewersToKeep[$coworker->getId()] = $newFollower;
             }
         }
         /** @var VideoProjectViewer $videoProjectViewer */
         foreach ($videoProject->getViewers() as $videoProjectViewer) {
-            $toKeep = $videoProjectViewer->isCreator();
+            $toKeep = $videoProjectViewer->isOwner();
 
             // Keep if the viewer is not a coworker (so was added by its email)
-            $toKeep |= !array_key_exists($videoProjectViewer->getViewer()->getId(), $creatorCoworkers);
+            $toKeep |= !array_key_exists($videoProjectViewer->getViewer()->getId(), $currentUserCoworkers);
+            // Keep if the coworker viewer is still selected
+            $toKeep |= array_key_exists($videoProjectViewer->getViewer()->getId(), $viewersToKeep );
 
             // TODO : do not delete coach / wamcar coach when implemented
-
-            /** @var VideoProjectViewer $viewerToKeep */
-            foreach ($viewersToKeep as $viewerToKeep) {
-                $toKeep |= $viewerToKeep->getViewer()->is($videoProjectViewer->getViewer());
-            }
             if (!$toKeep) {
                 $videoProject->removeViewer($videoProjectViewer);
             }

@@ -151,10 +151,11 @@ class VideoCoachingController extends BaseController
 
             // Formulaire de partage du projet vidéo avec les membres des entreprises
             $coworkersDTO = new VideoProjectViewersDTO($videoProject);
-            $selectCoworkersVideoProjectForm = $this->formFactory->create(VideoProjectCoworkersSelectionType::class, $coworkersDTO, ['coworkers' => $currentUser->getCoworkers()]);
+            $currentUserCoworkers = $currentUser->getCoworkers();
+            $selectCoworkersVideoProjectForm = $this->formFactory->create(VideoProjectCoworkersSelectionType::class, $coworkersDTO, ['coworkers' => $currentUserCoworkers]);
             $selectCoworkersVideoProjectForm->handleRequest($request);
             if ($selectCoworkersVideoProjectForm->isSubmitted() && $selectCoworkersVideoProjectForm->isValid()) {
-                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers());
+                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers(), $currentUserCoworkers );
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                     'videoProjectId' => $videoProject->getId(),
                     'iterationId' => $videoProjectIteration->getId()

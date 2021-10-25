@@ -21,7 +21,7 @@ class VideoProjectViewersDTO
     {
         $this->coworkers = [];
         /** @var VideoProjectViewer $viewer */
-        foreach ($videoProject->getViewers(true) as $viewer) {
+        foreach ($videoProject->getViewers(false) as $viewer) {
             $this->coworkers[$viewer->getViewer()->getId()] = $viewer->getViewer();
         }
     }
