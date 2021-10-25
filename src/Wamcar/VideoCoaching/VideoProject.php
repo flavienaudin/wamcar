@@ -218,13 +218,13 @@ class VideoProject
     }
 
     /**
-     * @return VideoProjectViewer|null
+     * @return Collection
      */
-    public function getOwner(): ?VideoProjectViewer
+    public function getOwners(): Collection
     {
         return $this->viewers->filter(function (VideoProjectViewer $videoProjectViewer) {
             return $videoProjectViewer->isOwner();
-        })->get(0);
+        });
     }
 
     /**

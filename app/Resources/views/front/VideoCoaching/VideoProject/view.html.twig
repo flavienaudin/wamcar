@@ -21,7 +21,7 @@
                 </div>
             {% endif %}
             <div class="column small-12">
-                <h2>{{ 'coaching_video.video_project.view.header.title'|trans({'%ownerFirstName%' : videoProject.owner.viewer.firstName|title}) }}</h2>
+                <h2>{{ 'coaching_video.video_project.view.header.title'|trans({'%ownerFirstName%' : videoProject.owners.first.viewer.firstName|title}) }}</h2>
             </div>
             <div class="column small-12">
                 <h1>{{ videoProject.title }}</h1>
