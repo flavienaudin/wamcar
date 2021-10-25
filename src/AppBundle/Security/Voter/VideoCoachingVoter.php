@@ -23,6 +23,7 @@ class VideoCoachingVoter extends Voter
     const VIDEO_PROJECT_VIEW = "video_coaching_project.view";
     const VIDEO_PROJECT_ADD = "video_coaching_project.add";
     const VIDEO_PROJECT_EDIT = "video_coaching_project.edit";
+    const VIDEO_PROJECT_MANAGE_VIEWER = "video_coaching_project.manage_viewer";
     const VIDEO_PROJECT_DELETE = "video_coaching_project.delete";
 
     const VIDEO_PROJECT_ITERATION_ADD_VIDEOVERSION = "video_coaching_project_iteration.add_videoversion";
@@ -58,7 +59,7 @@ class VideoCoachingVoter extends Voter
         }
 
         // if the attribute is one we support with the correct subject type, return true
-        if (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_DELETE, self::LIBRARY_ADD_DOCUMENT]) && $subject instanceof VideoProject) {
+        if (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_MANAGE_VIEWER, self::VIDEO_PROJECT_DELETE, self::LIBRARY_ADD_DOCUMENT]) && $subject instanceof VideoProject) {
             return true;
         }
 
@@ -118,7 +119,7 @@ class VideoCoachingVoter extends Voter
             // Abonnement payant ou restreint sans projet déjà créé
             return $proUser->hasVideoModuleAccess() || $proUser->getCreatedVideoProjects()->isEmpty();
         } // Video coaching project management
-        elseif (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_DELETE])) {
+        elseif (in_array($attribute, [self::VIDEO_PROJECT_VIEW, self::VIDEO_PROJECT_EDIT, self::VIDEO_PROJECT_MANAGE_VIEWER, self::VIDEO_PROJECT_DELETE])) {
             // you know $subject is a VideoProject object, thanks to supports
             /** @var VideoProject $videoProject */
             $videoProject = $subject;
@@ -131,6 +132,7 @@ class VideoCoachingVoter extends Voter
                 case self::VIDEO_PROJECT_EDIT:
                     return $currentUserViewerInfo->isCreator();
                 case self::VIDEO_PROJECT_DELETE:
+                case self::VIDEO_PROJECT_MANAGE_VIEWER:
                     return $currentUserViewerInfo->isOwner();
             }
         } // Video Project Iteration management

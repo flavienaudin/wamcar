@@ -96,24 +96,6 @@ class VideoProjectService
         $this->videoProjectRepository->add($videoProject);
         return $videoProject;
     }
-
-    /**
-     * @param VideoProject $videoProject
-     * @param ProUser $proUser
-     * @return bool|VideoProjectViewer
-     */
-    public function toogleCreatorStatus(VideoProject $videoProject, ProUser $proUser)
-    {
-        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
-        if ($videoProjectViewer instanceof VideoProjectViewer && !$videoProjectViewer->isOwner()) {
-            $videoProjectViewer->setIsCreator(!$videoProjectViewer->isCreator());
-            $this->videoProjectViewerRepository->update($videoProjectViewer);
-            return $videoProjectViewer;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * If not already set, set the (google storage) bucket name of the video project and save it in database
      * @param VideoProject $videoProject
@@ -209,6 +191,24 @@ class VideoProjectService
 
     /**
      * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @return bool|VideoProjectViewer
+     */
+    public function toogleCreatorStatus(VideoProject $videoProject, ProUser $proUser)
+    {
+        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
+        if ($videoProjectViewer instanceof VideoProjectViewer && !$videoProjectViewer->isOwner()) {
+            $videoProjectViewer->setIsCreator(!$videoProjectViewer->isCreator());
+            $this->videoProjectViewerRepository->update($videoProjectViewer);
+            return $videoProjectViewer;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * @param VideoProject $videoProject
      * @param array $coworkers
      */
     public function updateVideoProjectCoworkers(VideoProject $videoProject, array $coworkers)
@@ -294,6 +294,24 @@ class VideoProjectService
         $this->videoProjectRepository->update($videoProject);
         $this->eventBus->handle(new VideoProjectSharingSuccessEvent($videoProject, $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS]));
         return $results;
+    }
+
+
+    /**
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @return bool|VideoProjectViewer
+     */
+    public function deleteViewer(VideoProject $videoProject, ProUser $proUser)
+    {
+        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
+        if ($videoProjectViewer instanceof VideoProjectViewer && !$videoProjectViewer->isOwner()) {
+            $videoProject->removeViewer($videoProjectViewer);
+            $this->videoProjectViewerRepository->remove($videoProjectViewer);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

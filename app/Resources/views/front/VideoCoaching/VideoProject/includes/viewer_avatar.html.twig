@@ -14,15 +14,22 @@
         <li>
             <a href="{{ path('front_conversation_create', {'id': vpviewer.viewer.id }) }}">{{ 'global.button.contact'|trans }}</a>
         </li>
-        {% if not vpviewer.isOwner and is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_EDIT'), vpviewer.videoProject) %}
+        {% if not vpviewer.isOwner and is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_MANAGE_VIEWER'), vpviewer.videoProject) %}
             <li>
                 <a href="{{ path('front_coachingvideo_videoproject_viewer_creator_status_toogle', {
                     'videoProjectId': vpviewer.videoProject.id,
                     'proUserId': vpviewer.viewer.id
-                }) }}" id="t-{{ vpviewer.viewer.id ~ vpviewer.videoProject.id }}" class="js-toogle-creator-status"
+                }) }}" class="js-toogle-creator-status"
                    data-set-creator-label="{{ 'coaching_video.viewer.link.set_creator'|trans }}"
                    data-set-viewer-label="{{ 'coaching_video.viewer.link.set_viewer'|trans }}">
                     {{ vpviewer.isCreator ? 'coaching_video.viewer.link.set_viewer'|trans : 'coaching_video.viewer.link.set_creator'|trans }}</a>
+            </li>
+            <li>
+                <a href="{{ path('front_coachingvideo_videoproject_viewer_delete', {
+                    'videoProjectId': vpviewer.videoProject.id,
+                    'proUserId': vpviewer.viewer.id
+                }) }}" class="js-delete-viewer">
+                    {{ 'coaching_video.viewer.link.delete'|trans }}</a>
             </li>
         {% endif %}
     </ul>

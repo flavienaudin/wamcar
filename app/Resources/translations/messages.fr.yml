@@ -83,6 +83,7 @@ flash:
       banner.edit: L'image de votre projet a bien été mise à jour.
       viewer:
         toogle_creator: Le suiveur a bien été mis à jour.
+        delete: Le suiveur a bien été supprimé.
       document:
         add: Le document a bien été ajouté à la bibliothèque du projet vidéo.
         delete: Le document a bien été supprimé de la bibliothèque du projet vidéo.
@@ -177,6 +178,7 @@ flash:
     videoproject:
       viewer:
         owner_still_creator: Le propriétaire ne peut pas être modifié.
+        not_removed: Le suiveur ne peut pas être supprimé.
       document:
         delete:
           notfound: Une erreur est survenue lors de la suppression du fichier. Tentez de recharger la page.
@@ -1689,6 +1691,7 @@ coaching_video:
       profile: Profil de %username%
       set_creator: Rendre co-createur
       set_viewer: Rendre simple suiveur
+      delete: Annuler son suivi
   script_version:
     view:
       title: Scripts du projet

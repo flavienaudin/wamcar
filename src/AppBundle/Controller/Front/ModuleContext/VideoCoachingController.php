@@ -324,6 +324,30 @@ class VideoCoachingController extends BaseController
      * @param Request $request
      * @return JsonResponse
      */
+    public function deleteViewerAction(VideoProject $videoProject, ProUser $proUser, Request $request)
+    {
+        $this->checkIfXMLHttpRequest($request);
+        if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_MANAGE_VIEWER, $videoProject)) {
+            return new JsonResponse(['error' => 'flash.error.unauthorized.video_coaching.video_project.manage'], Response::HTTP_FORBIDDEN);
+        }
+        if ($this->videoProjectService->deleteViewer($videoProject, $proUser)) {
+            return new JsonResponse([
+                'message' => $this->translator->trans('flash.success.videoproject.viewer.delete')
+            ]);
+        } else {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.videoproject.viewer.not_removed')], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * @ParamConverter("videoProject", class="Wamcar\VideoCoaching\VideoProject", options={"id"="videoProjectId"})
+     * @ParamConverter("proUser", class="Wamcar\User\ProUser", options={"id"="proUserId"})
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function toogleCreatorStatusAction(VideoProject $videoProject, ProUser $proUser, Request $request)
     {
         $this->checkIfXMLHttpRequest($request);

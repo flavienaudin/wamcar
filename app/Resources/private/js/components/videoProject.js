@@ -10,7 +10,11 @@ import {default as autosize} from 'autosize';
 import * as Toastr from 'toastr';
 import {confirm} from '../app';
 
-// Viewers / Creators
+/***************************/
+/*** Viewers / Creators ***/
+/***************************/
+
+// Toogle creator status
 const $toogleCreatorStatusLinks = $('.js-toogle-creator-status');
 if ($toogleCreatorStatusLinks.length > 0) {
   $toogleCreatorStatusLinks.each((index, element) => {
@@ -27,6 +31,26 @@ if ($toogleCreatorStatusLinks.length > 0) {
         }else{
           $toogleCreatorStatusLink.html($toogleCreatorStatusLink.data('set-creator-label'));
         }
+        Toastr.success(success.message);
+      }).fail(function (jqXHR, textStatus ) {
+        Toastr.warning(jqXHR.responseJSON.error);
+      });
+    });
+  });
+}
+
+// delete Viewer
+const $deleteVideoProjectViewerLinks = $('.js-delete-viewer');
+if ($deleteVideoProjectViewerLinks.length > 0) {
+  $deleteVideoProjectViewerLinks.each((index, element) => {
+    const $deleteVideoProjectViewerLink = $(element);
+    $deleteVideoProjectViewerLink.on('click', (event) => {
+      event.preventDefault();
+      const href = $deleteVideoProjectViewerLink.attr('href');
+      $.ajax({
+        url: href
+      }).done(function (success) {
+        $deleteVideoProjectViewerLink.parents('li.js-follower-item').remove();
         Toastr.success(success.message);
       }).fail(function (jqXHR, textStatus ) {
         Toastr.warning(jqXHR.responseJSON.error);
