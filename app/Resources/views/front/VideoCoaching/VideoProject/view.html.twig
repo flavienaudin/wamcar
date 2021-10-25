@@ -54,10 +54,12 @@
                 {% endif %}
 
                 <div class="videoproject-viewers">
+                    {% set currentUserVPViewerInfo = videoProject.getViewerInfo(app.user) %}
                     <ul class="dropdown menu" data-dropdown-menu>
                         {% for creator in videoProject.creators %}
                             <li class="js-follower-item is-flex">
                                 {{ include('front/VideoCoaching/VideoProject/includes/viewer_avatar.html.twig', {
+                                    'currentUserVPViewerInfo': currentUserVPViewerInfo,
                                     'vpviewer' : creator,
                                     'img_class': 'creator'
                                 }) }}
@@ -66,6 +68,7 @@
                         {% for follower in videoProject.viewers(true) %}
                             <li class="js-follower-item is-flex">
                                 {{ include('front/VideoCoaching/VideoProject/includes/viewer_avatar.html.twig', {
+                                    'currentUserVPViewerInfo': currentUserVPViewerInfo,
                                     'vpviewer' : follower
                                 }) }}
                             </li>
