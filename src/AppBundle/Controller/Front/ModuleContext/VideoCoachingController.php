@@ -35,7 +35,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\ProUser;
@@ -44,6 +43,7 @@ use Wamcar\VideoCoaching\ScriptVersion;
 use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoProjectDocument;
 use Wamcar\VideoCoaching\VideoProjectIteration;
+use Wamcar\VideoCoaching\VideoProjectViewer;
 use Wamcar\VideoCoaching\VideoVersion;
 
 class VideoCoachingController extends BaseController
@@ -151,10 +151,11 @@ class VideoCoachingController extends BaseController
 
             // Formulaire de partage du projet vidéo avec les membres des entreprises
             $coworkersDTO = new VideoProjectViewersDTO($videoProject);
-            $selectCoworkersVideoProjectForm = $this->formFactory->create(VideoProjectCoworkersSelectionType::class, $coworkersDTO, ['coworkers' => $currentUser->getCoworkers()]);
+            $currentUserCoworkers = $currentUser->getCoworkers();
+            $selectCoworkersVideoProjectForm = $this->formFactory->create(VideoProjectCoworkersSelectionType::class, $coworkersDTO, ['coworkers' => $currentUserCoworkers]);
             $selectCoworkersVideoProjectForm->handleRequest($request);
             if ($selectCoworkersVideoProjectForm->isSubmitted() && $selectCoworkersVideoProjectForm->isValid()) {
-                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers());
+                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers(), $currentUserCoworkers );
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                     'videoProjectId' => $videoProject->getId(),
                     'iterationId' => $videoProjectIteration->getId()
@@ -257,7 +258,7 @@ class VideoCoachingController extends BaseController
         if ($this->isGranted(VideoCoachingVoter::LIBRARY_ADD_DOCUMENT, $videoProject)) {
             $this->videoProjectService->initializeGoogleStorageBucket($videoProject);
             $documentOwnerViewer = $videoProject->getViewerInfo($currentUser);
-            if($documentOwnerViewer != false) {
+            if ($documentOwnerViewer != false) {
                 $addVideoProjectDocumentDTO = new VideoProjectDocumentDTO($videoProject, $documentOwnerViewer);
                 $addDocumentForm = $this->formFactory->createNamed('addVideoProjectDocument', VideoProjectDocumentType::class, $addVideoProjectDocumentDTO);
                 $addDocumentForm->handleRequest($request);
@@ -306,11 +307,62 @@ class VideoCoachingController extends BaseController
 
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_DELETE, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.delete');
-            return $this->redirectToRoute('front_view_current_user_info');
+            return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
+                'videoProjectId' => $videoProject->getId()
+            ]);
         }
         $this->videoProjectService->delete($videoProject);
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.videoproject.delete');
         return $this->redirectToRoute('front_view_current_user_info');
+    }
+
+
+    /**
+     * @ParamConverter("videoProject", class="Wamcar\VideoCoaching\VideoProject", options={"id"="videoProjectId"})
+     * @ParamConverter("proUser", class="Wamcar\User\ProUser", options={"id"="proUserId"})
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteViewerAction(VideoProject $videoProject, ProUser $proUser, Request $request)
+    {
+        $this->checkIfXMLHttpRequest($request);
+        if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_MANAGE_VIEWER, $videoProject)) {
+            return new JsonResponse(['error' => 'flash.error.unauthorized.video_coaching.video_project.manage'], Response::HTTP_FORBIDDEN);
+        }
+        if ($this->videoProjectService->deleteViewer($videoProject, $proUser)) {
+            return new JsonResponse([
+                'message' => $this->translator->trans('flash.success.videoproject.viewer.delete')
+            ]);
+        } else {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.videoproject.viewer.not_removed')], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * @ParamConverter("videoProject", class="Wamcar\VideoCoaching\VideoProject", options={"id"="videoProjectId"})
+     * @ParamConverter("proUser", class="Wamcar\User\ProUser", options={"id"="proUserId"})
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function toogleCreatorStatusAction(VideoProject $videoProject, ProUser $proUser, Request $request)
+    {
+        $this->checkIfXMLHttpRequest($request);
+        if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
+            return new JsonResponse(['error' => 'flash.error.unauthorized.video_coaching.video_project.manage'], Response::HTTP_FORBIDDEN);
+        }
+        if (($vpViewer = $this->videoProjectService->toogleCreatorStatus($videoProject, $proUser)) instanceof VideoProjectViewer) {
+            return new JsonResponse([
+                'isCreator' => $vpViewer->isCreator(),
+                'message' => $this->translator->trans('flash.success.videoproject.viewer.toogle_creator')
+            ]);
+        } else {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.videoproject.viewer.owner_still_creator')], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -422,9 +474,7 @@ class VideoCoachingController extends BaseController
      */
     public function editScriptSequenceAjaxAction(ScriptSequence $scriptSequence, Request $request)
     {
-        if (!$request->isXmlHttpRequest()) {
-            throw new BadRequestHttpException();
-        }
+        $this->checkIfXMLHttpRequest($request);
 
         $videoScriptVersion = $scriptSequence->getScriptSection()->getScriptVersion();
         $videoProject = $videoScriptVersion->getVideoProjectIteration()->getVideoProject();
@@ -472,9 +522,7 @@ class VideoCoachingController extends BaseController
      */
     public function postVideoProjectMessageAction(VideoProject $videoProject, Request $request)
     {
-        if (!$request->isXmlHttpRequest()) {
-            throw new BadRequestHttpException();
-        }
+        $this->checkIfXMLHttpRequest($request);
 
         /** @var ProUser $currentUser */
         $currentUser = $this->getUser();
@@ -516,9 +564,7 @@ class VideoCoachingController extends BaseController
      */
     public function getMessagesAction(VideoProject $videoProject, Request $request)
     {
-        if (!$request->isXmlHttpRequest()) {
-            throw new BadRequestHttpException();
-        }
+        $this->checkIfXMLHttpRequest($request);
 
         /** @var ProUser $currentUser */
         $currentUser = $this->getUser();
@@ -570,9 +616,7 @@ class VideoCoachingController extends BaseController
      */
     public function visiteDiscussionAction(Request $request, VideoProject $videoProject): JsonResponse
     {
-        if (!$request->isXmlHttpRequest()) {
-            throw new BadRequestHttpException();
-        }
+        $this->checkIfXMLHttpRequest($request);
 
         /** @var ProUser $currentUser */
         $currentUser = $this->getUser();
@@ -631,9 +675,8 @@ class VideoCoachingController extends BaseController
      */
     public function deleteDocumentAction(Request $request, VideoProjectDocument $videoProjectDocument)
     {
-        if (!$request->isXmlHttpRequest()) {
-            throw new BadRequestHttpException();
-        }
+        $this->checkIfXMLHttpRequest($request);
+
         if (!$this->isGranted(VideoCoachingVoter::LIBRARY_DELETE_DOCUMENT, $videoProjectDocument)) {
             return new JsonResponse(['message' => $this->translator->trans('flash.error.videoproject.document.delete.unauthorized')], Response::HTTP_UNAUTHORIZED);
         }

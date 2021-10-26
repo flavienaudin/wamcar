@@ -85,9 +85,9 @@ class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventH
             if ($follower->getViewer()->getPreferences()->isVideoProjectSharingEmailEnabled() &&
                 NotificationFrequency::IMMEDIATELY()->equals($follower->getViewer()->getPreferences()->getVideoProjectSharingEmailFrequency())
             ) {
-                $creatorFullName = $videoProject->getCreators()->first()->getViewer()->getFullName();
+                $ownerFullName = $videoProject->getOwners()->first()->getViewer()->getFullName();
                 $emailObject = $this->translator->trans('notifyNewFollowersOfVideoProjectSharingSuccess.object', [
-                    '%authorFullName%' => $creatorFullName,
+                    '%authorFullName%' => $ownerFullName,
                     '%videoProjectTitle%' => $videoProject->getTitle()
                 ], 'email');
 
@@ -123,7 +123,7 @@ class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventH
 //                    'cc' => 'opened', // Campaign content
 //                ],
                         'username' => $follower->getViewer()->getFirstName(),
-                        'authorFullName' => $creatorFullName,
+                        'authorFullName' => $ownerFullName,
                         'videoProjectTitle' => $videoProject->getTitle(),
                         'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
                             'videoProjectId' => $videoProject->getId()
@@ -131,7 +131,7 @@ class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventH
                     ],
                     new EmailRecipientList([$this->createUserEmailContact($follower->getViewer())]),
                     [],
-                    $creatorFullName
+                    $ownerFullName
                 );
             }
         }

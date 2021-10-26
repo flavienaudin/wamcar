@@ -39,7 +39,7 @@ class VideoProjectService
     private $videoProjectMessageRepository;
 
     /** @var VideoProjectViewerRepository */
-    private $videoProjectViewRepository;
+    private $videoProjectViewerRepository;
 
     /** @var DoctrineProUserRepository */
     private $proUserRepository;
@@ -57,7 +57,7 @@ class VideoProjectService
      * VideoProjectService constructor.
      * @param VideoProjectRepository $videoProjectRepository
      * @param VideoProjectMessageRepository $videoProjectMessageRepository
-     * @param VideoProjectViewerRepository $videoProjectViewRepository
+     * @param VideoProjectViewerRepository $videoProjectViewerRepository
      * @param DoctrineProUserRepository $proUserRepository
      * @param MessageBus $eventBus
      * @param ConversationEditionService $conversationEditionService
@@ -65,7 +65,7 @@ class VideoProjectService
      */
     public function __construct(VideoProjectRepository $videoProjectRepository,
                                 VideoProjectMessageRepository $videoProjectMessageRepository,
-                                VideoProjectViewerRepository $videoProjectViewRepository,
+                                VideoProjectViewerRepository $videoProjectViewerRepository,
                                 DoctrineProUserRepository $proUserRepository,
                                 MessageBus $eventBus,
                                 ConversationEditionService $conversationEditionService,
@@ -73,7 +73,7 @@ class VideoProjectService
     {
         $this->videoProjectRepository = $videoProjectRepository;
         $this->videoProjectMessageRepository = $videoProjectMessageRepository;
-        $this->videoProjectViewRepository = $videoProjectViewRepository;
+        $this->videoProjectViewerRepository = $videoProjectViewerRepository;
         $this->proUserRepository = $proUserRepository;
         $this->eventBus = $eventBus;
         $this->conversationEditionService = $conversationEditionService;
@@ -96,7 +96,6 @@ class VideoProjectService
         $this->videoProjectRepository->add($videoProject);
         return $videoProject;
     }
-
     /**
      * If not already set, set the (google storage) bucket name of the video project and save it in database
      * @param VideoProject $videoProject
@@ -192,24 +191,40 @@ class VideoProjectService
 
     /**
      * @param VideoProject $videoProject
-     * @param array $coworkers
+     * @param ProUser $proUser
+     * @return bool|VideoProjectViewer
      */
-    public function updateVideoProjectCoworkers(VideoProject $videoProject, array $coworkers)
+    public function toogleCreatorStatus(VideoProject $videoProject, ProUser $proUser)
     {
+        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
+        if ($videoProjectViewer instanceof VideoProjectViewer && !$videoProjectViewer->isOwner()) {
+            $videoProjectViewer->setIsCreator(!$videoProjectViewer->isCreator());
+            $this->videoProjectViewerRepository->update($videoProjectViewer);
+            return $videoProjectViewer;
+        } else {
+            return false;
+        }
+    }
 
-        /** @var VideoProjectViewer $creator */
-        $creator = $videoProject->getCreators()->first();
-        $creatorCoworkers = $creator->getViewer()->getCoworkers();
+
+    /**
+     * @param VideoProject $videoProject
+     * @param array $selectedCoworkers
+     * @param array $currentUserCoworkers
+     */
+    public function updateVideoProjectCoworkers(VideoProject $videoProject, array $selectedCoworkers, array $currentUserCoworkers)
+    {
         $viewersToKeep = [];
         $newFollowers = [];
         /** @var ProUser $coworker */
-        foreach ($coworkers as $coworker) {
+        foreach ($selectedCoworkers as $coworker) {
             $actualViewerToKeep = $videoProject->getViewerInfo($coworker);
             if ($actualViewerToKeep) {
                 $viewersToKeep[] = $actualViewerToKeep;
             } else {
+                // Get potential SoftDeleted VideoProjectViewer and un-SoftDeleted it
                 /** @var VideoProjectViewer $existingSoftDeletedViewer */
-                $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $coworker]);
+                $existingSoftDeletedViewer = $this->videoProjectViewerRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $coworker]);
                 if ($existingSoftDeletedViewer) {
                     $existingSoftDeletedViewer->setDeletedAt(null);
                     $newFollower = $existingSoftDeletedViewer;
@@ -219,22 +234,19 @@ class VideoProjectService
 
                 $videoProject->addViewer($newFollower);
                 $newFollowers[$coworker->getEmail()] = $newFollower;
-                $viewersToKeep[] = $newFollower;
+                $viewersToKeep[$coworker->getId()] = $newFollower;
             }
         }
         /** @var VideoProjectViewer $videoProjectViewer */
         foreach ($videoProject->getViewers() as $videoProjectViewer) {
-            $toKeep = $videoProjectViewer->isCreator();
+            $toKeep = $videoProjectViewer->isOwner();
 
             // Keep if the viewer is not a coworker (so was added by its email)
-            $toKeep |= !array_key_exists($videoProjectViewer->getViewer()->getId(), $creatorCoworkers);
+            $toKeep |= !array_key_exists($videoProjectViewer->getViewer()->getId(), $currentUserCoworkers);
+            // Keep if the coworker viewer is still selected
+            $toKeep |= array_key_exists($videoProjectViewer->getViewer()->getId(), $viewersToKeep );
 
             // TODO : do not delete coach / wamcar coach when implemented
-
-            /** @var VideoProjectViewer $viewerToKeep */
-            foreach ($viewersToKeep as $viewerToKeep) {
-                $toKeep |= $viewerToKeep->getViewer()->is($videoProjectViewer->getViewer());
-            }
             if (!$toKeep) {
                 $videoProject->removeViewer($videoProjectViewer);
             }
@@ -260,7 +272,7 @@ class VideoProjectService
             $proUser = $this->proUserRepository->findOneByEmail($email);
             if ($proUser) {
                 /** @var VideoProjectViewer $existingSoftDeletedViewer */
-                $existingSoftDeletedViewer = $this->videoProjectViewRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $proUser]);
+                $existingSoftDeletedViewer = $this->videoProjectViewerRepository->findIgnoreSoftDeleted(['videoProject' => $videoProject, 'viewer' => $proUser]);
                 if ($existingSoftDeletedViewer === null) {
                     $follower = new VideoProjectViewer($videoProject, $proUser, false, false);
                     $videoProject->addViewer($follower);
@@ -277,6 +289,24 @@ class VideoProjectService
         $this->videoProjectRepository->update($videoProject);
         $this->eventBus->handle(new VideoProjectSharingSuccessEvent($videoProject, $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS]));
         return $results;
+    }
+
+
+    /**
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @return bool|VideoProjectViewer
+     */
+    public function deleteViewer(VideoProject $videoProject, ProUser $proUser)
+    {
+        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
+        if ($videoProjectViewer instanceof VideoProjectViewer && !$videoProjectViewer->isOwner()) {
+            $videoProject->removeViewer($videoProjectViewer);
+            $this->videoProjectViewerRepository->remove($videoProjectViewer);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -337,7 +367,7 @@ class VideoProjectService
         $videoProjectViewer = $videoProject->getViewerInfo($proUser);
         if ($videoProjectViewer) {
             $videoProjectViewer->setVisitedAt(new \DateTime());
-            $this->videoProjectViewRepository->update($videoProjectViewer);
+            $this->videoProjectViewerRepository->update($videoProjectViewer);
             return true;
         }
         return false;

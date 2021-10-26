@@ -1,0 +1,38 @@
+{% set isCreator = currentUserVPViewerInfo is not same as(false) and currentUserVPViewerInfo.isCreator %}
+
+<a class="avatar" href="{{ isCreator ? '#' : path('front_view_pro_user_info', {'slug': vpviewer.viewer.slug}) }}">
+    <img class="{{ img_class|default('') }}"
+         src="{{ vpviewer.viewer.avatar|avatar('user_mini_thumbnail', vpviewer.viewer.fullName) }}"
+         alt="{{ vpviewer.viewer.fullname|title }}" title="{{ vpviewer.viewer.fullname|title }}">
+</a>
+{% if isCreator %}
+    <ul class="menu is-dropdown-submenu">
+        <li>
+            <a href="{{ path('front_view_pro_user_info', {'slug': vpviewer.viewer.slug}) }}">
+                {{ 'coaching_video.viewer.link.profile'|trans({'%username%':vpviewer.viewer.fullname|title}) }}</a>
+        </li>
+        {% if not vpviewer.viewer.is(app.user) %}
+            <li>
+                <a href="{{ path('front_conversation_create', {'id': vpviewer.viewer.id }) }}">{{ 'global.button.contact'|trans }}</a>
+            </li>
+        {% endif %}
+        {% if not vpviewer.isOwner and is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::VIDEO_PROJECT_MANAGE_VIEWER'), vpviewer.videoProject) %}
+            <li>
+                <a href="{{ path('front_coachingvideo_videoproject_viewer_creator_status_toogle', {
+                    'videoProjectId': vpviewer.videoProject.id,
+                    'proUserId': vpviewer.viewer.id
+                }) }}" class="js-toogle-creator-status"
+                   data-set-creator-label="{{ 'coaching_video.viewer.link.set_creator'|trans }}"
+                   data-set-viewer-label="{{ 'coaching_video.viewer.link.set_viewer'|trans }}">
+                    {{ vpviewer.isCreator ? 'coaching_video.viewer.link.set_viewer'|trans : 'coaching_video.viewer.link.set_creator'|trans }}</a>
+            </li>
+            <li>
+                <a href="{{ path('front_coachingvideo_videoproject_viewer_delete', {
+                    'videoProjectId': vpviewer.videoProject.id,
+                    'proUserId': vpviewer.viewer.id
+                }) }}" class="js-delete-viewer">
+                    {{ 'coaching_video.viewer.link.delete'|trans }}</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}
