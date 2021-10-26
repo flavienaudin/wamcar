@@ -81,6 +81,9 @@ flash:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.
       banner.edit: L'image de votre projet a bien été mise à jour.
+      viewer:
+        toogle_creator: Le suiveur a bien été mis à jour.
+        delete: Le suiveur a bien été supprimé.
       document:
         add: Le document a bien été ajouté à la bibliothèque du projet vidéo.
         delete: Le document a bien été supprimé de la bibliothèque du projet vidéo.
@@ -125,6 +128,7 @@ flash:
       video_coaching:
         video_project:
           view: Vous n'avez pas le droit de visualiser ce projet vidéo.
+          manage: Vous n'avez pas le droit de gérer ce projet vidéo.
           delete: Vous n'avez pas le droit de supprimer ce projet vidéo.
         script_version:
           add: Vous ne pouvez pas ajouter de script à cette itération du projet
@@ -172,6 +176,9 @@ flash:
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
       assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
     videoproject:
+      viewer:
+        owner_still_creator: Le propriétaire ne peut pas être modifié.
+        not_removed: Le suiveur ne peut pas être supprimé.
       document:
         delete:
           notfound: Une erreur est survenue lors de la suppression du fichier. Tentez de recharger la page.
@@ -226,6 +233,7 @@ global:
     complete: Compléter
     connect: Se connecter
     connexion: Connexion
+    contact: Contacter via la messagerie
     create: Créer
     delete: Supprimer
     dislike: Je n'aime plus
@@ -1650,7 +1658,7 @@ coaching_video:
     view:
       title: "Projet vidéo : %title%"
       header:
-        title: "%creatorFirstName% présente"
+        title: "%ownerFirstName% présente"
       info:
         duration: Durée du script
     list:
@@ -1678,6 +1686,12 @@ coaching_video:
           label: Titre du projet
         description:
           label: Description du projet
+  viewer:
+    link:
+      profile: Profil de %username%
+      set_creator: Rendre co-createur
+      set_viewer: Rendre simple suiveur
+      delete: Annuler son suivi
   script_version:
     view:
       title: Scripts du projet

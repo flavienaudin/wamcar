@@ -53,13 +53,9 @@ liip-cache-remove:
 	$(LOCALPHP) ./bin/console liip:imagine:cache:remove
 
 # Frontend asset management
-NPM_OUT = node_modules/npm.md5
-npm-install: $(NPM_OUT) ## install NPM packages from shrinkwrap file
-$(NPM_OUT): package-lock.json
+npm-install: package-lock.json
 	@echo "--> Installing NPM packages"
 	npm install
-	-@md5 npm-shrinkwrap.json > $(NPM_OUT)
-	-@md5sum npm-shrinkwrap.json > $(NPM_OUT)
 start-front: npm-install ## start front dev watcher
 	@echo "--> Starting npm dev service"
 	npm run start
