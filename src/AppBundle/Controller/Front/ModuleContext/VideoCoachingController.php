@@ -155,7 +155,7 @@ class VideoCoachingController extends BaseController
             $selectCoworkersVideoProjectForm = $this->formFactory->create(VideoProjectCoworkersSelectionType::class, $coworkersDTO, ['coworkers' => $currentUserCoworkers]);
             $selectCoworkersVideoProjectForm->handleRequest($request);
             if ($selectCoworkersVideoProjectForm->isSubmitted() && $selectCoworkersVideoProjectForm->isValid()) {
-                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers(), $currentUserCoworkers );
+                $this->videoProjectService->updateVideoProjectCoworkers($videoProject, $coworkersDTO->getCoworkers(), $currentUserCoworkers);
                 return $this->redirectToRoute('front_coachingvideo_videoproject_view', [
                     'videoProjectId' => $videoProject->getId(),
                     'iterationId' => $videoProjectIteration->getId()
@@ -670,6 +670,47 @@ class VideoCoachingController extends BaseController
 
     /**
      * @param Request $request
+     * @ParamConverter("videoProject", class="Wamcar\VideoCoaching\VideoProject", options={"id"="videoProjectId"})
+     * @param VideoProject $videoProject
+     * @return JsonResponse
+     */
+    public function postDocumentAction(Request $request, VideoProject $videoProject)
+    {
+        $this->checkIfXMLHttpRequest($request);
+        if (!$this->isGranted(VideoCoachingVoter::LIBRARY_ADD_DOCUMENT, $videoProject)) {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.videoproject.document.post.unauthorized')], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Project Files Library
+        $addDocumentForm = null;
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+
+        $documentOwnerViewer = $videoProject->getViewerInfo($currentUser);
+        if ($documentOwnerViewer != false) {
+            $addVideoProjectDocumentDTO = new VideoProjectDocumentDTO($videoProject, $documentOwnerViewer);
+            $addDocumentForm = $this->formFactory->createNamed('addVideoProjectDocument', VideoProjectDocumentType::class, $addVideoProjectDocumentDTO);
+            $addDocumentForm->handleRequest($request);
+            if ($addDocumentForm->isSubmitted() && $addDocumentForm->isValid()) {
+                $videoProject = $this->videoProjectService->addDocument($addVideoProjectDocumentDTO);
+                return new JsonResponse([
+                    'message' => $this->translator->trans('flash.success.videoproject.document.add'),
+                    'documents' => $this->renderTemplate('front/VideoCoaching/DocumentsLibrary/includes/documents_list.html.twig', [
+                        'documents' => $videoProject->getDocuments()
+                    ])
+                ]);
+            } else {
+                return new JsonResponse(['error' => $this->translator->trans('flash.error.videoproject.document.post.form_error')], Response::HTTP_BAD_REQUEST);
+            }
+        }
+
+        // Just in case because the VideoCoachingVoter::LIBRARY_ADD_DOCUMENT guarantee the VideoProjectViewer for the current user.
+        return new JsonResponse(['error', $this->translator->trans('flash.error.videoproject.document.post.unauthorized')], Response::HTTP_UNAUTHORIZED);
+    }
+
+
+    /**
+     * @param Request $request
      * @param VideoProjectDocument $videoProjectDocument
      * @return JsonResponse
      */
@@ -677,12 +718,18 @@ class VideoCoachingController extends BaseController
     {
         $this->checkIfXMLHttpRequest($request);
 
+        $videoProject = $videoProjectDocument->getVideoProject();
+
         if (!$this->isGranted(VideoCoachingVoter::LIBRARY_DELETE_DOCUMENT, $videoProjectDocument)) {
             return new JsonResponse(['message' => $this->translator->trans('flash.error.videoproject.document.delete.unauthorized')], Response::HTTP_UNAUTHORIZED);
         }
 
         if ($this->videoProjectService->deleteDocument($videoProjectDocument)) {
-            return new JsonResponse(['message' => $this->translator->trans('flash.success.videoproject.document.delete')]);
+            return new JsonResponse([
+                'message' => $this->translator->trans('flash.success.videoproject.document.delete'),
+                'documents' => $this->renderTemplate('front/VideoCoaching/DocumentsLibrary/includes/documents_list.html.twig', [
+                    'documents' => $videoProject->getDocuments()
+                ])]);
         } else {
             return new JsonResponse(['errorMessage' => $this->translator->trans('flash.error.videoproject.document.delete.notfound')], Response::HTTP_NOT_FOUND);
         }

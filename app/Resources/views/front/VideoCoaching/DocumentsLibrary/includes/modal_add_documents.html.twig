@@ -1,0 +1,13 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-add-document' %}
+
+{% block title %}{{ 'coaching_video.project_library.add.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('front/VideoCoaching/DocumentsLibrary/includes/documents_uploader.html.twig', {
+        'addDocumentForm': addDocumentForm
+    }) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

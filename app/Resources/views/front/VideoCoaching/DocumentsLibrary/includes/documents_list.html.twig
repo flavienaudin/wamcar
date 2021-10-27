@@ -1,0 +1,16 @@
+<ul class="no-bullet">
+    {% for document in documents %}
+        <li class="js-vp-document"><a
+                href="{{ path('front_coachingvideo_videoproject_library_document_get', {'id': document.id}) }}"
+                class="is-inline icon-download">{{ document.fileOriginalName }}</a>
+            {% if is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::LIBRARY_DELETE_DOCUMENT'), document) %}
+                <a href="{{ path('front_coachingvideo_videoproject_library_document_delete', {'id': document.id}) }}"
+                   class="js-delete-vp-document is-inline icon-remove"
+                   data-id="videoProject-document-deletion-{{ document.id }}"
+                   data-title="Attention!"
+                   data-message="Confirmez-vous la suppression de ce document ?"></a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+<div>{{ 'coaching_video.project_library.documents_list.count'|transchoice(documents|length, {'%count%':documents|length}) }}</div>

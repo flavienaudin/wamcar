@@ -111,7 +111,11 @@ class VideoProjectService
         }
     }
 
-    public function addDocument(VideoProjectDocumentDTO $videoProjectDocumentDTO)
+    /**
+     * @param VideoProjectDocumentDTO $videoProjectDocumentDTO
+     * @return VideoProject
+     */
+    public function addDocument(VideoProjectDocumentDTO $videoProjectDocumentDTO): VideoProject
     {
         $videoProject = $videoProjectDocumentDTO->getVideoProject();
         $videoProjectDocument = new VideoProjectDocument($videoProjectDocumentDTO->getFile(), $videoProject, $videoProjectDocumentDTO->getOwner());
@@ -119,6 +123,7 @@ class VideoProjectService
         $videoProjectDocument->setFileName($documentStorageName);
         $videoProject->addDocument($videoProjectDocument);
         $this->videoProjectRepository->update($videoProject);
+        return $videoProject;
     }
 
     /**

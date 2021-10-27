@@ -30,4 +30,13 @@ function sameDay(d1, d2){
   d1.getDate() === d2.getDate();
 }
 
-export {debounce, sameDay};
+/**
+ * Générate th hash of the string str
+ * @param str
+ * @returns {number}
+ */
+function hashCode(str){
+  return str.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);
+}
+
+export {debounce, sameDay, hashCode};
