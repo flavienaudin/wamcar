@@ -180,6 +180,9 @@ flash:
         owner_still_creator: Le propriétaire ne peut pas être modifié.
         not_removed: Le suiveur ne peut pas être supprimé.
       document:
+        post:
+          unauthorized: Vous n'êtes pas autorisé à ajouter des documents à ce projet.
+          form_error: Une erreur est survenue lors du traitement de la demande. Recherchez la page et ré-essayer s'il vous plaît.
         delete:
           notfound: Une erreur est survenue lors de la suppression du fichier. Tentez de recharger la page.
           unauthorized: Vous n'êtes pas autorisé à supprimer ce document.
@@ -1752,7 +1755,17 @@ coaching_video:
           placeholder: Tapez votre message ici...
   project_library:
     title: Bibliothèque de documents
-    documents_list: Documents
+    documents_list:
+      count: "{0,1} %count% document |[2,Inf[ %count% documents"
+    add:
+      title: Ajouter des documents
+      instructions: Glissez/déposez vos fichiers ou cliquez-ici
+      dragover_instructions: Relachez pour envoyer votre fichier
+      status:
+        uploading: En cours d'envoi
+        recording: Traitement en cours
+        terminated: Terminé
+        error: Erreur
     form:
       field:
         add: Sélectionner le document

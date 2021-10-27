@@ -301,39 +301,22 @@
             {# Video Project files library #}
             {% if videoProject.documents|length > 0 or addDocumentForm is not null %}
                 <div class="videoproject-section block-light-shadow videoproject-library">
-                    <h2>{{ 'coaching_video.project_library.title'|trans }}</h2>
-                    <div>
-                        <ul class="no-bullet">
-                            {% for document in videoProject.documents %}
-                                <li class="js-vp-document"><a
-                                        href="{{ path('front_coachingvideo_videoproject_library_document_get', {'id': document.id}) }}"
-                                        class="is-inline icon-download">
-                                        {{ document.fileOriginalName }}</a>
-                                    {% if is_granted(constant('AppBundle\\Security\\Voter\\VideoCoachingVoter::LIBRARY_DELETE_DOCUMENT'), document) %}
-                                        <a href="{{ path('front_coachingvideo_videoproject_library_document_delete', {'id': document.id}) }}"
-                                           class="js-delete-vp-document is-inline icon-remove"
-                                           data-id="videoProject-document-deletion-{{ document.id }}"
-                                           data-title="Attention!"
-                                           data-message="Confirmez-vous la suppression de ce document ?"></a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% if addDocumentForm is not null %}
-                        {{ form_start(addDocumentForm, {'attr':{
-                            'id':'jsAddDocumentForm', 'class': 'is-flex',
-                            'data-abide' : 'data-abide', 'novalidate': 'novalidate'
-                        }}) }}
-                        {{ form_widget(addDocumentForm.file, {
-                            'required' : true,
-                            'add_label' : 'coaching_video.project_library.form.field.add'|trans
+                    <h2>
+                        {% if addDocumentForm is not null %}
+                            <span data-open="js-add-document" class="videoproject-section-action icon-plus">
+                                <span class="show-for-sr">{{ 'global.button.add'|trans }}</span>
+                            </span>
+                            {{ include('front/VideoCoaching/DocumentsLibrary/includes/modal_add_documents.html.twig', {
+                                'addDocumentForm': addDocumentForm
+                            }) }}
+                        {% endif %}
+                        {{ 'coaching_video.project_library.title'|trans }}
+                    </h2>
+                    <div id="js-library-documents-list">
+                        {{ include('front/VideoCoaching/DocumentsLibrary/includes/documents_list.html.twig', {
+                            'documents': videoProject.documents
                         }) }}
-                        {{ form_errors(addDocumentForm.file) }}
-                        <button type="submit" class=" is-invalid-label button small margin-top-0 icon-arrow-right-2">
-                            {{ 'global.button.send_document'|trans }}</button>
-                        {{ form_end(addDocumentForm) }}
-                    {% endif %}
+                    </div>
                 </div>
             {% endif %}
             {# END Video Project files library #}
