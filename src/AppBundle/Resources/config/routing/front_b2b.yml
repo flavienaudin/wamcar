@@ -198,6 +198,13 @@ front_coachingvideo_videoproject_library_document_get:
   methods: GET
   controller: AppBundle:Front\ModuleContext\VideoCoaching:getDocument
 
+front_coachingvideo_videoproject_library_document_post:
+  path: /module/video/library/document/{videoProjectId}
+  methods: POST
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:postDocument
+  requirements:
+    videoProjectId: '\d+'
+
 front_coachingvideo_videoproject_library_document_delete:
   path:  /module/video/library/document/{id}
   methods: DELETE

@@ -1,0 +1,162 @@
+/* ===========================================================================
+   Drag & Drop file uploader
+   =========================================================================== */
+
+.drag-area {
+  width: 100%;
+  color: $dark-gray-blue-peexeo;
+
+  ::selection {
+    background: red;
+  }
+
+  &-wrapper {
+    width: 100%;
+
+    form {
+      height: 200px;
+      display: flex;
+      cursor: pointer;
+      margin-bottom: 30px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: rem-calc(15);
+      border: 2px dashed $dark-gray-blue-peexeo;
+
+      &.active {
+        border-color: $body-font-color;
+
+        span {
+          color: $body-font-color;
+        }
+
+        span.jsInstructions {
+          display: none;
+        }
+
+        span.jsDragOverInstructions {
+          display: inline;
+        }
+      }
+
+      label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        text-align: center;
+        color: $dark-gray-blue-peexeo;
+
+        span {
+          width: 100%;
+          margin: 0;
+          color: $dark-gray-blue-peexeo;
+        }
+
+        span.icon-cloud-upload2 {
+          font-size: rem-calc(50);
+
+          &::before {
+            margin: auto;
+          }
+        }
+
+        span.jsDragOverInstructions {
+          display: none;
+        }
+      }
+    }
+
+    .progress-area {
+      .uploading-file-item {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background: $light-gray-peexeo;
+        margin-bottom: 10px;
+        padding: 15px 20px;
+        border-radius: 5px;
+
+        span[class^="icon-"] {
+          color: $dark-gray-blue-peexeo;
+          font-size: 24px;
+        }
+
+        .details {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 7px;
+
+          span {
+            font-size: rem-calc(14);
+          }
+        }
+
+        .content {
+          flex: 1 0 auto;
+          max-width: none;
+
+          .progress-bar {
+            height: 6px;
+            width: 100%;
+            margin-bottom: 4px;
+            background: #fff;
+            border-radius: 30px;
+
+            .progress {
+              height: 100%;
+              width: 0;
+              background: $dark-gray-blue-peexeo;
+              border-radius: inherit;
+            }
+          }
+        }
+      }
+    }
+
+    .uploaded-area {
+      @include breakpoint(medium) {
+        overflow-y: auto;
+        max-height: 314px; // 3 * ~hauteur d'un item
+
+        &.onprogress {
+          max-height: 232px; // 2 * ~hauteur d'un item
+        }
+      }
+
+      .uploaded-file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        background: $gray-peexeo;
+        margin-bottom: 10px;
+        padding: 15px 20px;
+        border-radius: 5px;
+
+        .content {
+          flex: 1 0 auto;
+        }
+
+        .details {
+          display: flex;
+          flex-direction: column;
+
+          .size {
+            font-size: 12px;
+          }
+        }
+
+        span[class^="icon-"] {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

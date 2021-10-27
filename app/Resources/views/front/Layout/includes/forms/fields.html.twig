@@ -436,7 +436,7 @@
     <div class="messages-item-attachments-field is-flex">
         <span class="js-delete-attachment icon-close is-hidden"></span>
         <label for="{{ form.vars.id }}" class="button small {{ label_class|default('') }}">{{ add_label }}</label>
-        {{ form_widget(form, {'attr':{'class':'is-hidden', 'data-label': 'conversation.answer.field.attachments.add'|trans}}) }}
+        {{ form_widget(form, {'attr':{'class':'is-hidden', 'data-label': add_label}}) }}
         {% if required %}
             <small class="form-error {{ required_class|default('') }}">{{ required_message|default('Ce champ est requis') }}</small>
         {% endif %}
@@ -448,8 +448,13 @@
     {{ block('_message_attachments_entry_widget') }}
 {% endblock %}
 
-{% block _addVideoProjectDocument_file_widget %}
-    {{ block('_message_attachments_entry_widget') }}
+{% block _addVideoProjectDocument_file_row %}
+    <label for="{{ form.vars.id }}">
+        <span class="icon-cloud-upload2 no margin"></span>
+        <span class="jsInstructions">{{ 'coaching_video.project_library.add.instructions'|trans }}</span>
+        <span class="jsDragOverInstructions">{{ 'coaching_video.project_library.add.dragover_instructions'|trans }}</span>
+    </label>
+    {{ form_widget(form, {'attr':{'class':'file-input is-hidden'}}) }}
 {% endblock %}
 
 {% block _project_projectVehicles_entry_widget %}

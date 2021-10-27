@@ -26,13 +26,13 @@ if ($toogleCreatorStatusLinks.length > 0) {
         url: href
       }).done(function (success) {
         $toogleCreatorStatusLink.parents('li.js-follower-item').find('img').toggleClass('creator');
-        if(success.isCreator) {
+        if (success.isCreator) {
           $toogleCreatorStatusLink.html($toogleCreatorStatusLink.data('set-viewer-label'));
-        }else{
+        } else {
           $toogleCreatorStatusLink.html($toogleCreatorStatusLink.data('set-creator-label'));
         }
         Toastr.success(success.message);
-      }).fail(function (jqXHR, textStatus ) {
+      }).fail(function (jqXHR, textStatus) {
         Toastr.warning(jqXHR.responseJSON.error);
       });
     });
@@ -52,7 +52,7 @@ if ($deleteVideoProjectViewerLinks.length > 0) {
       }).done(function (success) {
         $deleteVideoProjectViewerLink.parents('li.js-follower-item').remove();
         Toastr.success(success.message);
-      }).fail(function (jqXHR, textStatus ) {
+      }).fail(function (jqXHR, textStatus) {
         Toastr.warning(jqXHR.responseJSON.error);
       });
     });
@@ -266,52 +266,36 @@ if ($selects.length) {
 }
 
 // Documents
-const $jsAddDocumentForm = $('#jsAddDocumentForm');
-if ($jsAddDocumentForm.length) {
-  $jsAddDocumentForm.find('.js-delete-attachment').on('click', (event) => {
-    const inputFile = $(event.currentTarget).siblings('input:file');
-    inputFile.val(null);
-    $(event.currentTarget).siblings('label').html(inputFile.data('label'));
-    $(event.currentTarget).addClass('is-hidden');
-  });
+initVideoProjectDocumentDeleteLinks();
+export function initVideoProjectDocumentDeleteLinks() {
+  const $videoProjectlibraryDocumentsDeleteLink = $('.videoproject-library .js-delete-vp-document');
+  $videoProjectlibraryDocumentsDeleteLink.each((index, element) => {
+    $(element).on('click', (event) => {
+      event.preventDefault();
+      const href = $(event.currentTarget).attr('href'),
+        id = $(event.currentTarget).data('id'),
+        title = $(event.currentTarget).data('title'),
+        message = $(event.currentTarget).data('message');
 
-  $jsAddDocumentForm.change((event) => {
-    let fullPath = $(event.currentTarget).find('input:file').val();
-    if (fullPath) {
-      let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-      let filename = fullPath.substring(startIndex);
-      if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-        filename = filename.substring(1);
-      }
-
-      $jsAddDocumentForm.find('label').html(filename);
-      $jsAddDocumentForm.find('label').removeClass('is-hidden');
-      $jsAddDocumentForm.find('.js-delete-attachment').removeClass('is-hidden');
-    }
+      confirm(title, message, id, (param) => {
+        $.ajax({
+          url: param.href,
+          type: 'DELETE'
+        })
+          .done((data, textStatus) => {
+            if (data.documents) {
+              $('#js-library-documents-list').html($(data.documents));
+              initVideoProjectDocumentDeleteLinks();
+            } else {
+              $(element).parent('.js-vp-document').remove();
+            }
+            Toastr.success(data.message);
+          })
+          .fail((jqXHR) => {
+            Toastr.warning(jqXHR.responseJSON.errorMessage);
+          });
+      }, {'href': href});
+    });
   });
 }
 
-const $videoProjectlibraryDocumentsDeleteLink = $('.videoproject-library .js-delete-vp-document');
-$videoProjectlibraryDocumentsDeleteLink.each((index, element) => {
-  $(element).on('click', (event) => {
-    event.preventDefault();
-    const href = $(event.currentTarget).attr('href'),
-      id = $(event.currentTarget).data('id'),
-      title = $(event.currentTarget).data('title'),
-      message = $(event.currentTarget).data('message');
-
-    confirm(title, message, id, (param) => {
-      $.ajax({
-        url: param.href,
-        type: 'DELETE'
-      })
-        .done((data, textStatus) => {
-          $(element).parent('.js-vp-document').remove();
-          Toastr.success(data.message);
-        })
-        .fail((jqXHR) => {
-          Toastr.warning(jqXHR.responseJSON.errorMessage);
-        });
-    }, {'href': href});
-  });
-});

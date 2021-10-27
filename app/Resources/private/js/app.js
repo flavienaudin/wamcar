@@ -30,6 +30,7 @@ import './components/select';
 import './components/select2';
 import './components/step';
 import './components/file';
+import './components/fileUploader';
 import './components/garage';
 import './components/registration';
 import './components/like';

@@ -1,0 +1,23 @@
+<div class="drag-area"
+     data-uploading="{{ 'coaching_video.project_library.add.status.uploading'|trans }}"
+     data-recording="{{ 'coaching_video.project_library.add.status.recording'|trans }}"
+     data-terminated="{{ 'coaching_video.project_library.add.status.terminated'|trans }}"
+     data-error="{{ 'coaching_video.project_library.add.status.error'|trans }}">
+    <div class="drag-area-wrapper">
+        {{ form_start(addDocumentForm, {
+            'action': path('front_coachingvideo_videoproject_library_document_post', {'videoProjectId': videoProject.id}),
+            'attr':{
+                'id':'jsAddDocumentForm',
+                'data-abide' : 'data-abide', 'novalidate': 'novalidate'
+            }}) }}
+
+        {{ form_row(addDocumentForm.file, {
+            'add_label' : 'coaching_video.project_library.form.field.add'|trans
+        }) }}
+
+        {{ form_end(addDocumentForm) }}
+
+        <section class="progress-area"></section>
+        <section class="uploaded-area"></section>
+    </div>
+</div>
