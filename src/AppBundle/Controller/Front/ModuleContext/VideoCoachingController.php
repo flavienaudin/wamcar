@@ -26,6 +26,7 @@ use AppBundle\Security\Voter\VideoCoachingVoter;
 use AppBundle\Services\VideoCoaching\VideoProjectScriptService;
 use AppBundle\Services\VideoCoaching\VideoProjectService;
 use AppBundle\Services\VideoCoaching\VideoVersionService;
+use AppBundle\Utils\AccentuationUtils;
 use Psr\Http\Message\StreamInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -662,7 +663,7 @@ class VideoCoachingController extends BaseController
             }
         });
 
-        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $videoProjectDocument->getFileOriginalName());
+        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $videoProjectDocument->getFileOriginalName(), AccentuationUtils::remove($videoProjectDocument->getFileOriginalName()));
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
