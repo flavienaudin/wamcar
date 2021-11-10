@@ -845,9 +845,10 @@ class UserController extends BaseController
         $user = $this->getUser();
         if ($user instanceof ProUser) {
             return $this->proUserViewInformationAction($request, $user->getSlug());
-        } else {
+        } else if ($user instanceof PersonalUser) {
             return $this->personalUserViewInformationAction($request, $user->getSlug());
         }
+        return $this->redirectToRoute('front_default');
     }
 
     /**
