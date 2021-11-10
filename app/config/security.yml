@@ -59,7 +59,7 @@ security:
             remember_me:
                 secret:   '%secret%'
                 lifetime: 31536000 # 1 year in seconds
-                path:     front_default
+                path:     '/'
                 secure:   true
                 always_remember_me: true
             logout:
@@ -81,9 +81,9 @@ security:
 
     access_control:
         # require ROLE_PRO_ADMIN for /admin*
-        - { path: ^/admin, roles: ROLE_PRO_ADMIN }
-        - { path: ^/mon-profil, roles: ROLE_USER }
-        - { path: ^/user/favorites, roles: ROLE_USER }
-        - { path: ^/conversations, roles: ROLE_USER }
-        - { path: ^/conversation, roles: ROLE_USER }
-        - { path: ^/notifications, roles: ROLE_USER }
+        - { path: ^/(fr/|en/)?admin, roles: ROLE_PRO_ADMIN }
+        - { path: ^/(fr/|en/)?mon-profil, roles: ROLE_USER }
+        - { path: ^/(fr/|en/)?user/favorites, roles: ROLE_USER }
+        - { path: ^/(fr/|en/)?conversations, roles: ROLE_USER }
+        - { path: ^/(fr/|en/)?conversation, roles: ROLE_USER }
+        - { path: ^/(fr/|en/)?notifications, roles: ROLE_USER }
