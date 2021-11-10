@@ -17,6 +17,7 @@ use AppBundle\Services\User\ProServiceService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
@@ -49,6 +50,8 @@ class DefaultController extends BaseController
     private $proUserEntityIndexer;
     /** @var ProServiceService */
     private $proServiceService;
+    /** @var array */
+    private $localesJMS;
 
     /**
      * DefaultController constructor.
@@ -68,7 +71,8 @@ class DefaultController extends BaseController
         DoctrineProUserRepository $proUserRepository,
         FooterLinkRepository $footerLinkRepository,
         ProUserEntityIndexer $proUserEntityIndexer,
-        ProServiceService $proServiceService
+        ProServiceService $proServiceService,
+        $localesJMS
     )
     {
         $this->translator = $translator;
@@ -79,6 +83,7 @@ class DefaultController extends BaseController
         $this->footerLinkRepository = $footerLinkRepository;
         $this->proUserEntityIndexer = $proUserEntityIndexer;
         $this->proServiceService = $proServiceService;
+        $this->localesJMS = $localesJMS;
     }
 
     /**
@@ -130,9 +135,10 @@ class DefaultController extends BaseController
 
     /**
      * @param Request $request
+     * @param RequestStack $requestStack
      * @return Response
      */
-    public function footerAction(Request $request): Response
+    public function footerAction(RequestStack $requestStack): Response
     {
         $footerLinks = $this->footerLinkRepository->findAllOrdered();
         $footerLinksByColumn = [];
@@ -144,11 +150,20 @@ class DefaultController extends BaseController
             $footerLinksByColumn[$footerLink->getColumnNumber()][$footerLink->getPosition()] = $footerLink;
         }
 
+        $chooseLanguages = [];
+        foreach ($this->localesJMS as $localeJMS) {
+            $chooseLanguages[$localeJMS] = $this->router->generate(
+                $requestStack->getMasterRequest()->get('_route'),
+                array_merge($requestStack->getMasterRequest()->get('_route_params', []), ['_locale' => $localeJMS])
+            );
+        }
+
         return $this->render('front/Layout/includes/footer.html.twig', [
             'isLogged' => $this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED),
             'isUserPro' => $this->getUser() != null && $this->getUser() instanceof ProUser,
             'isUserPersonal' => $this->getUser() != null && $this->getUser() instanceof PersonalUser,
-            'footerLinksByColumn' => $footerLinksByColumn
+            'footerLinksByColumn' => $footerLinksByColumn,
+            'chooseLanguagesLinks' => $chooseLanguages
         ]);
     }
 

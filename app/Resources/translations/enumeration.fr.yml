@@ -15,16 +15,16 @@ GUARANTEE_36_MONTH: 'Garantie de 36 mois'
 CREDIT_WITHOUT_CONTRIBUTOIN: 'Crédit'
 PRIME_A_L_HYBRIDE: Prime à l'hybride
 
-OK: 'Valide'
-NOT_OK: 'Non valide'
+OK: Valide
+NOT_OK: Non valide
 
-TIMING_BELT_OK: 'Ok'
-TO_CHANGE: 'A changer'
-NO_TIMING_BELT: 'Pas de courroie'
+TIMING_BELT_OK: Ok
+TO_CHANGE: A changer
+NO_TIMING_BELT: Pas de courroie
 
 VEHICLE_STATUT:
-  NEW: 'Neuf'
-  USED: 'Occasion'
+  NEW: Neuf
+  USED: Occasion
 
 SEARCH_SORTING_RELEVANCE: Trier par pertinence
 SEARCH_SORTING_DATE: Trier par date

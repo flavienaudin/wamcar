@@ -1,0 +1,67 @@
+UNKNOWN: 'Unknown'
+
+UP_TO_DATE_WITH_INVOICES: 'Up to date with history (book, invoices)'
+UP_TO_DATE: 'Up to date, no history'
+MISSING: 'To do'
+
+LESS_THAN_SIX_MONTH: 'Less than six months'
+MORE_THAN_SIX_MONTH: 'More than six months'
+NOT_APPLICABLE: 'Not applicable'
+
+GUARANTEE_12_MONTH: '12 month warranty'
+GUARANTEE_24_MONTH: '24 months warranty'
+GUARANTEE_36_MONTH: '36 months warranty'
+
+CREDIT_WITHOUT_CONTRIBUTOIN: 'Credit'
+PRIME_A_L_HYBRIDE: Hybrid bonus
+
+OK: Valid
+NOT_OK: Invalid
+
+TIMING_BELT_OK: Ok
+TO_CHANGE: To change
+NO_TIMING_BELT: No timing belt
+
+VEHICLE_STATUT:
+  NEW: New
+  USED: Used
+
+SEARCH_SORTING_RELEVANCE: Sort by relevance
+SEARCH_SORTING_DATE: Sort by date
+SEARCH_SORTING_DISTANCE: Sort by distance
+SEARCH_SORTING_PRICE_ASC: Sort by ascending price
+SEARCH_SORTING_PRICE_DESC: Sort by descending price
+
+IMMEDIATELY: Immediately
+ONCE_A_DAY: Once a day
+
+LEAD_CRITERIA_WITH: With
+LEAD_CRITERIA_WITHOUT: Without
+LEAD_CRITERIA_NO_MATTER: It doesn't matter
+
+DIRECTORY_SORTING_RELEVANCE: Sort by relevance
+DIRECTORY_SORTING_DISTANCE: Sort by distance
+
+PERSONAL_ORIENTATION_SELL: Sell my vehicle
+PERSONAL_ORIENTATION_BUY: Buy a vehicle
+PERSONAL_ORIENTATION_BOTH: Both
+
+PRO_VEHICLE: Professionals
+PERSONAL_VEHICLE: Individuals - Trade-in
+PERSONAL_PROJECT: Individuals - Requests
+
+TRANSMISSION_AUTOMATIC: Automatic
+TRANSMISSION_MANUAL: Manual
+
+SOLD_WITH_WAMCAR: Sold thanks to Wamcar
+SOLD_WITOUT_WAMCAR: Sold without the help of Wamcar
+NO_LONGER_SOLD: No longer on sale
+OTHER: Other
+
+leadStatus.to_qualify: To qualify
+leadStatus.contacted: Contacted
+leadStatus.met: Met
+leadStatus.quote: Estimate
+leadStatus.negociation: Negotiation
+leadStatus.won: Won
+leadStatus.lost: Lost

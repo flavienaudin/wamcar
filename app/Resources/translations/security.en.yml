@@ -1,0 +1,37 @@
+user:
+  social_connect: Registration via
+  with_email: Or use an email
+  field:
+    email:
+      label: Email
+      placeholder: Enter your email address *
+      error: Please enter your email address
+    firstname:
+      label: First name
+      placeholder: Enter your first name *
+      error: Please enter your first name
+    lastname:
+      label: Name
+      placeholder: Enter your name
+    password:
+      text: For the security of your account, your password should contain at least 8 characters including a number and a capital letter.
+      first:
+        label: Password
+        placeholder: Enter your password *
+        error: Please enter your password.
+      second:
+        label: <div> Confirmation <span class = "show-for-medium"> <br> </span> password </div>
+        placeholder: Confirm your password *
+        error: Please confirm your password
+      show: Show password
+      forget: Forgot password?
+      error.repeated: Passwords must be identical
+    accept:
+      start: I accept
+      text-cgu-link: General Conditions of Use
+      and: and the
+      text-privacy-policy-link: Privacy policy
+      error: Please accept our Terms of Service
+  submit:
+    i_register: Validate
+    later: Register later

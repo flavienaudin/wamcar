@@ -1,0 +1,1770 @@
+flash:
+  success:
+    user:
+      add:
+        videos_insert: The video insert has been added to your profile.
+      edit:
+        avatar: Your avatar has been updated.
+        banner: Your cover image has been updated.
+        profile: Changes to your profile have been saved.
+        password: Your password has been changed.
+        videos_insert: The video insert has been modified.
+        prouser_services: Your services have been updated.
+        prouser_specialities: Your specialties have been updated.
+      delete:
+        soft: The user has been deleted.
+        hard: The user has been DEFINITIVELY deleted.
+        videos_insert: The video insert has been removed.
+      published: Congratulations! Your profile is now published in our directory.
+    user_preferences:
+      edit: Your preferences have been saved.
+    expert:
+      added: Successfully registered expert
+      removed: Successfully removed expert
+    garage:
+      create: Your garage is registered successfully.
+      edit: Changes to your garage have been saved.
+      deleted:
+        soft: The garage has been removed.
+        hard: The garage has been DEFINITIVELY deleted.
+      request_sent_to_administrator: Your request to join the garage has been sent to the manager.
+      assign_member: The request has been validated. The seller has joined your garage.
+      remove_member: The seller has been removed from your garage.
+      remove_member_with_reassignation: The seller has been removed from your garage and his vehicles have been assigned to other vendors.
+      cancel_pending_request_by_user: Your request has been cancelled.
+      cancel_pending_request_by_administrator: The seller’s request has been cancelled. The seller has not joined your garage.
+      toogle_role: The user role has been changed.
+      designate_as_administrator: You have designated this user as your backup manager.
+      invitations:
+        attached: "{1} %prousers_attached_list% was automatically attached to %garage_name% |[2,Inf[ %prousers_attached_list% were automatically attached to %garage_name%"
+        invited: "{1} Wamcar registration invitation sent to %prousers_invited_list% |[2,Inf[ Wamcar registration invitations sent to %prousers_invited_list%"
+    registration_success_pro: Your registration has been successfully registered.
+    registration_confirmed: You are registered on Wamcar.
+    registration:
+      personal:
+        assitant:
+          process_validation: We have completed your project with the answers you have provided. Please check the information and fill in your wishes.
+          process_end: Your profile and project are now complete. We are currently calculating your affinities with professionals. The results will be ready in a few minutes.
+      pro:
+        validation: We have completed your profile with the answers you have provided us. Please review and validate the information.
+    reset_password_success: An email has just been sent to you. It contains instructions for changing your password.
+    password_changed: Your new password has been saved.
+    affinity:
+      loading_form: We are preparing the WamAffinty form. Please wait.
+      form_submited:
+        with_project: We have completed your project with the answers you provided. Please check the information and fill in your wishes.
+        without_project: Your answers have been recorded. We calculate your affinities with professionals. The results will be ready in a few minutes.
+    vehicle_create: The vehicle has been registered.
+    vehicle_update: The changes have been saved.
+    remove_vehicle: The vehicle has been removed.
+    conversation_update: Your message has been sent.
+    vehicle:
+      assign_new_seller: The change of seller has been recorded.
+    sales:
+      declaration: Your declaration has been taken into account
+    lead:
+      change_status: The status of your lead has been updated
+    pro_contact_message:
+      sent: Your message has been sent to %proUserName%
+    pro_user_pro_service:
+      delete: The %servicename% service is no longer offered by the %username% advisor
+      edit_specialities: Your specialties have been updated.
+    pro_service:
+      delete: Service %servicename% has been removed
+    pro_service_category:
+      delete: Service category %servicecategory% has been deleted
+    hobby:
+      delete: The %hobbyName% interest center has been removed
+    footerLink:
+      delete: The %footerTitle% link has been removed
+    videoproject:
+      save: The project was successfully registered.
+      delete: The project has been successfully deleted.
+      banner.edit: The image of your project has been updated.
+      viewer:
+        toogle_creator: The follower has been updated.
+        delete: The follower has been removed.
+      document:
+        add: The document has been added to the video project library.
+        delete: The document has been removed from the video project library.
+    scriptversion:
+      save: The script has been saved.
+      update: The script version has been updated.
+      delete: The script version has been removed from the project.
+    scriptsequence:
+      save: The sequence has been updated.
+    videoversion:
+      save: The video version has been added to the project.
+      update: The video version has been updated.
+      delete: The video version has been removed from the project.
+  danger:
+    registration_duplicate: An account already uses this email.
+    not_personal_user_logged: You must be logged in as personal user to access this page.
+  error:
+    pro_contact_message:
+      invalid-form: The contact form for %proUserName% is incomplete. Please enter the required fields.
+    captcha_validation: Your human quality could not be validated. Please validate the captcha.
+    bad_credentials: Your email and/or password are incorrect. Please enter them again.
+    user_no_exist: No users using this email are registered to Wamcar. Please check your email.
+    bad_registration_type: Please indicate if you are a personal or professional user before registering.
+    no_registration_type: Please create a Wamcar account.
+    b2b_no_personal_user: Now only pro accounts can connect.
+    social_connect_not_accept: You did not allow the connection via the selected platform.
+    social_connect_no_email: Platform response is invalid. Please allow Wamcar to access your information or use another means of connection.
+    social_connect_error: An error occurred when connecting via the platform. Please contact us if it happens again.
+    social_account_without_email: You cannot register. Your social account is not linked to any e-mail address.
+    select_garage_first: Please go to the garage page to which you want to add the vehicle.
+    pro_user_need_garage: You need to create your garage page to add vehicles in the showcase and offer them on Wamcar.
+    add_vehicle_need_published: Your profile must be published in order to add a new vehicle.
+    not_pro_user_no_garage: Only professional users can have a garage.
+    already_registered_siren_by_user: The %userFullName% account has already registered this address. <a href="%contactUrl%" target="_blank">Contact us</a> to add you as a seller to this garage.
+    only_personal_can_have_project: Only individual users can have projects.
+    unauthorized:
+      vehicle:
+        add_to_garage: You are not allowed to add a vehicle to this garage.
+        edit: You are not allowed to modify this vehicle.
+      videos_insert:
+        delete: You are not allowed to remove this video insert.
+      video_coaching:
+        video_project:
+          view: You are not allowed to view this video project.
+          manage: You are not allowed to manage this video project.
+          delete: You do not have the right to delete this video project.
+        script_version:
+          add: You cannot add a script to this project iteration.
+          edit: You cannot edit this script.
+          delete: You cannot delete this version of the script.
+        video_version:
+          delete: You cannot delete this version of video.
+        module_access: You do not have access to the video tracking/coaching module. Contact us to subscribe to the service.
+      notification:
+        unauthorized: This notification is not intended for you.
+      user:
+        deletion_with_conversations: This user has conversations in progress. It cannot be deleted DEFINITIVELY (actually).
+        not_logged: You must be logged in to like a vehicle.
+        deletion_not_allowed: You are not allowed to delete this user.
+        add:
+          videos_insert: An error in the form prevents the recording of your new video insert. Please correct your entry.
+      edit:
+        contact_details: An error in the form prevents your contact information from being saved. Please correct your entry.
+        presentation: An error in the form prevents the saving of your presentation information. Please correct your entry.
+        password: An error in the password change form prevents the registration of your new password. Please correct your entry.
+        video: An error in the form prevents the recording of your presentation video information. Please correct your entry.
+        videos_insert: An error in the form prevents you from updating the information of your video insert. Please correct your entry.
+        prouser_specialities.no_service: You must have selected services to be able to define your specialties.
+    lead:
+      unauthorized_to_get_leads: You are not allowed to access this advisor’s leads.
+      unauthorized_to_change_status: You are not allowed to change the status of this lead.
+      invalid_status: The status is invalid.
+    sale:
+      unauthorized_to_get_vehicle_to_declare: You are not allowed to access the declared vehicles of this advisor.
+      saving: An error occurred while saving the transaction. Please check your entry and try again.
+    garage:
+      edit: The changes could not be saved. Please check your entry and validate again.
+      not_member: This user is not a member of this garage.
+      no_pending_request: This user has not made a request to join your garage.
+      unauthorized_to_administrate: You are not authorized to administer this garage.
+      remove_administrator: Please contact Wamcar to remove a garage manager.
+      still_administrator_with_member: You must first designate a backup manager from the members or delete the garage.
+      unable_to_detach_seller:
+        due_to_attached_vehicle: It is not possible to detach the seller from the garage because he always manages vehicles that it has not been possible to reassign.
+      unable_to_toogle_role:
+        last_admin: You cannot change the role of the last administrator.
+        yourself: You cannot change your own role.
+      vehicle:
+        unauthorized_to_assign: You are not allowed to change the seller of this vehicle.
+        seller_to_reassign_not_found: No other seller is available to manage this vehicle.
+        assign_to_non_garage_member: It is not possible to assign to this vehicle, a seller who is not a member of his garage.
+      videoproject:
+        viewer:
+          owner_still_creator: The owner cannot be modified.
+          not_removed: The follower cannot be deleted.
+        document:
+          post:
+            unauthorized: You are not allowed to add documents to this project.
+            form_error: An error occurred while processing the request. Please search the page and try again.
+          delete:
+            notfound: An error occurred while deleting the file. Try reloading the page.
+            unauthorized: You are not allowed to delete this document.
+  warning:
+    video_insert:
+      unloadable: The video insert could not be loaded. Try reloading the page.
+    registration_recognition_failed: An error occurred while recognizing the license plate.
+    vehicle.multiple_vehicle_types: Several vehicle models have been found for your registration. Please check the selected data.
+    user:
+      unauthorized:
+        to_access_profile: You must be logged in order to access this user’s profile.
+        edit_prouser_proservices: Only car consultants can edit their services.
+        edit_prouser_specialities: Only automotive advisors can edit their specialties.
+    sales:
+      unlogged: Only connected car advisors can access this page.
+      unauthorized_to_edit_declaration: You are not allowed to edit this statement.
+      invalid_sale_status_value: Invalid sales status value.
+    dashboard:
+      unauthorized: You are not allowed to access the performance of this advisor.
+      unlogged: Only connected car advisors can access this page.
+    sellers_performances:
+      unlogged: Only connected car advisors can access this page.
+    garage:
+      already_member: You are already a member of this garage
+      same_as_existing: >
+        The garage you want to create already exists. Click <a href="%requestUrl%" class="text-underline">"Join this garage"</a>
+        to send a request to the administrator.
+      invitations:
+        personal: "{1} The %prousers_personal_list% email is used by a personal user. It cannot be invited to join %garage_name%. |[2,Inf[ Emails %prousers_personal_list% are used by personal users. They cannot be invited to join %garage_name%"
+    personal_orientation:
+      invalid_choice: Invalid choice. Please choose a valid option.
+    video_project:
+      share:
+        not_found: "{1} The %prousers_notfound_list% email does not match a user with access to the video coaching module. |[2,Inf[ The %prousers_notfound_list% emails do not match users with access to the video coaching module."
+
+global:
+  button:
+    add: Add
+    add_this_vehicle: Add the vehicle
+    back: Return
+    call: Call
+    cancel: Cancel
+    close: Close
+    complete: Complete
+    connect: Log in
+    connection: Connection
+    contact: Contact via messaging
+    create: Create
+    delete: Delete
+    dislike: I don’t like it anymore
+    display_phone_number: Display number
+    edit: Edit
+    edit_this_vehicle: Edit the vehicle
+    invite: Invite
+    like: I like
+    like_vehicle: I like this vehicle
+    link: link
+    login: Register
+    logout: Logout
+    more_information: More information
+    next: Next
+    next_step: Next step
+    previous_step: Previous step
+    register: Register on Wamcar
+    search: Search
+    see_phone_number: See phone number
+    see_user_profile: View profile
+    send: Send
+    send_document: Submit the document
+    send_message: Send a message
+    share: Share
+    show_less: See less
+    show_more: Show more
+    update: Refresh
+    validate: Validate
+  facultative: Optional
+  garage_administrator: Manager
+  help: Help
+  no: No
+  pagination:
+    pagination: Pagination
+    first: First page
+    previous: Previous page
+    next: Next page
+    last: Last page
+    page: Page
+  poweredByGoogle: Powered by Google
+  yes: Yes
+  you: You
+
+error_page:
+  404:
+    title: Not found
+    body: >
+      <p>Oops! The page you are looking for is not found. <br> There may be an input error in the entered URL.</p>
+      <p>If you encounter the problem again, <a href="%homeUrl%" class="text-underline">go back to the home page</a> or <a href="mailto:contact@wamcar.com" class="text-underline">contact us</a>.</p>
+  410:
+    title: Gone
+    body: >
+      <p>Oops! The page you are looking for no longer exists. <a href="%searchUrl%" class="text-underline">Go back to the home Page</a>.</p>
+  vehicle:
+    removed:
+      title: Advertisement deleted
+      body: The vehicle ad is no longer online. Search now for a similar <a href="%redirection_url%" class="text-underline">vehicle</a>.
+  personal_user:
+    deleted:
+      title: Project deleted
+      body: The project of this personal user is no longer relevant. Do <a href="%redirection_url%" class="text-underline">a search</a> among current projects.
+  pro_user:
+    unpublished:
+      title: Profile in construction
+      body: "%firstname% is in the process of completing its profile. It will soon be online."
+    deleted:
+      title: Car advisor gone
+      body: This car consultant left Wamcar.
+  garage:
+    unpublished:
+      title: Page in construction
+      body: The manager of this garage is in the process of completing his profile. This one will soon be online as well as his garage.
+    deleted:
+      title: Garage deleted
+      body: This garage is no longer listed on Wamcar.
+
+header:
+  anonyme:
+    see_search: See the ads
+    sell: Place an ad
+    ours_advisors: View advisors
+    log: Connection / Registration
+    pro_space: I am a professional
+  common:
+    search:
+      vehicle: Search a car
+      directory: Find a professional
+      no_keyword: Search for "%queryTerms%"
+    my_profile: My profile
+    my_selections: My selection
+    conversations: Messaging
+  pro:
+    coaching_video_module: My Dashboard
+    my_garage: My garage
+    my_garages: My garages
+    my_society: My business
+    my_societies: My companies
+    my_performances: My performance
+    my_sales: Sales tracking
+    my_leads: My lead
+    sellers_performances: My team
+  personal:
+    my_add: My ad
+    my_vehicles: My vehicles
+    add_vehicle: Sell a vehicle
+    directory: Directory Pro
+  admin:
+    administration: Administration
+
+breadcrumb:
+  home: Homepage
+
+sidebar:
+  title: Member area
+  account_creation:
+    title: I create a %sitename% account
+    personal: I am an individual
+    professionnal: Registration
+
+login_form:
+  title: I have an account %sitename%
+
+password_lost:
+  modal:
+    title: I forgot my password
+    subtitle: Don’t panic, it happens even to the best!
+    instructions: Simply enter your email address and you will receive an email from Wamcar allowing you to reset your password.
+
+social_network:
+  registration_with: Register with %social_network%
+  connexion_with: Connect with %social_network%
+
+footer:
+  our_vehicles: Look at our cars
+  concept: How it work?
+  who_are_we: Who we are?
+  contact_us: Contact us
+  pro_space: Pro space
+  all_rights_reserved: all rights reserved
+  cgu: Terms of Service
+  privacy_policy: Privacy Policy
+  legal_notice: Legal notice
+
+cookie:
+  instruction: By continuing on this site, you accept the use of cookies to offer you a better user experience.
+  more_link: Learn more
+  button.accept: Accept
+
+homepage:
+  title: Meet the recovery pros, trade or sell your car.
+  description: Place your ad for free to change your car. Discover the opportunities of professionals and their offers of resumption.
+  vehicle_form:
+    header:
+      title: The car dating site
+      subtitle: Post your ad, receive and compare offers from professionals
+    tabs:
+      immatriculation:
+        title: By registration
+        field:
+          immatriculation:
+            label: Enter the registration of your car
+            placeholder: "Ex: AA-123-BB, 558QFM75"
+            required_message: Please enter a registration number
+          replacement:
+            label: I’m looking for a car to replace it
+        pre_submit: Get the best prices from professionals by indicating what you want to sell and buy.
+      model:
+        title: Par model
+        pre_submit: With Wamcar, I can sell and buy my vehicle on the same platform and get the best price from professionals.
+    submit:
+      button: Place an ad
+  background.alt: I want to change my car
+  search:
+    title: I’m looking to buy a new car
+    subtitle: Discover the vehicles sold by the best-rated professionals.
+    filter:
+      label: What are you looking for?
+      placeholder: Enter a brand, a model...
+  last_offer:
+    title: Latest offers published
+    action: See all ads
+  video:
+    action: The concept in video
+    modal_title: The concept in video
+  our_mission:
+    title: Our mission
+    content:
+      first: >
+        <strong class="primary-color">Distribute your request</strong> without your personal data to a maximum of pros in your region*.
+        <small>* All brands, dealers, garages, agents, importers</small>
+      second: Provide you with an <strong class="primary-color">easy-to-use, intuitive, simple and fast tool that saves you time</strong>.
+      third: Make every effort to make <strong class="primary-color">serious connections based on your affinities and needs</strong>. Make <strong class="primary-color">good deals when you trust</strong>!
+    background.alt: Wamcar magician
+  business:
+    title: <span class="primary-color">Car consultant? </span> Meet your customers online on Wamcar
+    content:
+      first: Wamcar is a site open to professionals who defend the values of honesty, loyalty and respect for the customer.
+      second: Wamcar allows you to access the OV market more easily (sourcing and sales), diversify your offer and strengthen your VN market.
+      third: By meeting your customers on the internet, you will easily make contact with highly qualified buyers.
+    action: Access to professional space
+    background.alt: Citrën DS 3
+
+landing:
+  meeting:
+    title: Site de rencontre pour la reprise et l'achat de voitures
+    description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+    field:
+      social_connect.label: Inscription via une plateforme
+      email:
+        label: Inscription par e-mail
+        placeholder: Entrez votre e-mail
+        required_message: Veuillez indiquer votre adresse email
+      submit: Inscription
+    pro_email_registration_form:
+      title: Conseiller automobile
+      subtitle: Découvrez de belles reprises et rencontrez vos clients sur %sitename%
+      pre_submit: Améliorer votre sourcing en choisissant de belles reprises, proposez vos véhicules neufs ou d'occasion, et répondez aux particuliers grâce à la messagerie sécurisée.
+    personal_email_registration_form:
+      title: Particulier
+      subtitle: Découvrez les meilleurs professionnels pour la reprise et/ou l'achat de votre véhicule.
+      pre_submit: Avec %sitename%, vous pouvez vendre et acheter votre véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
+  mixte:
+    title: "Site de rencontre automobile : reprise, achat et vente de voitures"
+    description: >
+      Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+      découvrez les occasions, changez de voiture !
+    image_alt: Rencontrez votre conseiller automobile.
+    form.title: Le site de rencontre automobile
+    field:
+      social_connect.label: Inscription via une plateforme
+      email:
+        label: Inscription par e-mail
+        placeholder: Entrez votre e-mail
+        required_message: Veuillez indiquer votre adresse email
+      assist:
+        label: Assistant d'inscription
+      submit: Inscription
+    pro_email_registration_tab:
+      title: Je suis un conseiller auto
+      subtitle:  Découvrez de belles reprises et rencontrez vos clients sur %sitename%
+      pre_submit: Devenez un vendeur digital et améliorez votre sourcing en choisissant de belles reprises, en proposant vos véhicules neufs ou d'occasion, et ne manquez aucun client grâce à la messagerie sécurisée.
+    personal_email_registration_tab:
+      title: Je suis un particulier
+      subtitle: Je cherche un conseiller automobile pour
+    pro_profil:
+      title: Rencontrez votre conseiller automobile
+      subtitle: Découvrez le meilleur conseiller automobile pour discuter de votre projet d'achat ou de reprise.
+      button: Rechercher un conseiller
+    search:
+      title: Annonces
+      subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
+  peexeo:
+    title: "Prenez des conseils auprès d'un spécialiste automobile"
+    baseline:
+      main: Prenez des conseils auprès d'un spécialiste automobile
+      first: à l'écoute
+      second: sympathique
+      third: enfin disponible
+      fourth: sur-mesure
+    description: >
+      Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+      découvrez les occasions, changez de voiture !
+    wamaffinity:
+      title: L'expérience WamAffinity
+      content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
+      actions:
+        search_specialist: Rechercher un spécialiste
+        iam_specialist: Je suis un spécialiste
+        find_advisor: Trouver mon conseiller
+        all_advisors: Voir les conseillers
+        registration: Inscription
+  b2b:
+    title: Increase your influence with engaging videos
+    description: Increase your influence with engaging videos
+    baseline:
+      title: Increase your influence with engaging videos
+      subtitle: A tool for producing quality content in teams with video influencers.
+      action: Start
+    teamWorking:
+      title: Work as a team
+      subtitle: >
+        <p>Featuring, writing your script, proofreading, tips and optimizing your video.</p>
+        <p>Invite influencers to join your video projects!</p>
+      action: Create a new video project
+    influence:
+      title: >
+        Are you an experienced influencer?<br/>
+        Sponsor beginners and enrich your community!
+      content: >
+        <ul class="text-left">
+          <li>Discover new sources of revenue</li>
+          <li>Collaborate with brands while maintaining your independence</li>
+        </ul>
+      action: I create my account for free
+    wamcar:
+      title: Wamcar, Why?
+      content: >
+        <p>Wamcar is the result of numerous digital experiments in the automotive distribution sector. We make the following observation:</p>
+        <ul>
+           <li>Many video influencers are solicited by brands for content
+           promotion and sponsorship. If this is a source of revenue, it also generates
+           constraints on production itself and may possibly reduce the quality of the video.
+           Moreover, these influencers do not want to directly manage the sale or after-sales of the products
+           forward. </li>
+          <li>On the other hand, sellers don’t always have the bricks to create good videos,
+           engaging women who can enable them to increase their community in the digital world.
+           They need tools to create quality videos in accordance with the graphic charter of the
+           brand they represent, and need help getting started. </li>
+          <li>So we create winning teams between sellers and influencers, while giving them the
+           tools to collaborate in the best way. </li>
+        </ul>
+
+garage:
+  page_title:
+    view: My company
+    create: Create your company
+    edit: Edit my business
+  action:
+    edit: Edit my garage
+    join: Join this garage
+    back: Back to my company
+  infos:
+    edit: Editing the profile
+    see_on_gmaps: See on Google Maps
+    opening_hours: Opening hours
+    auto_vehicles_import_request:
+      presentation: "Request automated import of your stock:"
+      form: Form
+  banner:
+    edit: Edition of the banner
+  logo:
+    edit: Edition of the logo
+  presentation:
+    title: Presentation
+    edit: Edition of the presentation
+  vehicles:
+    title: Vehicles
+    list:
+      title: "[0,1] vehicle for sale|[2,Inf[ vehicles for sale"
+      member_empty: You do not have any vehicles for sale.
+      empty_list: No vehicles are for sale.
+      empty_result: No vehicles for sale matched your criteria.
+  about: About
+  opinions:
+    title: Avis
+    no_opinion: No review known for this garage
+  sellers:
+    title: Team
+  google_rating:
+    unknown: Rating unknown
+
+  form:
+    field:
+      googleSearch:
+        label: Search for your establishment
+        placeholder: Search on Google
+      location:
+        placeholder: City or postal code
+      presentation:
+        label: Presentation
+        placeholder: >
+          Briefly present your company, your offers, your competitive advantages that you
+          will distinguish from your competitors!
+      opening_hours:
+        label: Opening hours
+    auto_vehicles_import_request:
+      title: Automated import of your vehicle stock
+      presentation: >
+        Would you like to automate the import of vehicles directly from your stock via our partner Ubiflow?
+        Request it via <a href="%ubiflow_form_url%" id="ubiflow_request" class="text-underline" target="_blank">our form</a>
+  assignation:
+    invitation:
+      title: Invite employees to join %garage_name%
+      field:
+        email:
+          label: E-mails of sellers to invite to join this company
+          placeholder: E-mails of sellers to invite to join this company
+          instruction: Separate e-mails by a space or semicolon, or validate each e-mail address by typing "Enter".
+          error:
+            empty: "You didn’t specify an e-mail or you didn’t hit the Enter key before sending the invitations. Please try again."
+    pending_request:
+      title: Requests to join %garage_name%
+  administrator:
+    invisible: This garage manager is not visible to other users.
+    contact: <a href="%contactUrl%" target="_blank">Contact us</a> for any inquiries regarding %garage_name%.
+
+search:
+  common:
+    title: car ads
+    breadcrumbs: Ads
+    field:
+      services:
+        label: Your research
+        placeholder: Services
+      header:
+        label: free search
+      suggestions: Suggestions
+      text:
+        label: Your research
+        placeholder: Ex. Citröen C3
+      location:
+        label: Around
+        placeholder: City or postal code
+      radius:
+        label: Radius of
+      mileageMax:
+        label: Max Mileage
+        placeholder: Max Mileage
+      yearsMin:
+        label: Min year
+        placeholder: Min year
+      yearsMax:
+        label: Max year
+        placeholder: Max year
+      budgetMin:
+        label: Min budget
+        placeholder: Min budget
+      budgetMax:
+        label: Max budget
+        placeholder: Max budget
+      transmission:
+        label: Gearbox
+        placeholder: Gearbox
+      fuel:
+        label: Fuel
+        placeholder: Fuel
+      sorting:
+        label: "Sorted by :"
+      type:
+        label: "Type"
+    more_criteria: More criteria
+    less_criteria: Less criteria
+    tab:
+      all: All
+      personals: Personals
+      projects: Projects
+      pros:
+        short: Pros
+        long: Professionals
+    result:
+      no_vehicle_to_sell.alt: No vehicle to sell
+
+vehicle:
+  inscription:
+    title: Registration, description and condition of my car
+    description: Sign up on Wamcar to place your ad, define your purchase project, select ads, chat with professionals in your area.
+  form:
+    step_navigation:
+      identification: Identification of the vehicle
+      picture: Photos
+      additionnal_infos: Further information
+      registration: Creation of account
+    aside:
+      identification:
+        content_1: Please check or fill in these vehicle identification fields.
+        content_2: The VIN number, available on your registration card on the E line, will help professionals to make you a fair offer.
+      picture:
+        content_1: Please add pictures of your car. You can add captions on photos with details. It is proven that ads with multiple photos have more visits and offers.
+        content_2: A 3/4 front angle would be perfect as the main photo. Make sure all sides of the vehicle are visible!
+        bottom_content: >
+          Recent photos are essential for an estimate of your vehicle.
+          They make it possible to evaluate its external and internal state.
+          If you do not have one available immediately, you can add it later from your member space.
+      additionnal_infos:
+        content_1: Please fill in this information precisely.
+        content_2: This way you will get discount offers at the fairest price from our professionals.
+        content_3: The completion date of the roadworthiness check is indicated on the sticker on the windshield and on the sticker on the back of the registration card.
+      registration: Creation of account
+  create: Create a vehicle
+  add: Add a vehicle
+  edit: Modify this vehicle
+  delete: Delete this vehicle
+  publish_at: published on %createdAt%
+  selled_by: "Car selled by :"
+  select_sellers: Select another team member
+  detail:
+    personal:
+      title: '%vehicleName% - %vehicleCityName% - %vehicleYear% %vehicleStatus% vehicle'
+      meta_description: "%vehicleRegistrationDate% %vehicleFuelName% %vehicleTransmission% vehicle with %vehicleMileage%km - Advertisement published on %publishedAt%."
+    pro:
+      title: '%vehicleName% - %vehicleCityName% - %vehicleYear% %vehicleStatus% vehicle'
+      meta_description:
+        discount: %vehicleDiscount%% discount on this vehicle
+        vehicle: Vehicle
+        price: for sale at the price of %vehiclePrice%€
+        published_at: on %publishedAt%
+  section:
+    infos:
+      tab:
+        short: Infos
+        long: Main information
+      title: Main information
+      make:
+        label: Brand
+      model:
+        label: Model
+      statut:
+        label: Status
+      registrationDate:
+        label: Date of first entry into circulation
+      commercializationDate:
+        label: Date of marketing
+      mileage:
+        label: Mileage
+      engine_name:
+        label: Engine name
+      transmission:
+        label: Gearbox
+      fuel_name:
+        label: Fuel
+      imported:
+        label: Imported vehicle
+      first_hand:
+        label: 1st-hand vehicle
+      immatriculation:
+        label: Registration
+      vin:
+        label: V.I.N.
+    states:
+      tab:
+        short: State
+        long: State of the vehicle
+      title: State of the vehicle
+    additionalInformation:
+      tab:
+        short: Desc.
+        long: Description
+      title: Description
+    guarantee:
+      tab: Warranties
+      title: Warranties
+      guarantee:
+        label: Warranty
+      otherGuarantee:
+        label: Other warranties
+    funding:
+      tab: Funding
+      title: Funding
+      funding:
+        label: Funding
+      catalogPrice:
+        label: Catalog price
+      discount:
+        label: Discout
+      otherFunding:
+        label: Other funding
+    additionalServices:
+      title: Complementary services
+    project:
+      tab: Project
+    interested_users:
+      tab: Likes
+    other_vehicle:
+      tab: Others vehicles
+      title:
+        pro: Other vehicles of this seller
+        personal: Other vehicles of %firstname%
+        owner: My other vehicles
+      button:
+        garage:  See all garage vehicles
+        personal:  See all %firstname% vehicles
+  interested_user:
+    title:
+      pro: They like this vehicle
+      personal: They like this ad
+    tabs:
+      all:
+        abbr: All (%nb%)
+        long: All (%nb%)
+      pro:
+        abbr: Pro. (%nb%)
+        long: Professionals (%nb%)
+      personal:
+        abbr: Pers. (%nb%)
+        long: Personals (%nb%)
+    date: liked %date%
+  field:
+    plateNumber:
+      label: Registration
+      placeholder: 'Ex: AA-123-BB'
+      required_message: Please enter a registration number.
+      help_message: Save time by indicating your registration. Most of the fields below will be pre-filled with your vehicle information.
+    make:
+      label: Brand
+      placeholder: Vehicle brand
+      required_message: Please indicate the vehicle brand
+    model:
+      label: Model
+      placeholder: Vehicle model
+      required_message: Please specify a model
+    engine:
+      label: Motorization
+      placeholder: Vehicle motorization
+      required_message: Please indicate the motorization of the vehicle
+    fuel:
+      label: Energy
+      placeholder: Vehicle energy
+      required_message: Please indicate the energy of the vehicle
+    transmission:
+      label: Gearbox
+      required_message: Please specify the vehicle’s gearbox
+    vin:
+      label: V.I.N.
+      format_error: V.I.N. consists of 17 characters
+    picture:
+      label:
+        main: Main photo
+        additionnal: Additional photo
+      action:
+        add: Add a photo
+        remove: Remove the photo
+        add_caption: Add a caption
+    isUsed:
+      label: Status
+      required_message: Please specify if the vehicle is new or used
+    registrationDate:
+      label: Date of first release
+      required_message: Please enter the date of 1st release (DD-MM-YYYY)
+    mileage:
+      label: Mileage
+      required_message: Please indicate the mileage of your vehicle
+    body_state:
+      label: Body condition
+    engine_state:
+      label: Engine state
+    tyre_state:
+      label: Tyres state
+    maintenance_state:
+      label: Maintenance
+    safety_test_date:
+      label: End date of validity of the technical inspection
+    safety_test_state:
+      label: Result of the last technical inspection
+    timingBeltState:
+      label: Timing belt
+    isFirstHand:
+      label: First hand
+    imported:
+      label: Imported vehicle
+    additionalInformation:
+      label: Description
+      placeholder: 'Indicate here the additional information: version, equipment, defects found...'
+    city:
+      label: City
+      placeholder: City or Postal Code
+      required_message: Please enter your city or postal code
+    price:
+      label: Price (€)
+      required_message: Please indicate the selling price of your vehicle.
+    catalogPrice:
+      label: Price catalogue (€)
+    discount:
+      label: Discount (%)
+    guarantee:
+      label: Warranties
+    otherGuarantee:
+      label: Other warranties
+      placeholder: Other, specify...
+    funding:
+      label: Funding
+    otherFunding:
+      label: Other funding
+      placeholder: Other, specify...
+    additionalServices:
+      label: Complementary services
+      placeholder: Fill in here the different services offered to the buyer
+    reference:
+      label: Reference
+  list:
+    empty_list: No vehicle entered yet
+  item:
+    budget:
+      with_price: "Budget of %budget%€"
+    no_wish: No wish
+    no_project:
+      title: "%username% hasn’t specified a wish yet."
+      subtitle: You can still contact him to ask him for more information and propose a purchase of his vehicle.
+  sale:
+    sold_by: "Sold by %sellerName%"
+    i_sold: "Declare your sale"
+
+user:
+  registration:
+    social_connect: Registration via a platform
+    with_email: Registration by email
+    pro:
+      title: Registration for Automotive Professionals
+      meta_description: By creating your Automotive Advisor account, you will have access to many quality leads from your area. Increase your income with Wamcar. Start today!
+      banner: Sign up on Wamcar to generate quality customer appointments!
+    personal:
+      title: Quick registration for individuals
+      meta_description: Quick registration form for individuals. An email, a password and you are registered!
+      banner: Register now (or not)?
+      subbanner: >
+        By registering, you will be able to contact the advisors via their direct line, and benefit from
+        best tools to speed up your search.
+    block_insert: >
+      Sign up for free to: <ul class="margin-bottom-0">
+      <li>call %username% on your direct line,</li>
+      <li>Contact them via Wamcar secured messaging,</li>
+      <li>get a trade-in offer for your current vehicle</li>
+      </ul>
+  confirmation:
+    title: Registration confirmed
+    header_title: Thank you for registering on
+    content:
+      email_sent: You will receive an email confirming your registration in the next few minutes.
+      instructions: >
+        You can now access your <a href="%url_profile%" class="text-underline">Member Space</a>.
+        Take-over offers can be found within the <a href="%url_conversations%" class="text-underline">conversations you will have with professionals</a>.
+        You can now <a href="%url_add_vehicle%" class="text-underline">sell</a> and <a href="%url_search_personal%" class="text-underline">buy</a> vehicles on Wamcar.
+    action:
+      project: Define my purchase wishes
+      sell: Add a vehicle to the sale
+      search: See available cars
+      profile: Complete my profile
+  orientation:
+    page_title: Registration wizard
+    title: Registration confirmed
+    form:
+      action:
+        label: Now, what are your projects?
+      submit.label: Here we go
+
+  login:
+    title: Login
+    header_title: Join my space %sitename% to use all its features
+    social_connect: Connection via a platform
+    account: Login to my account %sitename%
+
+  reinsurance:
+    common:
+      title: Five good reasons to use
+      items:
+        first:
+          title: Human
+          content: Realistic offers made by men, not machines
+        second:
+          title: Free
+          content: No commitment and no fees
+        third:
+          title: Informed
+          content: Get the latest Google reviews on professionals
+        fourth:
+          title: Fair
+          content: Website independent of any group or brand
+        fifth:
+          title: Secure
+          content: Secure messaging, no spam or unwanted calls
+    wamcar:
+      title: Five good reasons to use
+      items:
+        first:
+          title: Human
+          content: Realistic offers made by men, not machines
+        second:
+          title: Informed
+          content: Get the latest Google reviews on professionals
+        third:
+          title: Free
+          content: No commitment and no fees
+        fourth:
+          title: Secure
+          content: Secure messaging, no spam or unwanted calls
+        fifth:
+          title: Fair
+          content: Website independent of any group or brand
+    personal:
+      title: I want to replace my car. How does Wamcar work?
+      items:
+        first:
+          alt: Pro likes
+          content: Pros wishing to buy my vehicle on Wamcar click on the "Like" button
+        second:
+          alt: I like
+          content: I select with the "I like" button the announcements of new or used vehicles that I like.
+        third:
+          alt: Bingo
+          content: Our interests converge! We make an appointment through secure messaging.
+    wamaffinity:
+      title: How does it work?
+      items:
+        first:
+          alt: WamAffinity form
+          title: I complete the WamAffinity form
+          content: >
+            Our Wamaffinity form allows us to identify your needs and projects in order to propose the best
+            car advisor to accompany you.
+        second:
+          alt: Automotive advisor
+          title: I find the right car advisor
+          content: >
+            From our personalized selection of car advisors, find the one that suits you and take
+            Meet him through the secure message.
+        third:
+          alt: My project
+          title: I entrust my car projects to my advisor
+          content: >
+            You can now carry out your car projects in complete peace and security. Our
+            Automotive advisors are carefully selected to offer you quality support.
+
+    pro:
+      title: Selling with part-exchange, it’s simple with
+      items:
+        first:
+          alt: Prospect creates car change request on Wamcar
+          content: A prospect creates his car change request on Wamcar by filling in his profile, his vehicle to take over, his wish and his budget. It accesses your profile and your online shop window, and can like your vehicles.
+        second:
+          alt: You choose your leads
+          content: You know which prospects have liked your vehicles. You like the recovery projects that interest you. You discuss and make your VN or VO offers with recovery estimate directly via online messaging.
+        third:
+          alt: The individual responds and makes an appointment directly.
+          content: After a few exchanges, the prospect makes an appointment with you serenely and confidently, to finalize the expertise and testing of your vehicles.
+      bottom: Join us now to take advantage of many opportunities!
+  title:
+    personal:
+      mine: My profile
+      other: %username% profile
+    pro:
+      mine: My seller profile
+      other: "%username%, automobive advisor"
+  profile:
+    my_profile: My profile
+    member_since: Member since %year%
+    header:
+      location:
+        label: Localization
+        multigarages: Multi-sites
+      garage:
+        label: Works at
+      project:
+        label: Project
+      actions:
+        edit_contact_details:
+          small: My coordinates
+          medium: Edit my coordinates
+        answer_wamaffinity_form:
+          small: My WamAffinity
+          medium: Complete the WamAffinity form
+    contact_details:
+      modal:
+        title: Edit my coordinates
+    proservices:
+      specialities.title: My Expertise
+      services.title: My services
+    hobbies:
+      title: Centres of interest
+    publish:
+      missing_items: "You must complete the following for your profile to be published:"
+      required:
+        garage: You must be a member of a garage
+        service: You must indicate at least 2 services/skills
+        avatar: You need to add a profile avatar
+    edit:
+      title: Edit my profile
+      action: Edit my profile
+      publication:
+        ask: Publish my profile
+        cancel: Post my profile
+      form:
+        titles:
+          id: Login credentials
+          identity: Identity
+          city: City
+          phones: Telephone number(s)
+          informations: Information
+          medias: Media
+        email:
+          label: Mail
+        password:
+          edit: Change my password
+          old_label: Password
+          new_label: New password
+          second_new_label: Confirm password
+          error:
+            repeated: Passwords must be identical
+        title:
+          label: Civility
+        firstName:
+          label: First name
+        lastName:
+          label: Last name
+        city:
+          label: City
+          required_message: You must enter your city
+          placeholder: City or postal code
+        phonePro:
+          label: Landline telephone
+          placeholder: "Example: 0123456789"
+          invalid_format: "The format is incorrect"
+        phone:
+          label: Mobile phone
+          placeholder: "Example: 0623456789"
+          invalid_format: "The format is incorrect"
+        phoneDisplay:
+          label: Display my number to professionals
+        presentationTitle:
+          label: Title of my page
+          placeholder: Let me guide you
+        presentation:
+          label: Presentation
+        video:
+          title:
+            label: Video title
+          youtubeVideoUrl:
+            label: URL of your YouTube video
+            placeholder: https://www.youtube.com/watch?v=... or https://youtu.be/...
+            invalidMessage: Enter a Youtube video URL https://www.youtube.com/watch?v=... or https://youtu.be/...
+          videoText.label: Video description
+        video_insert:
+          title:
+            label: Playlist title
+            placeholder: Playlist title
+          youtube_playlist_id:
+            label: ID of the Youtube playlist
+            placeholder: PL.....
+            invalidMessage: Enter the ID of your Youtube playlist
+          add:
+            youtube_playlist: Add a Youtube playlist
+        avatar:
+          label: Avatar
+        banner:
+          label: Cover image
+        submit: Save my changes
+    account:
+      title: Managing my account
+    delete:
+      title: Deleting my account
+      link.information: "I want to delete my account: "
+      information: >
+        By deleting your account, you will no longer have access to your information and all your information
+        will be permanently erased in 15 days.
+      field:
+        reason:
+          label: Tell us why you are leaving
+          placeholder: I found my car thanks to Wamcar, I didn’t find a car advisor, ....
+        confirmation:
+          label: I confirm the deletion of my Wamcar account.
+          error: Please check the box to confirm that you want your Wamcar account to be deleted.
+      pro.garage:
+        title: Management of your garages
+        deleted: >
+          You are the manager and only member of this garage, it will be <b class="text-underline">removed</b> in
+          same time as your account and all vehicles for sale.
+        require_new_administrator: >
+          You are the manager of this garage with other members. You can designate a new manager
+          in the following list by clicking on "Designate as your backup manager" next to the selected member
+          (you will no longer be a manager yourself):
+        force_delete:   >
+          or decide to <a href="%deleteGarageUrl%" class="text-underline js-confirm-box" data-id="remove-%garageId%"
+          data-title="Warning!" data-message="Confirm the removal of this garage and its vehicles, as well as
+          detachment of all its members?" >remove the garage</a> and its associated vehicles. All members will be
+          then detached from the garage.
+        member: You are a member of this garage. You will simply be detached.
+        no_garage: You are not a member of any garage.
+  proservices:
+    edit:
+      title: Edit my services
+      action:
+        submit: Save
+  prospecialities:
+    edit:
+      text: Select among your services, your strengths that you want to highlight.
+      title: Edit my specialities
+      action:
+        submit: Save
+  presentation:
+    title:
+      personal: Presentation
+      pro: Let me guide you
+    empty:
+      pro: Introduce yourself in a few words to put your customers in confidence.
+      personal: Present yourself in a few words to have an answer adapted to your needs.
+    edit: Edit my information
+  city:
+    title:
+      your_city: Your city
+      its_city: His city
+    empty: You haven’t filled in your city yet
+  video:
+    title: My presentation in video
+    placeholder:
+      with_text: You must enter a video to make this insert appear on your profile.
+      all_empty: You can add a video and explanatory text presenting you to help personal users get to know you better.
+  video_insert:
+    video:
+      empty_playlist: The playlist is empty or in error. Please check the playlist ID.
+      statistics:
+        view: "[0.1] %count% view | [2, Inf[ %count% views"
+      show_x_more: "[0,1] See %nbRemainingVideos% other video | [2, Inf[ See %nbRemainingVideos% other videos"
+  vehicles:
+    title: My ads
+    personal: "[0,1] Vehicle for sale | [2,Inf[ Vehicles for sale"
+  project:
+    my_project: My project
+    seller_project: %seller_firstname% projet
+    create: Create my project
+    edit: Edit my project
+    answer: Reply to your project
+    empty_placeholder: The seller did not provide a purchase project.
+    published_at: Ad published at %createdAt%
+    defined_budget: Budget of %budget_ammount%€
+    undefined_budget: Budget not defined
+    field:
+      isFleet.label: Search type
+      budget:
+        label: Global budget
+        placeholder: 'Ex: 20,000 €'
+      city:
+        label: My city
+        placeholder: City or postal code
+        required_message: You must enter your city
+      description:
+        label: Description of my research
+        placeholder: "Write here what you want: a type of car (SUV, sedan, Monospace,...), a color, an option, a specific equipment,... Or choose a template directly using the form below."
+      projectVehicle:
+        add: Add a wish
+        remove: Remove this wish
+        label: Wish
+        yearMin.label: Year min
+        mileageMax.label: Km max
+      submit: Save my project
+    favorites:
+      title: "%user_firstname% like"
+      owner: My likes
+    prefill:
+      personal:
+        description:
+          search: "I am looking for a vehicle"
+          vehicle_usage:
+            personal: for my personal use.
+            company: for my company.
+          company:
+            activity: "I am %activity%"
+            and: and "
+            nb_venb_vehiclehicle: "{1} I am looking for %nb_vehicle% vehicle|[2,Inf[ I am looking for %nb_vehicle% vehicles."
+          search_a: "I’m looking for a "
+          generation: "of years %generation%."
+          seats_number: "Number of seats: %seats_number%"
+          strong_points: "Strong point(s) of my current vehicle: %strong_points%"
+          improvements: "I would like to improve: %improvements%"
+          options:
+            security: "Desired security option(s): %security_options%"
+            confort: "Desired comfort option(s): %confort_options%"
+          searched_advices: "I’m looking for advice on %search_advices%"
+      profesional:
+        description:
+          profession:
+            vendeurvn: "For you who are looking for a nice new car. "
+            vendeurvo: "Entrust me with your project to buy a used vehicle."
+            vendeursociétés: "Looking for a solution for your company? "
+            chefdesventesvn: "I’m a sales manager."
+            chefdesventesvo: "I’m a sales manager."
+            mécanicien: "I am mechanic. "
+            carrossier: "My job is the car body. "
+            casseur: "I work in a junkyard."
+            gérantdirecteur: "Responsible for the management of the company."
+          experience: "I have over %value% years of experience in automotive."
+          hobby: "I practice %hobby%. "
+          prices:
+            cheap: "I can find you a car for less than 5000 €"
+            expensive: "I sell exceptional vehicles."
+          advices: "I will take care to advise you in %advices% of your vehicle."
+          brands: "I am particularly familiar with the following brands: %brands."
+          vehicle_body: "Looking for %vehicle_bodies%? That’s my specialty."
+          other_hobbies: "Otherwise, I like %other_hobies%"
+          first_contact_preference:
+            waiting: "I am fully available to answer all your questions."
+          suggestion: "My suggestions: "
+  personal_contact:
+    unlogged:
+      title: Login to contact %firstname%
+  pro_contact:
+    title: Contact %username%
+    form.field:
+      firstname:
+        label: First name
+        placeholder: First name
+      lastname:
+        label: Name
+        placeholder: Name
+      email:
+        label: E-mail
+        placeholder: E-mail
+        required_message: Your e-mail is required
+      phonenumber:
+        label: Phone
+        placeholder: Phone number
+        invalid_format: Invalid format (0xxxxxxxxx)
+      message:
+        label: Your message
+        placeholder: I have seen your profile on Wamcar.com and would like to speak with you.
+
+  garage:
+    seller_for: Seller for
+    add: Add my business
+    join: Join a garage
+    quit: Leave this garage
+    close: close this garage
+    close_name: Close %garage_name%
+    remove_member: Dissociate
+    cancel_request: Cancel my request
+    accept_request: Accept the request
+    decline_request: Refuse the request
+    pending_request:
+      member: Your request is pending acceptance by %garage_name% manager
+      administrator: "%seller_name% wants to join %garage_name%"
+      instructions: The sellers presented below wish to join your garage and are waiting for your response.
+    toogle_role:
+      to_administrator: Make manager
+      replace_administrator: Designate as your alternate manager
+      to_simple_membre: Making it simple employee
+  affinity:
+    page_title: Wam Affinity
+    section:
+      title: Who am I?
+      our_affinities: Our affinities
+      affinity_rate: Your affinity rate
+      explanation:
+        personal: >
+          Discover your degree of affinity with each professional, this will help you choose the
+          professional who will accompany you in your project. <br>
+          <a href="%affinity_form_url%" class="button" %datawtattr%> Complete WamAffinity form</a>
+        pro: >
+          <p>Discover your affinity with each personal user</p>
+          <a href="%affinity_form_url%" class="button" %datawtattr%> Complete WamAffinity form</a>
+      edit:
+        personal: >
+          You have already completed the WamAffinity form. You can check your affinities with the
+          professionals who also participated. You can answer the WamAffinity form again
+          <a href="%affinity_form_url%" class="button small" %datawtattr%> by clicking here. </a>
+        pro: >
+          You have already completed the WamAffinity form. You can check your affinities with the
+          individuals who also participated. You can complete the WamAffinity form again
+          <a href="%affinity_form_url%" class="button small" %datawtattr%> by clicking here</a>.
+    degree:
+      calculation_in_progress: Your affinities with this user will be available in a few moments, calculation in progress
+      himself: You have completed the form. Check out other profiles to find out your affinity.
+      explanation:
+        personal:
+          logged: >
+            Complete the Wamcar Affinity form to find out your affinities with %username% and others automobive advisors.
+          unlogged: >
+            Register and complete the Wamcar Affinity form to find out your affinities with %username% and
+            other automotive advisors.
+        pro:
+          logged: >
+            Complete the Wamcar Affinity form to find out your affinities with %username% and
+            other individuals.
+          unlogged: >
+            Register and complete the Wamcar Affinity form to find out your affinities with
+            %username% and other private individuals.
+      calltoaction:
+        fill_form: Complete the form
+      element.alt:
+        unknown: WamAffinity score unknown
+        known: WamAffinity score %value%%
+  appointment:
+    call_to_action: Make an appointment with %username%
+  preference:
+    page_title: My Preferences
+    title:
+      notifications: Activation of email notifications
+      lead_suggestion: Leads I’m interested in
+      criterias: My criteria
+    common:
+      enabled: Activated
+      disabled: Disabled
+      email_send: By email
+      notification_frequency: Email Frequency
+      criteria: Criteria
+    field:
+      globalEmailFrequency: Email Frequency
+      privateMessage:
+        label: When I get a private message
+      like:
+        label: When we like one of my ads
+      videoProjectNewMessage:
+        label: When a message is posted on a video project
+      videoProjectSharing:
+        label: When we share a video project with me
+      lead:
+        enabled.label: At the registration of a lead that interests me
+        localisation.label: "{0,1}Number of Km around my garage|[2,Inf[ Number of Km around my garages"
+        type:
+          label: "Type of request:"
+          only_partexchange: Only part-exchange
+          only_project: Only purchase
+          project_with_partexchange: Buy-back and buy
+        partexchange_km_max.label: Mileage max for the part-exchange
+        project_budget_min.label: Minimum purchase budget
+  contacted_by: Contacted by %contact_name%
+
+conversation:
+  list:
+    unread-messages: '{0,1} %n% unread message|[2,Inf[ %n% unread messages'
+  my_vehicle: My vehicle
+  personal_vehicle_of: %ownerName%'s vehicle
+  fleet_presented_by: %ownerName%'s vehicle fleet
+  vehicle_presented_by: Vehicle presented by %ownerName%
+  vehicle_to_sell: Your vehicle to sell
+  fleet_to_sell: Your vehicle fleet to sell
+  message:
+    attachments: '{1} attachment|[2,Inf[ attachments'
+    read_by: "See by %username% the %date%"
+  auto_added: (automatically added to your message)
+  fleet:
+    yours: You have a fleet composed of %severalVehicles% vehicles
+    him: Your contact has a fleet of %severalVehicles% vehicles
+  answer:
+    field:
+      message:
+        label: Your message for <a href="%interlocutorProfilUrl%" target="_blank" class="text-underline no-margin"> %interlocutorName%</a>
+        placeholder: Enter your message...
+        vehicle_help_message: The vehicle card will be attached to the message
+      vehicle:
+        create: Create a vehicle
+        select: Propose a vehicle
+      attachments:
+        label: Attachments
+        add: Add an attachment
+
+sale:
+  page:
+    vehicles: Sales tracking
+    declaration: New transaction
+  explication_no_vehicle: "I made a new sale thanks to Wamcar:"
+  vehicles:
+    explanation: These ads were recently unpublished. Did you sell the vehicle?
+    table:
+      vehicle: Vehicle
+      deleted_at_date: Date of deletion
+  form:
+    customer:
+      section:
+        title: The customer
+        explanation: >
+          Did you complete a transaction with Wamcar? Select the customer from the list of your contacts, or
+          Enter directly its full name.
+      field:
+        entity:
+          label: Your contact
+          placeholder: Choose a contact
+        firstname:
+          label: First name
+        lastname:
+          label: Name
+    transaction:
+      section:
+        title: The transaction
+        explanation: Select the vehicle sold from this list, or simply enter the transaction amount.
+      field:
+        proVehicle:
+          label: The vehicle purchased
+          placeholder: Choose a vehicle
+        transactionSaleAmount:
+          label: Amount of the sale (€)
+        transactionPartExchangeAmount:
+          label: Amount of the trade-in (€)
+        transactionCommentary:
+          label: Comments
+          placeholder: Identification of the vehicle purchased and/or taken over...
+
+lead:
+  page:
+    title: My contacts
+    explications: >
+      Find in the table below the users of Wamcar with whom you have interacted. You can
+      qualify by modifying their status and report sales or trades using the "New transaction" link
+  table:
+    name: Firstname Lastname
+    last_contacted_at: Date of last contact
+    tel: Number of display of %telNumber%
+    leadtel: Number of display of the lead's phone
+    leadtelpro: Number of display of the lead's pror phone
+    messages: Number of messages
+    likes: Number of likes
+    status: Status
+    action: Sale
+    sales: "[0,1]%nbSales% sale|[2,Inf[ %nbSales% sales"
+  add_sale: "New transaction"
+  explication_no_contact: "You want to declare a sale without associating it with one of your contacts in particular:"
+
+pro_user_performances:
+  page:
+    title:
+      mine: My performance
+      seller: Performance of %username%
+  30_days:
+    title: "Performance over the last 30 days"
+  audience:
+    title: "Audience (per single session)"
+    table:
+      profile_view: "#Profile Page Views"
+      tel_display: "#Clicks n° tél"
+      received_messages: "#Messages received"
+      received_likes: "#Likes Received"
+  activity:
+    title: "Activity"
+    table:
+      sent_messages: "#Messages sent"
+      phone_number_views: "#Clicks n° tél."
+      sent_likes: "#Likes sent"
+      lead: "#Leads"
+  results:
+    title: "Results"
+    table:
+      sales: "#Sales"
+      part_exchanges: "#Resumes"
+      transactions: "#Total transactions"
+      conversion_rate: "Conversion rate"
+  declared_sales:
+    title: Sales
+    table:
+      date: Date
+      name: Client
+      vehicle: Vehicle sold
+      sale_price: €Sale
+      partexchange_price: €Part-exchange
+      commentary: Description
+      empty: No declaration
+
+sellers_performances:
+  page:
+    title: The performance of my team
+  link:
+    his_garages: Its garages
+
+boost:
+  link: Boost my pages
+  page:
+    title: Boosting my pages
+    number_of_points: I have %points% points
+
+favorites:
+  page_title: My selections
+  toggle:
+    tooltip: Add to favorites
+  my_likes:
+    title: My likes
+    ordering_indication: Your likes are displayed from the most recent to the oldest.
+    empty: No vehicle like at the moment
+  my_experts:
+    title: My favorites
+    no_expert: Check out the profiles and select your favorite experts!
+  tooltip:
+    like: Click on "Like" to indicate your interest and refine your project. You will find your selection in the menu
+
+notifications:
+  page_title: Your notifications
+  zero_notification: You do not have a notification
+  parameters: Notification settings
+  mark_all_as_seen: Mark all as read
+  mark_as_seen: Mark as read
+  mark_as_unseen: Mark as unread
+  dropdown-pane:
+    title: Notifications
+    parameters: Parameters
+    mark_all_as_seen: Mark all as read
+    view_all: View all
+  message:
+    personal_like_vehicle: "<b>%username%</b> liked your ad <b>%vehicle_name%</b>"
+    pro_like_vehicle: "Automotive Advisor <b>%username%</b> liked your ad <b>%vehicle_name%</b>"
+    new_interesting_lead: "<b>%username%</b> has registered in your sector"
+    pending_request_to_join_garage_created: "Automotive advisor <b>%username%</b> wants to join the garage <b>%garage_name%</b>"
+    pending_request_to_join_garage_accepted: "Your request to join the garage <b>%garage_name%</b> has been accepted by a manager."
+    pending_request_to_join_garage_declined: "Your request to join the garage <b>%garage_name%</b> was refused by a manager."
+    garage_member_assigned: "You have been attached to the garage <b>%garage_name%</b> by a manager."
+    garage_member_unassigned: "You have been detached from the garage <b>%garage_name%</b> by a manager."
+    video_project_posted: "<b>%author%</b> has posted a message on the video project <b>%videoProjectTitle%</b>"
+    video_project_shared: "<b>%creator%</b> shared with you his video project <b>%videoProjectTitle%</b>"
+
+directory:
+  page_tile: View advisors
+  result_number:
+    with_search: '{0.1} %nb% result for "%search%"|[2,Inf[ %nb% results for "%search%"'
+    without_search: '{0.1} %nb% result|[2,Inf[ %nb% results'
+  vehicle_result_number:
+    with_search: Car result for "%search%"
+    without_search: Search result for cars
+  see_all: See all
+  breadcrumb: See the advisors
+  description: Meet your car advisor
+  form:
+    header: I am looking for an expert
+    title: Find the right advisor to discuss your project by completing the WamAffinity template
+    button: Start the experiment
+  field:
+    filter.label: Specialties
+    text:
+      label: Search
+      placeholder: Name, Brand, ...
+    speciality:
+      label: Specialty
+      placeholder: Specialty
+    location:
+      label: Around
+      placeholder: City or postal code
+    radius:
+      label: Radius of
+    sorting:
+      label: "Sort by:"
+  more_criteria: More filters
+  less_criteria: Fewer filters
+  result:
+    empty: No result found, try another research.
+    no_garage: No garage entered for the moment
+    more_garage: '{1} %n% additional garage|[2,Inf[ %n% additional garages'
+
+form:
+  picture:
+    add_photo: Add a photo
+    edit_photo: Change the photo
+    remove_photo: Remove Photo
+
+phone_number:
+  private: " (Not displayed)"
+  tooltip:
+    display: You must be logged in order to display the number
+    call: You must be logged in to be able to call directly
+
+coaching_video:
+  video_project:
+    action:
+      add: Create a new video project
+    create:
+      title: Create a video project
+    view:
+      title: "Video project: %title%"
+      header:
+        title: "%ownerFirstName% presents"
+      info:
+        duration: Duration of the script
+    list:
+      user:
+        my_projects: My projects
+        user_projects: Projects of %username%
+      followed:
+        title: Shared with me
+    share:
+      title: Share this project
+      form:
+        field:
+          coworkers:
+            label: Select among your company colleagues
+            placeholder: Your colleagues
+          email:
+            label: E-mails from collaborators
+            placeholder: Emails from collaborators
+            instruction: Separate e-mails by a space or semicolon, or validate each e-mail address by typing "Enter".
+            error:
+              empty: "You have not specified an e-mail or you have not typed in the Enter key before validating. Please try again."
+    form:
+      field:
+        title:
+          label: Project title
+        description:
+          label: Description of the project
+  viewer:
+    link:
+      profile:  %username% profile
+      set_creator: Make co-creator
+      set_viewer: Make simple follower
+      delete: Cancel tracking
+  script_version:
+    view:
+      title: Project scripts
+      table:
+        header:
+          narration: Narration
+          scene: Scene
+          shot: Plan
+          duration: Duration
+    create:
+      title: Add a new version of the script
+    wizard:
+      instructions:
+        title: The Wamcar Tips
+      shottype:
+        title: Illustration of shot types
+    edit:
+      title: Edit the script version
+    form:
+      field:
+        title:
+          label: Title of the version
+  script_sequence:
+    edit:
+      title: Edit the sequence
+  script_sequences:
+    form:
+      field:
+        label: Sequences of the section
+        delete: Delete this sequence
+        add: Add a sequence to the section
+        dialogue:
+          label: Texts of the sequence
+        scene:
+          label: Description of the scene
+        shot:
+          label: Type of shot
+  video_version:
+    view:
+      title: Videos of the project
+    create:
+      title: Add a new video version to the project
+    form:
+      field:
+        title:
+          label: Title of the version
+        url:
+          label: Youtube video URL
+  project_discussion:
+    title: Discussions
+    previous_messages:
+      show: See previous messages
+      no_more: No previous message
+    form:
+      field:
+        content:
+          label: Your message
+          placeholder: Type your message here...
+  project_library:
+    title: Document library
+    documents_list:
+      count: "{0.1} %count% document |[2,Inf[ %count% documents"
+    add:
+      title: Add documents
+      instructions: Drag/drop your files or click here
+      dragover_instructions: Release to send your file
+      status:
+        uploading: Uploadin in progress
+        recording: Processing in progress
+        terminated: Completed
+        error: Error
+    form:
+      field:
+        add: Select the document

@@ -14,6 +14,7 @@ class AppKernel extends Kernel
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new JMose\CommandSchedulerBundle\JMoseCommandSchedulerBundle(),
+            new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new Liip\ImagineBundle\LiipImagineBundle(),
             new Mgilet\NotificationBundle\MgiletNotificationBundle(),
             new Presta\SitemapBundle\PrestaSitemapBundle(),

@@ -41,7 +41,7 @@ class ProPresentationVideoType extends AbstractType
                 'constraints' => [
                     new Regex([
                         'pattern' => '/(https:\/\/www.youtube.com\/watch\?v=|https:\/\/youtu.be\/){1}[a-zA-Z0-9]+/',
-                        'message' => $this->translator->trans('user.profile.edit.form.video.youtubeVideoUrl.invalidMEssage')
+                        'message' => $this->translator->trans('user.profile.edit.form.video.youtubeVideoUrl.invalidMessage')
                     ])
                 ],
 
