@@ -229,7 +229,7 @@
 
                             {{ form_widget(videoPresentationForm.youtubeVideoUrl, {
                                 'label' : 'user.profile.edit.form.video.youtubeVideoUrl.label'|trans,
-                                'error_message': 'user.profile.edit.form.video.youtubeVideoUrl.invalidMEssage'|trans,
+                                'error_message': 'user.profile.edit.form.video.youtubeVideoUrl.invalidMessage'|trans,
                                 'required': false,
                                 'required_class': 'show-for-sr',
                                 'attr': {
@@ -347,7 +347,7 @@
                             {% if editVideosInsertFormViews[videosInsert.id].playlistId is defined %}
                                 {{ form_widget(editVideosInsertFormViews[videosInsert.id].playlistId, {
                                     'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
-                                    'error_message': 'user.profile.edit.form.video_insert.youtube_playlist_id.invalidMEssage'|trans,
+                                    'error_message': 'user.profile.edit.form.video_insert.youtube_playlist_id.invalidMessage'|trans,
                                     'required':  true,
                                     'attr': {
                                         'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans,

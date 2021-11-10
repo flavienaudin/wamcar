@@ -63,7 +63,7 @@ flash:
     sales:
       declaration: Votre déclaration a bien été prise en compte
     lead:
-      change_status: Le status de votre lead a bien été mis à jour
+      change_status: Le statut de votre lead a bien été mis à jour
     pro_contact_message:
       sent: Votre message a bien été envoyé à %proUserName%
     pro_user_pro_service:
@@ -74,9 +74,9 @@ flash:
     pro_service_category:
       delete: La categorie de service %servicecategory% a été supprimée
     hobby:
-      delete: "Le centre d'intérêt %hobbyName% a été supprimé"
+      delete: Le centre d'intérêt %hobbyName% a été supprimé
     footerLink:
-      delete: "Le lien %footerTitle% a été supprimé"
+      delete: Le lien %footerTitle% a été supprimé
     videoproject:
       save: Le projet a été enregistré avec succès.
       delete: Le projet a été supprimé avec succès.
@@ -99,7 +99,7 @@ flash:
       delete: La version vidéo a été supprimée du projet.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
-    not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
+    not_personal_user_logged: Vous devez être connecté en tant que particulier pour accéder à cette page.
   error:
     pro_contact_message:
       invalid-form: Le formulaire de contact de %proUserName% est incomplet. Merci de renseigner les champs obligatoires.
@@ -110,29 +110,29 @@ flash:
     no_registration_type: Veuillez créer un compte Wamcar.
     b2b_no_personal_user: Désormais, seul les comptes pro peuvent se connecter.
     social_connect_not_accept: Vous n'avez pas autorisé la connexion via la plateforme sélectionnée.
-    social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accèder à vos information ou utiliser un autre moyen de connexion.
+    social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accéder à vos information ou utiliser un autre moyen de connexion.
     social_connect_error: Une erreur s'est produite lors de la connexion via la plateforme. Merci de nous contacter si cela se reproduit.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
-    select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
-    pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
+    select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule.
+    pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar.
     add_vehicle_need_published: Votre profil doit être publié pour pouvoir déposer une nouvelle annonce de véhicule.
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
     unauthorized:
       vehicle:
-        add_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
-        edit: Vous n'êtes pas autorisé à modifier ce véhicule
+        add_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage.
+        edit: Vous n'êtes pas autorisé à modifier ce véhicule.
       videos_insert:
-        delete: Vous n'êtes pas autorisé à supprimer cet encart vidéo
+        delete: Vous n'êtes pas autorisé à supprimer cet encart vidéo.
       video_coaching:
         video_project:
           view: Vous n'avez pas le droit de visualiser ce projet vidéo.
           manage: Vous n'avez pas le droit de gérer ce projet vidéo.
           delete: Vous n'avez pas le droit de supprimer ce projet vidéo.
         script_version:
-          add: Vous ne pouvez pas ajouter de script à cette itération du projet
-          edit: Vous ne pouvez pas éditer ce script
+          add: Vous ne pouvez pas ajouter de script à cette itération du projet.
+          edit: Vous ne pouvez pas éditer ce script.
           delete: Vous ne pouvez pas supprimer cette version du script.
         video_version:
           delete: Vous ne pouvez pas supprimer cette version de vidéo.
@@ -140,8 +140,8 @@ flash:
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
     user:
-      deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
-      not_logged: "Vous devez être connecté pour liker un véhicule"
+      deletion_with_conversations: Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant).
+      not_logged: Vous devez être connecté pour liker un véhicule.
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
       add:
         videos_insert: Une erreur dans le formulaire empêche l'enregistrement de votre nouvel encart vidéo. Merci de corriger votre saisie.
@@ -153,11 +153,11 @@ flash:
         videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
         prouser_specialities.no_service: Vous devez avoir sélectionné des services pour pouvoir définir vos spécialités.
     lead:
-      unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
-      unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
-      invalid_status: Le statut est invalide
+      unauthorized_to_get_leads: Vous n'êtes pas autorisé à accéder aux leads de ce conseiller.
+      unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le statut de ce lead.
+      invalid_status: Le statut est invalide.
     sale:
-      unauthorized_to_get_vehicle_to_declare: Vous n'êtes pas autorisé à accèder aux véhicles à déclarer de ce conseiller.
+      unauthorized_to_get_vehicle_to_declare: Vous n'êtes pas autorisé à accéder aux véhicules à déclarer de ce conseiller.
       saving: Une erreur est survenue lors de la sauvegarde de la transaction. Merci de vérifier votre saisie et de recommencer.
     garage:
       edit: Les modifications n'ont pas pu être enregistrées. Merci de vérifier votre saisie et valider à nouveau.
@@ -165,7 +165,7 @@ flash:
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
       unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
       remove_administrator: Merci de contacter Wamcar pour supprimer un gestionnaire du garage.
-      still_administrator_with_member: Vous devez d'abord désigner un gestionnaire remplaçant parmi les membres ou supprimer le garage
+      still_administrator_with_member: Vous devez d'abord désigner un gestionnaire remplaçant parmi les membres ou supprimer le garage.
       unable_to_detach_seller:
         due_to_attached_vehicle: Il n'est pas possible de détacher le vendeur du garage car il gère toujours des véhicules qu'il n'a pas été possible de réaffecter.
       unable_to_toogle_role:
@@ -174,7 +174,7 @@ flash:
     vehicle:
       unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
-      assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
+      assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage.
     videoproject:
       viewer:
         owner_still_creator: Le propriétaire ne peut pas être modifié.
@@ -193,13 +193,13 @@ flash:
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user:
       unauthorized:
-        to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+        to_access_profile: Vous devez être connecté afin d'accéder au profil de cette utilisateur.
         edit_prouser_proservices: Seules les conseillers automobile peuvent éditer leurs services.
         edit_prouser_specialities: Seules les conseillers automobile peuvent éditer leurs spécialités.
     sales:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
       unauthorized_to_edit_declaration: Vous n'êtes pas autorisé à éditer cette déclaration.
-      invalid_sale_status_value: Valeur du status de vente incorrecte
+      invalid_sale_status_value: Valeur du statut de vente incorrecte.
     dashboard:
       unauthorized: Vous n'êtes pas autorisé à accéder aux performances de ce conseiller.
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
@@ -209,9 +209,9 @@ flash:
       already_member: Vous êtes déjà membre de ce garage
       same_as_existing: >
         Le garage que vous souhaitez créer, existe déjà. Cliquez sur <a href="%requestUrl%" class="text-underline">"Rejoindre ce garage"</a>
-        pour envoyer une demande à l'adminstrateur.
+        pour envoyer une demande à l'administrateur.
       invitations:
-        personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name% |[2,Inf[ Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%"
+        personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name%. |[2,Inf[ Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%."
     personal_orientation:
       invalid_choice: Choix invalide. Merci de choisir une option valide.
     video_project:
@@ -219,13 +219,6 @@ flash:
         not_found: "{1} L'e-mail %prousers_notfound_list% ne correspond pas à une utilisateur ayant accès au module de coaching vidéo. |[2,Inf[ Les e-mails %prousers_notfound_list% ne correspondend pas à des utilisateurs ayant accès au module de coaching vidéo."
 
 global:
-  yes: Oui
-  no: Non
-  you: Vous
-  poweredByGoogle: Produit par Google
-  help: Aide
-  facultative: Facultatif
-  garage_administrator: Gestionnaire
   button:
     add: Ajouter
     add_this_vehicle: Ajouter le véhicule
@@ -235,7 +228,7 @@ global:
     close: Fermer
     complete: Compléter
     connect: Se connecter
-    connexion: Connexion
+    connection: Connexion
     contact: Contacter via la messagerie
     create: Créer
     delete: Supprimer
@@ -253,7 +246,7 @@ global:
     next: Suivant
     next_step: Etape suivante
     previous_step: Etape précédente
-    register: "S'inscrire sur Wamcar"
+    register: S'inscrire sur Wamcar
     search: Rechercher
     see_phone_number: Voir le numéro
     see_user_profile: Voir le profil
@@ -265,6 +258,10 @@ global:
     show_more: Voir plus
     update: Rafraîchir
     validate: Valider
+  facultative: Facultatif
+  garage_administrator: Gestionnaire
+  help: Aide
+  no: Non
   pagination:
     pagination: Pagination
     first: Première page
@@ -272,6 +269,9 @@ global:
     next: Page suivante
     last: Dernière page
     page: Page
+  poweredByGoogle: Produit par Google
+  yes: Oui
+  you: Vous
 
 error_page:
   404:
@@ -337,7 +337,7 @@ header:
     add_vehicle: Vendre un véhicule
     directory: Annuaire Pro
   admin:
-    adminstration: Administration
+    administration: Administration
 
 breadcrumb:
   home: Accueil
@@ -368,6 +368,7 @@ footer:
   who_are_we: Qui sommes-nous ?
   contact_us: Nous contacter
   pro_space: Espace professionnels
+  all_rights_reserved: Tous droits réservés Wamcar
   cgu: Conditions d'utilisation
   privacy_policy: Protection des données
   legal_notice: Mentions légales
@@ -501,7 +502,8 @@ landing:
         all_advisors: Voir les conseillers
         registration: Inscription
   b2b:
-    title: "Augmentez votre influence avec des vidéos engageantes"
+    title: Augmentez votre influence avec des vidéos engageantes
+    description: Augmentez votre influence avec des vidéos engageantes
     baseline:
       title: Augmentez votre influence avec des vidéos engageantes
       subtitle: Un outil pour produire des contenus de qualité en équipe avec des vidéastes influenceurs.
@@ -525,8 +527,7 @@ landing:
     wamcar:
       title: Pourquoi Wamcar ?
       content: >
-        <p>Wamcar est le fruit de nombreuses expérimentations digitales dans le secteur de la distribution
-           automobile. Nous faisons le constat suivant :</p>
+        <p>Wamcar est le fruit de nombreuses expérimentations digitales dans le secteur de la distribution automobile. Nous faisons le constat suivant :</p>
         <ul>
            <li>De nombreux vidéastes influenceurs sont sollicités par les marques pour des contenus
            promotionnels et du sponsoring. Si cela constitue une source de revenus, cela génère également des
@@ -540,6 +541,7 @@ landing:
           <li>Nous créons donc des équipes gagnantes entre vendeurs et influenceurs, tout en leur donnant les
            outils pour collaborer de la meilleure manière.</li>
         </ul>
+
 garage:
   page_title:
     view: Mon entreprise
@@ -673,7 +675,7 @@ search:
 vehicle:
   inscription:
     title: Inscription, description et état de ma voiture
-    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région
+    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région.
   form:
     step_navigation:
       identification: Identification du véhicule
@@ -696,7 +698,6 @@ vehicle:
         content_2: Vous obtiendrez ainsi des offres de reprise au prix le plus juste de la part de nos professionnels.
         content_3: La date de fin de validité du contrôle technique est indiquée sur la vignette du parebrise et sur celle collée au dos de la carte grise.
       registration: Création du compte
-
   create: Créer un véhicule
   add: Ajouter un véhicule
   edit: Modifier ce véhicule
@@ -916,7 +917,7 @@ user:
     with_email: Inscription par email
     pro:
       title: Inscription pour les professionnels de l'automobile
-      meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
+      meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui!
       banner: Inscrivez-vous sur Wamcar pour générer des rendez-vous clients de qualité !
     personal:
       title: Inscription rapide pour les particuliers
@@ -1000,13 +1001,13 @@ user:
       title: Je veux remplacer ma voiture. Comment  marche  Wamcar?
       items:
         first:
-          alt:
+          alt: Les pros aiment
           content: Des pros souhaitant racheter mon véhicule en annonce sur Wamcar cliquent sur le bouton "J'aime"
         second:
-          alt:
+          alt: J'aime
           content: Je sélectionne grâce au bouton "J'aime" les annonces de véhicules neufs ou d'occasion qui me plaisent.
         third:
-          alt:
+          alt: Bingo
           content: Nos intérêts convergent ! Nous prenons rendez-vous grâce à la messagerie sécurisée.
     wamaffinity:
       title: Comment ça marche ?
@@ -1136,7 +1137,7 @@ user:
           youtubeVideoUrl:
             label: URL de votre vidéo Youtube
             placeholder: https://www.youtube.com/watch?v=... ou https://youtu.be/...
-            invalidMEssage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
+            invalidMessage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
           videoText.label: Description de la vidéo
         video_insert:
           title:
@@ -1145,7 +1146,7 @@ user:
           youtube_playlist_id:
             label: Identifiant de la playlist Youtube
             placeholder: PL.....
-            invalidMEssage: Renseigner l'ID de votre playlist Youtube
+            invalidMessage: Renseigner l'ID de votre playlist Youtube
           add:
             youtube_playlist: Ajouter une playlist Youtube
         avatar:
@@ -1164,7 +1165,7 @@ user:
       field:
         reason:
           label: Dites-nous pourquoi vous partez
-          placeholder: "J'ai trouvé ma voiture grâce à Wamcar, Je n'ai pas trouvé de conseiller automobile, ...."
+          placeholder: J'ai trouvé ma voiture grâce à Wamcar, Je n'ai pas trouvé de conseiller automobile, ....
         confirmation:
           label: Je confirme la suppression de mon compte Wamcar.
           error: Merci de cocher la case pour confirmer la suppression de votre compte Wamcar.
@@ -1282,7 +1283,7 @@ user:
             vendeursociétés: "Vous cherchez une solution pour votre société ? "
             chefdesventesvn: "Je suis chef des ventes. "
             chefdesventesvo: "Je suis chef des ventes. "
-            mécanicien: "Je suis Mécano. "
+            mécanicien: "Je suis mécano. "
             carrossier: "Mon métier, c'est la carrosserie. "
             casseur: "Je travaille dans une casse. "
             gérantdirecteur: "En charge de la direction de l'entreprise. "
@@ -1370,8 +1371,7 @@ user:
       explanation:
         personal:
           logged: >
-            Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et d'autres
-            conseillers(ères) automobiles.
+            Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et d'autres conseillers(ères) automobiles.
           unlogged: >
             Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et
             d'autres conseillers(ères) automobiles.
@@ -1421,7 +1421,6 @@ user:
           project_with_partexchange: Achat avec reprise
         partexchange_km_max.label: Kilomètrage max de la reprise
         project_budget_min.label: Budget d'achat minimum
-
   contacted_by: Contacté par %contact_name%
 
 conversation:
@@ -1589,7 +1588,7 @@ notifications:
   dropdown-pane:
     title: Notifications
     parameters: Paramètres
-    mark_all_as_seen: Toutes marquer comme lues
+    mark_all_as_seen: Marquer toutes comme lues
     view_all: Voir tout
   message:
     personal_like_vehicle: "<b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
@@ -1619,7 +1618,7 @@ directory:
     title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
     button: Commencer l'expérience
   field:
-    filter.label: "Spécialités"
+    filter.label: Spécialités
     text:
       label: Recherche
       placeholder: Nom, Marque, ...
@@ -1636,7 +1635,7 @@ directory:
   more_criteria: Plus de filtres
   less_criteria: Moins de filtres
   result:
-    empty: Aucun résultat n'a été trouvé, rééssayez votre recherche.
+    empty: Aucun résultat n'a été trouvé, éssayez une autre recherche.
     no_garage: Pas de garage renseigné pour l'instant
     more_garage: '{1} %n% garage supplémentaire|[2,Inf[ %n% garages supplémentaires'
 

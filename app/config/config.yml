@@ -63,6 +63,7 @@ parameters:
 framework:
     #esi: ~
     translator: { fallbacks: ['%locale%'] }
+    default_locale: fr
     secret: '%secret%'
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
@@ -73,7 +74,6 @@ framework:
     #serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale: '%locale%'
     trusted_hosts: ~
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
@@ -116,6 +116,11 @@ twig:
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+jms_i18n_routing:
+  default_locale: fr
+  locales: [fr, en]
+  strategy: prefix_except_default
 
 # Doctrine Configuration
 doctrine:

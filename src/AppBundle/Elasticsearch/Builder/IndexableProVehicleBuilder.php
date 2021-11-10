@@ -5,23 +5,23 @@ namespace AppBundle\Elasticsearch\Builder;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Wamcar\Vehicle\ProVehicle;
 
 class IndexableProVehicleBuilder
 {
-    /** @var Router */
+    /** @var RouterInterface */
     private $router;
     /** @var PathVehiclePicture */
     private $pathVehiclePicture;
 
     /**
      * IndexableProVehicleBuilder constructor.
-     * @param Router $router
+     * @param RouterInterface $router
      * @param PathVehiclePicture $pathVehiclePicture
      */
     public function __construct(
-        Router $router,
+        RouterInterface $router,
         PathVehiclePicture $pathVehiclePicture
     )
     {

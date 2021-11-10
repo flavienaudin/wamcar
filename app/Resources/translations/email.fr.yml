@@ -8,7 +8,7 @@ email:
     legal: >
       Ce mail vous est envoyé par Wamcar. Conformément à la loi informatique et libertés du 6 janvier 1978,
       vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant.
-    manage_preference: "Pour gérer vos notifications par e-mails, <a  href=\"%edit_preference_url%\">éditer vos préférences</a>."
+    manage_preference: Pour gérer vos notifications par e-mails, <a href="%edit_preference_url%">éditer vos préférences</a>.
     copyright: "&copy;%year% Wamcar. Tous droits réservés."
 
 notifyUserOfRegistrationTokenGenerated:
@@ -29,9 +29,9 @@ notifyProUserOfRegistration:
     </p>
     <p>Vous bénéficiez désormais d’un <a href="%url_profile_page%">espace personnel</a> vous permettant de :
     <ul>
-    <li>Créer une fiche garage et mettre vos véhicules en vitrine</li>
-    <li>Chercher parmi des demandes de particuliers : reprise et/ou achat</li>
-    <li>Envoyer des offres à des particuliers</li>
+    <li>Créer des projets vidéos</li>
+    <li>De collaborer aux projets vidéos de vos collègues</li>
+    <li>D'être coaché par l'équipe Wamcar</li>
     </ul>
     </p>
     <p>Pour toute question, n'hésitez pas à consulter à contacter <a href="%url_contact_page%">notre service client</a>.</p>
@@ -99,12 +99,10 @@ notifyUserOfAffinityDegreeCalculated:
   object: "Vos affinités sont maintenant disponibles sur Wamcar"
   body:
     personal: >
-      Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
-      vous entendre et qui comprendront mieux vos besoins.
+      Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien vous entendre et qui comprendront mieux vos besoins.
     pro: >
       Nous avons calculé vos affinités avec tous les particuliers qui ont eux aussi remplis leur questionnaire WamAffinity.
-      Identifiez-les grâce au logo WamAffinity et augmentez vos chance de faire affaire en ciblant vos clients avec qui
-      vous allez bien vous entendre.
+      Identifiez-les grâce au logo WamAffinity et augmentez vos chance de faire affaire en ciblant vos clients avec qui vous allez bien vous entendre.
   action_label: "Rechercher"
 
 unseenNotificationsDailyDigest:

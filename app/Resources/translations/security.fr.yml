@@ -25,8 +25,7 @@ user:
         error: Veuillez confirmer votre mot de passe
       show: Afficher le mot de passe
       forget: Mot de passe oublié ?
-      error:
-        repeated: Les mots de passe doivent être identiques
+      error.repeated: Les mots de passe doivent être identiques
     accept:
       start: J’accepte les
       text-cgu-link: Conditions Générales d’Utilisation
