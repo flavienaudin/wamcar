@@ -891,7 +891,7 @@ class UserController extends BaseController
      */
     public function editPreferencesAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
         $currentUser = $this->getUser();
         $userPreferenceDTO = UserPreferencesDTO::createFromUser($this->getUser());
         if ($currentUser instanceof ProUser) {

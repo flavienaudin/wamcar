@@ -1,0 +1,15 @@
+constrained:
+  garage:
+    already_registered_siren: The SIREN %siren% is already registered for another garage.
+    address.required: You have not selected a result from the suggestion list.
+  message:
+    not_empty: Please enter a message, add an attachment or select a vehicle.
+  sale_declaration:
+    mandatory_transaction: The amount of at least one transaction is mandatory
+  Youtube:
+    playlist:
+      notfound: Please enter the ID of an existing Youtube playlist.
+  max_speciality_selection:
+    max_selection: You cannot select more than %max% specialties.
+  user:
+    incorrect_old_password: Your current password is incorrect

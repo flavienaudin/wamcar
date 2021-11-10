@@ -1,72 +1,74 @@
 services:
 
-    AppBundle\Controller\Front\BaseController:
-        abstract: true
-        calls:
-            - ['setTemplatingEngine', ['@templating']]
-            - ['setRouter', ['@router']]
-            - ['setSession', ['@session']]
-            - ['setTokenStorage', ['@security.token_storage']]
-            - ['setAuthorizationChecker', ['@security.authorization_checker']]
+  AppBundle\Controller\Front\BaseController:
+    abstract: true
+    bind:
+      $localesJMS: '%jms_i18n_routing.locales%'
+    calls:
+      - ['setTemplatingEngine', ['@templating']]
+      - ['setRouter', ['@router']]
+      - ['setSession', ['@session']]
+      - ['setTokenStorage', ['@security.token_storage']]
+      - ['setAuthorizationChecker', ['@security.authorization_checker']]
 
-    AppBundle\Controller\Front\AdministrationContext\BackendController:
-        public: true
-        calls:
-            - ['setTranslator', ['@translator']]
-            - ['setEventBus', ['@event_bus']]
-            - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
-            - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
-            - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]
-            - ['setHobbyService', ['@AppBundle\Services\User\HobbyService']]
-            - ['setFooterLinkService', ['@AppBundle\Services\App\FooterLinkService']]
+  AppBundle\Controller\Front\AdministrationContext\BackendController:
+    public: true
+    calls:
+      - ['setTranslator', ['@translator']]
+      - ['setEventBus', ['@event_bus']]
+      - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
+      - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
+      - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]
+      - ['setHobbyService', ['@AppBundle\Services\User\HobbyService']]
+      - ['setFooterLinkService', ['@AppBundle\Services\App\FooterLinkService']]
 
-    AppBundle\Controller\Front\AdministrationContext\ProUserProServiceAdministrationController:
-        parent: AppBundle\Controller\Front\AdministrationContext\BackendController
+  AppBundle\Controller\Front\AdministrationContext\ProUserProServiceAdministrationController:
+    parent: AppBundle\Controller\Front\AdministrationContext\BackendController
 
-    AppBundle\Controller\Front\:
-        resource: '../../../Controller/Front'
-        exclude: '../../../Controller/Front/{BaseController.php,AdministrationContext/BackendController.php,AdministrationContext/ProUserProServiceAdministrationController.php}'
-        public: false
-        autowire: true
-        autoconfigure: false
-        parent: AppBundle\Controller\Front\BaseController
-        tags: ['controller.service_arguments']
-
-
-    AppBundle\Controller\Front\SecurityController:
-        parent: AppBundle\Controller\Front\BaseController
-        autowire: true
-        arguments:
-            - '@form.factory'
-            - '@AppBundle\Security\UserRegistrationService'
-            - '@AppBundle\Security\UserAuthenticator'
-            - '@AppBundle\Services\User\UserEditionService'
-            - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
-            - '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
-            - '@AppBundle\Services\User\UserGlobalSearchService'
-            - '@security.authentication_utils'
-            - '@simple_bus.event_bus'
-            - '@hwi_oauth.security.oauth_utils'
-            - '%hwi_oauth.firewall_names%'
-            - '%hwi_oauth.target_path_parameter%'
-            - '%hwi_oauth.failed_use_referer%'
-            - '%hwi_oauth.use_referer%'
+  AppBundle\Controller\Front\:
+    resource: '../../../Controller/Front'
+    exclude: '../../../Controller/Front/{BaseController.php,AdministrationContext/BackendController.php,AdministrationContext/ProUserProServiceAdministrationController.php}'
+    public: false
+    autowire: true
+    autoconfigure: false
+    parent: AppBundle\Controller\Front\BaseController
+    tags: ['controller.service_arguments']
 
 
-    AppBundle\Controller\Api\BaseController:
-        abstract: true
-        calls:
-            - ['setRouter', ['@router']]
-            - ['setSession', ['@session']]
+  AppBundle\Controller\Front\SecurityController:
+    parent: AppBundle\Controller\Front\BaseController
+    autowire: true
+    arguments:
+      - '@form.factory'
+      - '@AppBundle\Security\UserRegistrationService'
+      - '@AppBundle\Security\UserAuthenticator'
+      - '@AppBundle\Services\User\UserEditionService'
+      - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
+      - '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
+      - '@AppBundle\Services\User\UserGlobalSearchService'
+      - '@security.authentication_utils'
+      - '@simple_bus.event_bus'
+      - '@hwi_oauth.security.oauth_utils'
+      - '%hwi_oauth.firewall_names%'
+      - '%hwi_oauth.target_path_parameter%'
+      - '%hwi_oauth.failed_use_referer%'
+      - '%hwi_oauth.use_referer%'
 
-    AppBundle\Controller\Api\:
-        resource: '../../../Controller/Api'
-        exclude: '../../../Controller/Api/BaseController.php'
-        public: false
-        autowire: true
-        autoconfigure: false
-        parent: AppBundle\Controller\Api\BaseController
-        tags:
-            - 'controller.service_arguments'
-            - { name: monolog.logger, channel: api }
+
+  AppBundle\Controller\Api\BaseController:
+    abstract: true
+    calls:
+      - ['setRouter', ['@router']]
+      - ['setSession', ['@session']]
+
+  AppBundle\Controller\Api\:
+    resource: '../../../Controller/Api'
+    exclude: '../../../Controller/Api/BaseController.php'
+    public: false
+    autowire: true
+    autoconfigure: false
+    parent: AppBundle\Controller\Api\BaseController
+    tags:
+      - 'controller.service_arguments'
+      - { name: monolog.logger, channel: api }
 

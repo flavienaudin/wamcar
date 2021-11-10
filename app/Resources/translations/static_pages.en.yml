@@ -1,0 +1,32 @@
+cgu:
+  title: Terms of Service
+contact:
+  title: Contact us
+  opening_hours: Monday to Friday, from 9am to 6pm
+
+legal_notices:
+  title: Legal notice
+  phone_label: Tél.
+  website: Web site
+  editor:
+    title: Editor
+    content: "The site <strong>%site_url%</strong> is owned by <strong>%site_name%</strong>:"
+    publication_director: Director of Publication
+  hosting:
+    title: Hosting
+
+privacy_policy:
+  title: Privacy Policy
+  article:
+    generalities: General
+    collected_data: The information we collect
+    data_retention_period: Retention period of your data
+    how_we_use_data: How do we use the data we collect?
+    data_recipients: Who are the recipients of the information we collect and why do we pass this information on to them?
+    how_we_moderate_message: How do we use and model your messages?
+    ads_we_sent: Targeted advertising, emails and SMS that we send you
+    data_transfert: Is your data transferred, how and where?
+    user_rights: What are your rights to your personal data?
+    paswword_privacy: Privacy of your password
+    other_website_links: Links to other websites and social networks
+    privacy_policy_changes: Modification of our privacy policy

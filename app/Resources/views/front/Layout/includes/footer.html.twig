@@ -14,7 +14,11 @@
         <nav class="row">
             <div class="l-footer-column column small-12 medium-{{ columnSize }}">
                 <ul>
-                    {#<li><a href="{{ url('front_default', {'_fragment': 'hp_concept'}) }}">{{ 'footer.concept'|trans }}</a></li>#}
+                    <li>
+                        {% for locale,localeLink in chooseLanguagesLinks %}
+                            <a href="{{ localeLink }}">{{ locale|upper }}</a>
+                        {% endfor %}
+                    </li>
                     <li><a href="{{ url('contact') }}"
                            class="small-6 medium-shrink">{{ 'footer.contact_us'|trans }}</a></li>
                     <li>
@@ -54,7 +58,7 @@
         </nav>
     </div>
     <div class="l-footer-bottom row align-middle">
-        <div class="column small-12 large-auto copyright">&copy; Tous droits réservés Wamcar {{ "now"|date("Y") }}
+        <div class="column small-12 large-auto copyright">&copy;&nbsp;{{ "footer.all_rights_reserved"|trans }}&nbsp;{{ site_name }}&nbsp;{{ "now"|date("Y") }}
         </div>
         <div class="small-12 large-shrink text-center">&nbsp;&ndash;&nbsp;</div>
         <div class="column small-12 large-auto legal-links">
