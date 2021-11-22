@@ -156,7 +156,8 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $urlPicture = $response->getProfilePicture();
             if ($user->getAvatar() === null && !empty($urlPicture)) {
                 $parsedUrl = parse_url($urlPicture);
-                $originalFileName = uniqid("avatar") . "_" . last(explode("/", $parsedUrl['path']));
+                $decomposedURL = explode("/", $parsedUrl['path']);
+                $originalFileName = uniqid("avatar") . "_" . $decomposedURL[count($decomposedURL) - 1];
                 $tmpDirPictureFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $originalFileName;
                 if (file_put_contents($tmpDirPictureFilename, fopen($urlPicture, "r")) !== false) {
                     try {
