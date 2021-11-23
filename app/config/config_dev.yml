@@ -1,68 +1,68 @@
 imports:
-    - { resource: config.yml }
+  - { resource: config.yml }
 
 framework:
-    ide: 'phpstorm://open?url=file://%%f&line=%%l&/var/www/myapp/>%env(LOCAL_DEV_PROJECT_DIR)%'
-    router:
-        resource: '%kernel.project_dir%/app/config/routing_dev.yml'
-        strict_requirements: true
-    profiler: { only_exceptions: false }
-    session:
-        cookie_secure: false
+  ide: 'phpstorm://open?url=file://%%f&line=%%l&/var/www/myapp/>%env(LOCAL_DEV_PROJECT_DIR)%'
+  router:
+    resource: '%kernel.project_dir%/app/config/routing_dev.yml'
+    strict_requirements: true
+  profiler: { only_exceptions: false }
+  session:
+    cookie_secure: false
 
 web_profiler:
-    toolbar: true
-    intercept_redirects: false
+  toolbar: true
+  intercept_redirects: false
 
 monolog:
-    handlers:
-        main:
-            type: stream
-            path: '%kernel.logs_dir%/%kernel.environment%.log'
-            level: debug
-            channels: ['!event', '!doctrine', '!user_provider', '!api']
-        user_provider :
-            type: stream
-            path: '%kernel.logs_dir%/user_provider_%kernel.environment%.log'
-            channels: user_provider
-        doctrine:
-            type: stream
-            path: '%kernel.logs_dir%/doctrine_%kernel.environment%.log'
-            channels: doctrine
-        api:
-            type: stream
-            path: '%kernel.logs_dir%/api_%kernel.environment%.log'
-            channels: api
-        console:
-            type: console
-            process_psr_3_messages: false
-            channels: ['!event', '!doctrine', '!console']
+  handlers:
+    main:
+      type: stream
+      path: '%kernel.logs_dir%/%kernel.environment%.log'
+      level: debug
+      channels: ['!event', '!doctrine', '!user_provider', '!api']
+    user_provider:
+      type: stream
+      path: '%kernel.logs_dir%/user_provider_%kernel.environment%.log'
+      channels: user_provider
+    doctrine:
+      type: stream
+      path: '%kernel.logs_dir%/doctrine_%kernel.environment%.log'
+      channels: doctrine
+    api:
+      type: stream
+      path: '%kernel.logs_dir%/api_%kernel.environment%.log'
+      channels: api
+    console:
+      type: console
+      process_psr_3_messages: false
+      channels: ['!event', '!doctrine', '!console']
 
-        elastica:
-            type: stream
-            path: '%kernel.logs_dir%/elastic_%kernel.environment%.log'
-            channels: elastic
-        # To follow logs in real time, execute the following command:
-        # `bin/console server:log -vv`
-        server_log:
-            type: server_log
-            process_psr_3_messages: false
-            host: 127.0.0.1:9911
-        # uncomment to get logging in your browser
-        # you may have to allow bigger header sizes in your Web server configuration
-        #firephp:
-        #    type: firephp
-        #    level: info
-        #chromephp:
-        #    type: chromephp
-        #    level: info
+    elastica:
+      type: stream
+      path: '%kernel.logs_dir%/elastic_%kernel.environment%.log'
+      channels: elastic
+    # To follow logs in real time, execute the following command:
+    # `bin/console server:log -vv`
+    server_log:
+      type: server_log
+      process_psr_3_messages: false
+      host: 127.0.0.1:9911
+    # uncomment to get logging in your browser
+    # you may have to allow bigger header sizes in your Web server configuration
+    #firephp:
+    #    type: firephp
+    #    level: info
+    #chromephp:
+    #    type: chromephp
+    #    level: info
 
 swiftmailer:
-    encryption: tls
-    # delivery_addresses: ['me@example.com']
+  encryption: tls
+  # delivery_addresses: ['me@example.com']
 
 security:
-    firewalls:
-        front:
-            remember_me:
-                secure: false
+  firewalls:
+    front:
+      remember_me:
+        secure: false

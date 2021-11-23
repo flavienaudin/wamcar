@@ -36,26 +36,19 @@
     </section>
 
     <section class="section row">
+        <div class="column small-12 align-self-middle">
+            <h2 class="h1 text-center">{{ 'landing.b2b.provideowhy.title'|trans }}</h2>
+            <h3 class="h2 text-center">{{ 'landing.b2b.provideowhy.subtitle'|trans }}</h3>
+        </div>
         <div class="column small-12 medium-6 align-self-middle">
-            <h2 class="section-title h1">{{ 'landing.b2b.provideowhy.title'|trans }}</h2>
             <div class="body-font-color text-justify">{{ 'landing.b2b.provideowhy.content'|trans|raw }}</div>
         </div>
-        <div class="column small-12 small-collapse medium-6">
-            <div class="youtube-player" data-id="yHviH-DsWCo"></div>
-        </div>
-    </section>
-
-    <section class="section row padding-top-0">
-        <div class="column small-12 small-collapse medium-6">
-            <div class="youtube-player" data-id="krfMl5MNJok"></div>
-        </div>
         <div class="column small-12 medium-6 align-self-middle">
-            <h2 class="section-title h1">{{ 'landing.b2b.how.title'|trans }}</h2>
-            <div class="body-font-color">{{ 'landing.b2b.how.content'|trans|raw }}</div>
+            <div class="youtube-player" data-id="JIXDpMOyr4U"></div>
         </div>
     </section>
 
-    <section class="section row expanded">
+    {#<section class="section row expanded">
         <div class="column small-12 medium-6 align-self-middle text-center">
             <h2 class="section-title h1">{{ 'landing.b2b.teamWorking.title'|trans }}</h2>
             <div class="body-font-color">{{ 'landing.b2b.teamWorking.subtitle'|trans|raw }}</div>
@@ -67,11 +60,12 @@
         <div class="column small-12 small-collapse medium-6 full-height-image">
             <img alt="Travailler en équipe" src="{{ asset('assets/images/background/creators-team-wamcar-2.png') }}">
         </div>
-    </section>
+    </section>#}
 
     <section class="section row expanded">
         <div class="column small-12 medium-6 medium-order-2 align-self-middle text-center">
-            <h2 class="section-title h1">{{ 'landing.b2b.influence.title'|trans|raw }}</h2>
+            <h2 class="section-title h1">{{ 'landing.b2b.influence.title'|trans }}</h2>
+            <h3 class="section-title h2">{{ 'landing.b2b.influence.subtitle'|trans }}</h3>
             {{ 'landing.b2b.influence.content'|trans|raw }}
             <div class="full-width text-center">
                 <a class="button" href="{{ path('register') }}">{{ 'landing.b2b.influence.action'|trans }}</a>
@@ -85,9 +79,13 @@
 
     <section class="section small-12 padding-top-0">
         <div class="row align-middle ">
-            <div class="column small-12">
-                <h2 class="section-title h1 full-width text-center">{{ 'landing.b2b.wamcar.title'|trans|raw }}</h2>
+            <div class="column small-12 align-self-middle">
+                <h2 class="h1 text-center">{{ 'landing.b2b.wamcar.title'|trans|raw }}</h2>
+            </div>
+            <div class="column small-12 medium-6 align-self-middle">
                 {{ 'landing.b2b.wamcar.content'|trans|raw }}
+            </div>
+            <div class="column small-12 medium-6 align-self-middle">
                 <div class="youtube-player" data-id="uYm57mR0FhE"></div>
             </div>
         </div>
