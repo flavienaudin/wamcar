@@ -509,19 +509,18 @@ landing:
       subtitle: Un outil pour produire des contenus de qualité en équipe avec des vidéastes influenceurs.
       action: Commencer
     provideowhy:
-      title: Vendeur automobile, pourquoi faire des vidéos ?
+      title: Vendeur Automobile, pourquoi faire des vidéos?
+      subtitle: Pour un vendeur automobile, la vidéo constitue un atout considérable.
       content: >
-        <p>Grâce à la réassurance que les vidéos engendrent sur votre clientèle, sur votre connaissance du marché et sur vos qualités relationnelles.</p>
-        <p>Tout en assurant plus de visibilité, les vidéos vous apportent de la crédibilité en tant que conseillers et vous permettent de générer plus de rendez-vous de qualité.</p>
-    how:
-      title: Comment ça marche ?
-      content: >
-        <p>Toutes les fonctionnalités clés sont présentes pour une excellente gestion de production vidéo :</p>
-        <ul>
-          <li>Affichage et gestion des projets en cours</li>
-          <li>Stockage et échange de fichiers vidéos dans le cloud</li>
-          <li>Travail collaboratif optimisé via les commentaires et messagerie</li>
-        </ul>
+        <h2 class="no-margin">Bénéfices à court terme</h2>
+        <p>En plaçant ces vidéos à des endroits stratégiques sur votre site, vous augmentez la réassurance et vos taux de conversion de visiteurs en leads.<br>
+        Bien que n'étant pas facile au démarrage, c'est une activité qui procure un réel plaisir, crée une émulation positive et renforce l'esprit d'équipe.</p>
+
+        <h2 class="no-margin">Bénéfices à moyen terme</h2>
+        <p>C'est un excellent exercice commercial, les vendeurs en regardant leurs propres vidéos, et en analysant les statistiques de leurs vidéos, corrigent eux-mêmes leurs défauts et améliorent leur technique, (connaissance du produit, argumentation), donc le taux de transformation en vente.</p>
+
+        <h2 class="no-margin">Bénéfices à long terme</h2>
+        <p>Les vidéos de présentation que vous accumulez sur votre chaîne Youtube notamment constituent un capital qui génère des vues régulièrement. Ces vues et votre visibilité vont en augmentant en même temps que la communauté que vous avez créé grandit, et que le taux d'engagement de vos visiteurs s'améliore.</p>
     teamWorking:
       title: Travaillez en équipe
       subtitle: >
@@ -529,9 +528,8 @@ landing:
         <p>Invitez des influenceurs à rejoindre vos projets vidéos!</p>
       action: Créer un nouveau projet vidéo
     influence:
-      title: >
-        Vous êtes un influenceur expérimenté ?<br/>
-        Parrainez des débutants et enrichissez votre communauté!
+      title: Vous êtes un influenceur expérimenté?
+      subtitle: Parrainez des débutants et enrichissez votre communauté!
       content: >
         <ul class="text-left">
           <li>Découvrez de nouvelles sources de revennus</li>

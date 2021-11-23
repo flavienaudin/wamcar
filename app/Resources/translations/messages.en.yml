@@ -510,18 +510,6 @@ landing:
       action: Start
     provideowhy:
       title: Car salesman, why produce videos?
-      content: >
-        <p>Thanks to the reassurance videos create for your customers, market knowledge and relationship skills. </p>
-        <p>While providing more visibility, the videos bring you credibility as advisors and allow you to generate more quality appointments. </p>
-    how:
-      title: How does it work?
-      content: >
-        <p>All key features are present for excellent video production management:</p>
-        <ul>
-          <li>View and manage current projects</li>
-          <li>Cloud Video File Storage and Exchange</li>
-          <li>Collaborative work optimized via comments and messaging</li>
-        </ul>
     teamWorking:
       title: Work as a team
       subtitle: >
@@ -529,9 +517,8 @@ landing:
         <p>Invite influencers to join your video projects!</p>
       action: Create a new video project
     influence:
-      title: >
-        Are you an experienced influencer?<br/>
-        Sponsor beginners and enrich your community!
+      title: Are you an experienced influencer ?
+      subtitle: Sponsor beginners and enrich your community!
       content: >
         <ul class="text-left">
           <li>Discover new sources of revenue</li>
