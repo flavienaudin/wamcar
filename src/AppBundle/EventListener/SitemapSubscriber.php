@@ -75,7 +75,8 @@ class SitemapSubscriber implements EventSubscriberInterface
      */
     public function registerProVehiclePagesUrls(UrlContainerInterface $urls, ?string $section = null): void
     {
-        if (in_array($section, [null, 'proVehicle'], true)) {
+        // B2B model : proVehicle désactivé
+        if (false && in_array($section, [null, 'proVehicle'], true)) {
             $proVehicles = $this->proVehicleRepository->findall();
             /** @var ProVehicle $proVehicle */
             foreach ($proVehicles as $proVehicle) {
@@ -88,7 +89,8 @@ class SitemapSubscriber implements EventSubscriberInterface
                 );
             }
         }
-        if (in_array($section, [null, 'personalVehicle'], true)) {
+        // B2B model : personalVehicle désactivé
+        if (false && in_array($section, [null, 'personalVehicle'], true)) {
             $personalVehicles = $this->personalVehicleRepository->findall();
             /** @var PersonalVehicle $personalVehicle */
             foreach ($personalVehicles as $personalVehicle) {
@@ -103,7 +105,8 @@ class SitemapSubscriber implements EventSubscriberInterface
         }
 
         $proUserUpdate = in_array($section, [null, 'proUser'], true);
-        $personalUserUpdate = in_array($section, [null, 'personalUser'], true);
+        // B2B model : personalUserUpdate désactivé
+        $personalUserUpdate = false && in_array($section, [null, 'personalUser'], true);
         if ($proUserUpdate || $personalUserUpdate) {
             $users = $this->userRepository->findAll();
 
