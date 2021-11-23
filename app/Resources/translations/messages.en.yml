@@ -508,6 +508,20 @@ landing:
       title: Increase your influence with engaging videos
       subtitle: A tool for producing quality content in teams with video influencers.
       action: Start
+    provideowhy:
+      title: Car salesman, why produce videos?
+      content: >
+        <p>Thanks to the reassurance videos create for your customers, market knowledge and relationship skills. </p>
+        <p>While providing more visibility, the videos bring you credibility as advisors and allow you to generate more quality appointments. </p>
+    how:
+      title: How does it work?
+      content: >
+        <p>All key features are present for excellent video production management:</p>
+        <ul>
+          <li>View and manage current projects</li>
+          <li>Cloud Video File Storage and Exchange</li>
+          <li>Collaborative work optimized via comments and messaging</li>
+        </ul>
     teamWorking:
       title: Work as a team
       subtitle: >

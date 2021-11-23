@@ -508,6 +508,20 @@ landing:
       title: Augmentez votre influence avec des vidéos engageantes
       subtitle: Un outil pour produire des contenus de qualité en équipe avec des vidéastes influenceurs.
       action: Commencer
+    provideowhy:
+      title: Vendeur automobile, pourquoi faire des vidéos ?
+      content: >
+        <p>Grâce à la réassurance que les vidéos engendrent sur votre clientèle, sur votre connaissance du marché et sur vos qualités relationnelles.</p>
+        <p>Tout en assurant plus de visibilité, les vidéos vous apportent de la crédibilité en tant que conseillers et vous permettent de générer plus de rendez-vous de qualité.</p>
+    how:
+      title: Comment ça marche ?
+      content: >
+        <p>Toutes les fonctionnalités clés sont présentes pour une excellente gestion de production vidéo :</p>
+        <ul>
+          <li>Affichage et gestion des projets en cours</li>
+          <li>Stockage et échange de fichiers vidéos dans le cloud</li>
+          <li>Travail collaboratif optimisé via les commentaires et messagerie</li>
+        </ul>
     teamWorking:
       title: Travaillez en équipe
       subtitle: >
