@@ -47,5 +47,5 @@ Le frontend n'est pas actuellement testé
 
 ### Production
 
-Liste des commandes `php bin/console` <!--- ou consulter le fichier ["Déploiement"](https://docs.google.com/document/d/1F4OuafRszCchhBEgWuCirIHE36VamU6CIUA1TcDBhG4) disponible sur le drive --->
+Liste des commandes `php bin/console`
  
